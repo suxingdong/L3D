@@ -1,0 +1,23 @@
+info face="迷你简粗圆" size=66 bold=0 italic=0 charset="" unicode=0 stretchH=100 smooth=1 aa=1 padding=0,0,0,0 spacing=2,2
+common lineHeight=78 base=63 scaleW=512 scaleH=256 pages=1 packed=0
+page id=0 file="shuzi11_wyjb_lobby.png"
+chars count=19
+char id=32     x=461   y=74    width=0     height=0     xoffset=0     yoffset=63    xadvance=18    page=0 chnl=0 letter="space"
+char id=48     x=94    y=74    width=42    height=55    xoffset=2     yoffset=8     xadvance=38    page=0 chnl=0 letter="0"
+char id=49     x=433   y=74    width=26    height=54    xoffset=2     yoffset=9     xadvance=24    page=0 chnl=0 letter="1"
+char id=50     x=351   y=74    width=39    height=55    xoffset=3     yoffset=8     xadvance=38    page=0 chnl=0 letter="2"
+char id=51     x=267   y=74    width=40    height=55    xoffset=2     yoffset=8     xadvance=38    page=0 chnl=0 letter="3"
+char id=52     x=2     y=74    width=44    height=55    xoffset=1     yoffset=8     xadvance=38    page=0 chnl=0 letter="4"
+char id=53     x=392   y=74    width=39    height=55    xoffset=2     yoffset=8     xadvance=38    page=0 chnl=0 letter="5"
+char id=54     x=138   y=74    width=41    height=55    xoffset=2     yoffset=8     xadvance=38    page=0 chnl=0 letter="6"
+char id=55     x=181   y=74    width=41    height=55    xoffset=1     yoffset=8     xadvance=35    page=0 chnl=0 letter="7"
+char id=56     x=309   y=74    width=40    height=55    xoffset=3     yoffset=8     xadvance=38    page=0 chnl=0 letter="8"
+char id=57     x=224   y=74    width=41    height=55    xoffset=2     yoffset=8     xadvance=38    page=0 chnl=0 letter="9"
+char id=19975  x=424   y=2     width=69    height=66    xoffset=2     yoffset=4     xadvance=66    page=0 chnl=0 letter="万"
+char id=21048  x=2     y=2     width=71    height=70    xoffset=2     yoffset=1     xadvance=66    page=0 chnl=0 letter="券"
+char id=21485  x=354   y=2     width=68    height=67    xoffset=5     yoffset=3     xadvance=66    page=0 chnl=0 letter="叭"
+char id=21895  x=216   y=2     width=65    height=69    xoffset=5     yoffset=1     xadvance=66    page=0 chnl=0 letter="喇"
+char id=24065  x=147   y=2     width=67    height=69    xoffset=3     yoffset=1     xadvance=66    page=0 chnl=0 letter="币"
+char id=31036  x=75    y=2     width=70    height=69    xoffset=3     yoffset=1     xadvance=66    page=0 chnl=0 letter="礼"
+char id=37329  x=283   y=2     width=69    height=68    xoffset=3     yoffset=0     xadvance=66    page=0 chnl=0 letter="金"
+char id=65509  x=48    y=74    width=44    height=55    xoffset=15    yoffset=8     xadvance=66    page=0 chnl=0 letter="￥"

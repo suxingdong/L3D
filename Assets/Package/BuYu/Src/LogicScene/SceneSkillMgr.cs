@@ -1,0 +1,669 @@
+﻿using UnityEngine;
+using System.Collections.Generic;
+
+using GF;
+using GF.NET;
+
+namespace BuYu
+{
+
+    internal class CatchLithingData
+    {
+        public Fish MainFish;
+        public List<Fish> SubFish = new List<Fish>();
+    }
+
+    internal class LightingMoveData
+    {
+        public Transform Trans;
+        public Vector3 StartPos;
+        public Vector3 EndPos;
+        public float Delta;
+    }
+
+    internal class CatchLithingList
+    {
+        public float DelayTime = 0;
+        public Dictionary<ushort, CatchLithingData> LithingList = new Dictionary<ushort, CatchLithingData>();
+
+        public void AddMainFish(Fish mainFish)
+        {
+            if (LithingList.ContainsKey(mainFish.FishID) == false)
+            {
+                CatchLithingData cbd = new CatchLithingData();
+                cbd.MainFish = mainFish;
+                LithingList.Add(mainFish.FishID, cbd);
+            }
+        }
+
+        public void AddSubFish(Fish mainFish, Fish subFish)
+        {
+            CatchLithingData cbd;
+            if (LithingList.TryGetValue(mainFish.FishID, out cbd))
+            {
+                cbd.SubFish.Add(subFish);
+            }
+            else
+            {
+                cbd = new CatchLithingData();
+                cbd.MainFish = mainFish;
+                cbd.SubFish.Add(subFish);
+                LithingList.Add(mainFish.FishID, cbd);
+            }
+        }
+    }
+
+    public class SceneSkillMgr
+    {
+
+        private Vector3[,] m_Pos = new Vector3[3, 5];
+        private List<LightingMoveData> m_MoveList = new List<LightingMoveData>();
+        private List<CatchLithingList> m_LightinData = new List<CatchLithingList>();
+
+        private void RecordSkill(SkillType index, byte byseat)
+        {
+            //SceneRuntime.LogicUI.GetSkillBar.RecordUsed(index, byseat);
+        }
+
+        public void Init()
+        {
+            InitTornadoPos();
+        }
+
+        private void InitTornadoPos()
+        {
+            Vector2[,] Posssion = new Vector2[3, 5];
+            Vector3[] pos = new Vector3[3];
+            float radius = 40.0f;
+
+            pos[0] = new Vector3(-13, -62.0f, 1132);
+            pos[1] = new Vector3(-173.0f, -102.0f, 900);
+            pos[2] = new Vector3(128.0f, -98.0f, 948);
+
+            for (int j = 0; j < 3; j++)
+            {
+                for (int k = 0; k < 5; k++)
+                {
+                    m_Pos[j, k].x = pos[j].x + radius*Posssion[j, k].x;
+                    m_Pos[j, k].y = pos[j].y + radius*Posssion[j, k].y;
+                    m_Pos[j, k].z = pos[j].z;
+                }
+            }
+        }
+
+        public void GetTornadoPos(Vector3[] pos)
+        {
+            pos[0] = m_Pos[0, Utility.Range(0, 5)];
+            pos[1] = m_Pos[1, Utility.Range(0, 5)];
+            pos[2] = m_Pos[2, Utility.Range(0, 5)];
+        }
+
+        public void Update(float delta)
+        {
+            for (int i = 0; i < m_MoveList.Count;)
+            {
+                LightingMoveData lmd = m_MoveList[i];
+                lmd.Delta += delta;
+                float t = Mathf.Min(lmd.Delta/0.3f, 1.0f);
+                lmd.Trans.localPosition = Vector3.Lerp(lmd.StartPos, lmd.EndPos, t);
+                if (t >= 1.0f)
+                {
+                    Utility.ListRemoveAt(m_MoveList, i);
+                    continue;
+                }
+                else
+                    ++i;
+            }
+            for (int i = 0; i < m_LightinData.Count;)
+            {
+                CatchLithingList cll = m_LightinData[i];
+                cll.DelayTime -= delta;
+                if (cll.DelayTime <= 0)
+                {
+                    ProcessLightingData(cll);
+                    Utility.ListRemoveAt(m_LightinData, i);
+                }
+                else
+                    ++i;
+            }
+        }
+
+        public void Shutdown()
+        {
+
+        }
+
+        public void UseSkillTornado(NetCmdPack pack)
+        {
+            NetCmdSkillTornado cmd = (NetCmdSkillTornado) pack.cmd;
+            bool bNotDelay = Utility.GetTickCount() - pack.tick < ConstValue.FISH_OVER_TIME;
+            byte clientSeat = SceneRuntime.ServerToClientSeat(cmd.Seat);
+            if (SceneRuntime.PlayerMgr.GetPlayer(clientSeat) == null)
+                return;
+            CatchedData cd = new CatchedData();
+            cd.CatchType = (byte) CatchedType.CATCHED_SKILL;
+            cd.SubType = (byte) SkillType.SKILL_TORNADO;
+            cd.FishList = new List<CatchFishData>();
+            cd.ClientSeat = clientSeat;
+            cd.RateIndex = SceneRuntime.PlayerMgr.GetPlayer(cd.ClientSeat).RateIndex;
+
+            RecordSkill(SkillType.SKILL_TORNADO, clientSeat);
+            if (bNotDelay == false)
+            {
+                ProcessDelayOver(cmd.fishID, cd);
+                return;
+            }
+
+            Vector3[] pos = new Vector3[3];
+            SceneRuntime.PlayerMgr.PlayCD(SkillSetting.SkillDataList[(byte) SkillType.SKILL_TORNADO].CDTime);
+            /*SceneRuntime.SceneLogic.LogicUI.PlayCD(SkillSetting.SkillDataList[(byte) SkillType.SKILL_TORNADO].CDTime,
+                SkillType.SKILL_TORNADO);*/
+            GetTornadoPos(pos);
+            GameObject effect = SceneRuntime.EffectMgr.GetSkillEffect(1);
+            effect.transform.localPosition = new Vector3(0, 0, 500);
+            GlobalEffectData gfd = new GlobalEffectData(effect, 0, 5.0f);
+            GlobalEffectMgr.Instance.AddEffect(gfd);
+            //SceneObjMgr.Instance.PlayBack(BackAnimType.BACK_ANIM_JF);
+
+            for (int i = 0; i < 3; ++i)
+            {
+                effect = SceneRuntime.EffectMgr.GetSkillEffect(0);
+                Vector3 p = pos[i];
+                p.y -= 50;
+                effect.transform.localPosition = pos[i];
+                gfd = new GlobalEffectData(effect, 0, 5.0f);
+                GlobalEffectMgr.Instance.AddEffect(gfd);
+            }
+            SceneRuntime.PlayerMgr.PlaySkillAvatarEft(clientSeat);
+            if (cmd.fishID != null)
+                for (int i = 0; i < cmd.fishID.Length; ++i)
+                {
+                    CatchFishData cfd = SceneRuntime.FishMgr.FindFish(cmd.fishID[i].FishID);
+                    if (cfd.FishObj != null)
+                    {
+                        Fish fish = cfd.FishObj;
+                        fish.StopLaugh(false);
+                        float d1 = new Vector2(fish.Position.x - pos[0].x, fish.Position.y - pos[0].y).sqrMagnitude;
+                        float d2 = new Vector2(fish.Position.x - pos[1].x, fish.Position.y - pos[1].y).sqrMagnitude;
+                        float d3 = new Vector2(fish.Position.x - pos[2].x, fish.Position.y - pos[2].y).sqrMagnitude;
+                        int posidx = (d1 < d2) ? (d1 < d3 ? 0 : 2) : (d2 < d3 ? 1 : 2);
+
+                        float transRot = -Utility.Range(1000, 2000);
+                        float pathRot = -Utility.Range(3000, 5000);
+                        float speed = Utility.Range(4, 8);
+                        float transTime = Utility.Range(0.3f, 0.6f);
+                        int idx = Utility.Range(0, PathManager.Instance.LongJuanFeng.Length);
+
+                        float delay = Utility.LerpFloat(FishSetting.FishDeadTime.LongJuanFeng_Dead_Time1,
+                            FishSetting.FishDeadTime.LongJuanFeng_Dead_Time2, Utility.Range(0.0f, 1.0f));
+                        ReductionData rd = new ReductionData();
+                        rd.Speed = 0;
+                        rd.Duration1 = delay;
+                        FishOptReduction f = new FishOptReduction(0.0f, rd);
+                        FishOptPath fop = new FishOptPath(PathManager.Instance.LongJuanFeng[idx], transRot, pathRot,
+                            speed, transTime, pos[posidx] + new Vector3(0, 50, 0));
+                        fop.SetDeadData(delay, false, cd);
+                        fish.ClearOpt();
+                        fish.AddOpt(fop);
+                        fish.SetCatched(clientSeat);
+                        cd.FishList.Add(cfd);
+
+                        fish.SetDropReward(cmd.fishID[i].nReward);
+                    }
+                    else if (cfd.IsValidFishType())
+                    {
+                        // SceneRuntime.PlayerMgr.UpdatePlayerGold(clientSeat, SceneRuntime.GetFishGold(cfd.FishType, cd.RateIndex));
+                        byte multiple = (byte) SkillSetting.SkillDataList[(byte) SkillType.SKILL_TORNADO].multiple;
+                        SceneRuntime.PlayerMgr.UpdatePlayerGold(clientSeat,
+                            SceneRuntime.GetFishGold(cfd.FishType, multiple));
+
+                        cd.FishList.Add(cfd);
+                    }
+                }
+            SceneRuntime.ComputeGoldNum(cd);
+            //SceneRuntime.SceneLogic.CatchFish(cd);
+            //SceneRuntime.PlayerMgr.UpdatePlayerGold(clientSeat, cd.GoldNum);
+            //if (clientSeat == SceneRuntime.MyClientSeat)
+            //{
+            //    if (cd.GoldNum != cmd.GoldNum)
+            //    {
+            //        LogMgr.Log("龙卷风:金币不相等:" + cd.GoldNum + "," + cmd.GoldNum);
+            //    }
+            //    else if (PlayerRole.Instance.RoleInfo.RoleMe.GetGlobel() != cmd.TotalNum)
+            //    {
+            //        LogMgr.Log("龙卷风:总金币不相等:" + (PlayerRole.Instance.RoleInfo.RoleMe.GetGlobel()) + "," + cmd.TotalNum);
+            //    }
+            //}
+        }
+
+        public void UseSkillLighting(NetCmdPack pack)
+        {
+            NetCmdSkillLighting cmd = (NetCmdSkillLighting) pack.cmd;
+            bool bNotDelay = Utility.GetTickCount() - pack.tick < ConstValue.FISH_OVER_TIME;
+            byte clientSeat = SceneRuntime.ServerToClientSeat(cmd.Seat);
+            if (SceneRuntime.PlayerMgr.GetPlayer(clientSeat) == null)
+                return;
+            CatchedData cd = new CatchedData();
+            cd.CatchType = (byte) CatchedType.CATCHED_SKILL;
+            cd.SubType = (byte) SkillType.SKILL_LIGHTING;
+            cd.FishList = new List<CatchFishData>();
+            cd.ClientSeat = clientSeat;
+            cd.RateIndex = SceneRuntime.PlayerMgr.GetPlayer(cd.ClientSeat).RateIndex;
+
+            RecordSkill(SkillType.SKILL_LIGHTING, clientSeat);
+            if (bNotDelay == false)
+            {
+                ProcessDelayOver(cmd.FishID, cd);
+                return;
+            }
+
+            SceneRuntime.PlayerMgr.PlayCD(SkillSetting.SkillDataList[(byte) SkillType.SKILL_LIGHTING].CDTime);
+            /*SceneRuntime.SceneLogic.LogicUI.PlayCD(SkillSetting.SkillDataList[(byte) SkillType.SKILL_LIGHTING].CDTime,
+                SkillType.SKILL_LIGHTING);*/
+            GameObject effect = SceneRuntime.EffectMgr.GetSkillEffect(5);
+            effect.transform.localPosition = new Vector3(0, 21.7f, 150);
+            GlobalEffectData gfd = new GlobalEffectData(effect, 0, 3.0f);
+            GlobalEffectMgr.Instance.AddEffect(gfd);
+            //SceneObjMgr.Instance.PlayBack(BackAnimType.BACK_ANIM_SD);
+            SceneRuntime.PlayerMgr.PlaySkillAvatarEft(clientSeat);
+            CatchLithingList cll = null;
+            float lightDuration2 = 1.5f;
+
+            if (cmd.FishID != null)
+                for (int i = 0; i < cmd.FishID.Length; ++i)
+                {
+                    NetFishDeadTime dt = cmd.FishID[i];
+                    CatchFishData cfd = SceneRuntime.FishMgr.FindFish(dt.FishID);
+                    if (cfd.FishObj != null)
+                    {
+                        Fish fish = cfd.FishObj;
+                        fish.StopLaugh(false);
+                        if (dt.LightingFishID != 0)
+                        {
+                            if (cll == null)
+                                cll = new CatchLithingList();
+                            CatchFishData cfd2 = SceneRuntime.FishMgr.FindFish(dt.LightingFishID);
+                            if (cfd2.FishObj != null)
+                                cll.AddSubFish(cfd2.FishObj, fish);
+                            lightDuration2 = 2.0f;
+                        }
+                        else
+                            lightDuration2 = 1.5f;
+                        float t = dt.DeadTime*ConstValue.INV255;
+                        ReductionData rd = new ReductionData();
+                        rd.Speed = 0;
+                        rd.Duration1 = Utility.LerpFloat(FishSetting.FishDeadTime.ShanDian_Dead_Time1,
+                            FishSetting.FishDeadTime.ShanDian_Dead_Time2, t);
+                        rd.Duration2 = lightDuration2;
+                        rd.Duration3 = 0;
+
+                        BlendData bd = new BlendData();
+                        bd.EffectTex = SceneRuntime.EffectMgr.GetLightingTex(fish.FishType);
+                        bd.Blend_Type = (byte) BlendType.BLEND_LERP_TEX;
+                        bd.Duration1 = 0.25f;
+                        bd.Duration2 = 2.0f;
+                        bd.Factor = 1.0f;
+                        fish.ClearOpt();
+
+                        FishOptReduction fr = new FishOptReduction(0.0f, rd, rd.Duration1, bd);
+                        fr.DeadType = FishDeadType.DEAD_IMMEDIATE;
+                        fr.CatchData = cd;
+                        fish.SetCatched(clientSeat);
+                        fish.AddOpt(fr);
+                        fish.SetDropReward(dt.nReward);
+
+                        effect = SceneRuntime.EffectMgr.GetSkillEffect(4);
+                        gfd = new GlobalEffectData(fish, effect, rd.Duration1, lightDuration2,
+                            GlobalEffectPosConverter.LightingPosConvert);
+                        GlobalEffectMgr.Instance.AddEffect(gfd);
+                        cd.FishList.Add(cfd);
+
+
+                    }
+                    else if (cfd.IsValidFishType())
+                    {
+                        byte multiple = (byte) SkillSetting.SkillDataList[(byte) SkillType.SKILL_TORNADO].multiple;
+                        SceneRuntime.PlayerMgr.UpdatePlayerGold(clientSeat,
+                            SceneRuntime.GetFishGold(cfd.FishType, multiple));
+                        //SceneRuntime.PlayerMgr.UpdatePlayerGold(clientSeat, SceneRuntime.GetFishGold(cfd.FishType, cd.RateIndex));
+                        cd.FishList.Add(cfd);
+                    }
+                }
+            SceneRuntime.ComputeGoldNum(cd);
+            //SceneRuntime.SceneLogic.CatchFish(cd);
+            if (cll != null)
+                ProcessLightingData(cll);
+            //SceneRuntime.PlayerMgr.UpdatePlayerGold(clientSeat, cd.GoldNum);
+            //if (clientSeat == SceneRuntime.MyClientSeat)
+            //{
+            //    if (cd.GoldNum != cmd.GoldNum)
+            //    {
+            //        LogMgr.Log("闪电:金币不相等:" + cd.GoldNum + "," + cmd.GoldNum);
+            //    }
+            //    else if (PlayerRole.Instance.RoleInfo.RoleMe.GetGlobel() != cmd.TotalNum)
+            //    {
+            //        LogMgr.Log("闪电:总金币不相等:" + (PlayerRole.Instance.RoleInfo.RoleMe.GetGlobel()) + "," + cmd.TotalNum);
+            //    }
+            //}
+        }
+
+        public void UseSkillFreeze(NetCmdPack pack)
+        {
+            bool bNotDelay = Utility.GetTickCount() - pack.tick < ConstValue.FISH_OVER_TIME;
+            NetCmdSkillFreeze cmd = (NetCmdSkillFreeze) pack.cmd;
+            byte clientSeat = SceneRuntime.ServerToClientSeat(cmd.Seat);
+            if (SceneRuntime.PlayerMgr.GetPlayer(clientSeat) == null)
+                return;
+
+
+            CatchedData cd = new CatchedData();
+            cd.CatchType = (byte) CatchedType.CATCHED_SKILL;
+            cd.SubType = (byte) SkillType.SKILL_FREEZE;
+            cd.FishList = new List<CatchFishData>();
+            cd.ClientSeat = clientSeat;
+            cd.RateIndex = SceneRuntime.PlayerMgr.GetPlayer(cd.ClientSeat).RateIndex;
+
+            RecordSkill(SkillType.SKILL_FREEZE, clientSeat);
+            if (bNotDelay == false)
+            {
+                ProcessDelayOverFreeze(cmd.FishID, cd);
+                return;
+            }
+            CatchLithingList cll = null;
+            GameObject effect = SceneRuntime.EffectMgr.GetSkillEffect(2);
+            effect.transform.localPosition = new Vector3(-17, -18.9f, 100);
+            GlobalEffectData gfd = new GlobalEffectData(effect, 0, 5.0f);
+            SceneRuntime.PlayerMgr.PlayCD(SkillSetting.SkillDataList[(byte) SkillType.SKILL_FREEZE].CDTime);
+           // SceneRuntime.SceneLogic.LogicUI.PlayCD(SkillSetting.SkillDataList[(byte) SkillType.SKILL_FREEZE].CDTime,
+            //    SkillType.SKILL_FREEZE);
+            GlobalEffectMgr.Instance.AddEffect(gfd);
+            //SceneObjMgr.Instance.PlayBack(BackAnimType.BACK_ANIM_BD);
+            SceneRuntime.PlayerMgr.PlaySkillAvatarEft(clientSeat);
+
+            ReductionData reduction = SkillSetting.SkillDataList[(int) SkillType.SKILL_FREEZE].Reduction;
+
+            BlendData bd = new BlendData();
+            bd.BaseTex = SceneRuntime.EffectMgr.SkillFreezeBaseTex;
+            bd.EffectTex = SceneRuntime.EffectMgr.SkillFreezeEffectTex;
+            bd.Blend_Type = (byte) BlendType.BLEND_ADD_TEX;
+            bd.Duration1 = 0;
+            bd.Duration2 = 2.0f;
+            bd.Factor = 0.5f;
+
+            BlendData bd2 = new BlendData();
+            bd2.EffectTex = SceneRuntime.EffectMgr.SkillFreezeBaseTex;
+            bd2.Blend_Type = (byte) BlendType.BLEND_ADD_TEX;
+            bd2.Duration1 = reduction.Duration1;
+            bd2.Duration2 = reduction.Duration2;
+            bd2.Duration3 = reduction.Duration3;
+            bd2.Factor = 0.8f;
+            if (cmd.FishID != null)
+                for (int i = 0; i < cmd.FishID.Length; ++i)
+                {
+                    NetFishDeadTime dt = cmd.FishID[i];
+                    CatchFishData cfd = SceneRuntime.FishMgr.FindFish(dt.FishID);
+                    bool dead = dt.DeadTime != 0;
+                    if (cfd.FishObj != null)
+                    {
+                        Fish fish = cfd.FishObj;
+                        float t = dt.DeadTime*ConstValue.INV255;
+                        FishOptReduction fr;
+                        if (dead)
+                        {
+                            if (dt.LightingFishID != 0)
+                            {
+                                if (cll == null)
+                                    cll = new CatchLithingList();
+                                CatchFishData cfd2 = SceneRuntime.FishMgr.FindFish(dt.LightingFishID);
+                                if (cfd2.FishObj != null)
+                                    cll.AddSubFish(cfd2.FishObj, fish);
+                            }
+
+                            fish.Controller.PathEvent.Reset(0, false);
+                            ReductionData rd = new ReductionData();
+                            rd.Speed = FishSetting.FishDeadTime.BingDong_Speed;
+                            rd.Duration2 = Utility.LerpFloat(FishSetting.FishDeadTime.BingDong_Dead_Time1,
+                                FishSetting.FishDeadTime.BingDong_Dead_Time2, t);
+                            fr = new FishOptReduction(rd.Speed, rd, 0, bd);
+                            fr.DeadType = FishDeadType.DEAD_IMMEDIATE;
+                            fr.CatchData = cd;
+
+                            effect = SceneRuntime.EffectMgr.GetSkillEffect(3);
+                            Vector3 pos = fish.Position;
+                            pos.z -= 20;
+                            effect.transform.localPosition = pos;
+                            gfd = new GlobalEffectData(effect, rd.Duration2, 1.0f);
+                            gfd.Scaling = fish.Scaling*Mathf.Max(1.0f, (pos.z/1000))*0.2f;
+                            fish.SetCatched(clientSeat);
+                            GlobalEffectMgr.Instance.AddEffect(gfd);
+                            fish.ClearOpt();
+                            fish.AddOpt(fr);
+                            cd.FishList.Add(cfd);
+                            fish.SetDropReward(dt.nReward);
+                        }
+                        else
+                        {
+                            fr = new FishOptReduction(reduction.Speed, reduction, 0, bd2);
+                            fish.ClearOpt();
+                            fish.AddOpt(fr);
+                        }
+                    }
+                    else if (dead && cfd.IsValidFishType())
+                    {
+                        // SceneRuntime.PlayerMgr.UpdatePlayerGold(clientSeat, SceneRuntime.GetFishGold(cfd.FishType, cd.RateIndex));
+                        byte multiple = (byte) SkillSetting.SkillDataList[(byte) SkillType.SKILL_FREEZE].multiple;
+                        SceneRuntime.PlayerMgr.UpdatePlayerGold(clientSeat,
+                            SceneRuntime.GetFishGold(cfd.FishType, multiple));
+
+                        cd.FishList.Add(cfd);
+                    }
+                }
+            SceneRuntime.ComputeGoldNum(cd);
+            //SceneRuntime.SceneLogic.CatchFish(cd);
+            if (cll != null)
+                ProcessLightingData(cll);
+            //SceneRuntime.PlayerMgr.UpdatePlayerGold(clientSeat, cd.GoldNum);
+            //if (clientSeat == SceneRuntime.MyClientSeat)
+            //{
+            //    if (cd.GoldNum != cmd.GoldNum)
+            //    {
+            //        LogMgr.Log("冰冻:金币不相等:" + cd.GoldNum + "," + cmd.GoldNum);
+            //    }
+            //    else if (PlayerRole.Instance.RoleInfo.RoleMe.GetGlobel() != cmd.TotalNum)
+            //    {
+            //        LogMgr.Log("冰冻:总金币不相等:" + (PlayerRole.Instance.RoleInfo.RoleMe.GetGlobel()) + "," + cmd.TotalNum);
+            //    }
+            //}
+        }
+
+        public void UseSkillLock(NetCmdPack pack)
+        {
+            
+        }
+
+        public void UseSkillDisaster(NetCmdPack pack)
+        {
+            
+        }
+
+        public void FishCatched(NetCmdPack pack)
+        {
+            
+        }
+
+        public void FishCatchedByFreeze(NetCmdPack pack)
+        {
+            
+        }
+
+        public void LaunchLaser(NetCmdPack pack)
+        {
+            
+        }
+
+        public void Reduction(NetCmdPack pack)
+        {
+            //延迟过大，不做处理。
+            if (Utility.GetTickCount() - pack.tick >= ConstValue.FISH_OVER_TIME)
+                return;
+            NetCmdReduction red = (NetCmdReduction) pack.cmd;
+            ReductionData rd = LauncherSetting.LauncherDataList[red.LaserType].LaserReduction;
+            if (red.FishID != null)
+                for (int i = 0; i < red.FishID.Length; ++i)
+                {
+                    CatchFishData cfd = SceneRuntime.FishMgr.FindFish(red.FishID[i]);
+                    if (cfd.FishObj == null)
+                        continue;
+                    FishOptReduction ff = new FishOptReduction(rd.Speed, rd);
+                    cfd.FishObj.ClearOpt();
+                    cfd.FishObj.AddOpt(ff);
+                }
+        }
+
+        //清场动画
+        public void ClearScene(NetCmdPack pack)
+        {
+            
+        }
+
+        public void ProcessDelayOverFreeze(NetFishDeadTime[] fishList, CatchedData cd)
+        {
+            
+        }
+
+        public void ProcessDelayOver(NetFishDeadTime[] fishList, CatchedData cd)
+        {
+            if (fishList == null)
+                return;
+            for (int i = 0; i < fishList.Length; ++i)
+            {
+                NetFishDeadTime dt = fishList[i];
+                CatchFishData cfd = SceneRuntime.FishMgr.FindFish(dt.FishID);
+                if (cfd.IsValidFishType() == false)
+                    continue;
+                SceneRuntime.PlayerMgr.UpdatePlayerGold(cd.ClientSeat,
+                    SceneRuntime.GetFishGold(cfd.FishType, cd.RateIndex));
+                cd.FishList.Add(cfd);
+                if (cfd.FishObj != null)
+                    SceneRuntime.FishMgr.DestroyFish(cfd.FishObj, false);
+            }
+            SceneRuntime.ComputeGoldNum(cd);
+            //SceneRuntime.SceneLogic.CatchFish(cd);
+        }
+
+        public void ProcessDelayOver(NetFishCatched[] fishList, CatchedData cd)
+        {
+            if (fishList == null)
+                return;
+            for (int i = 0; i < fishList.Length; ++i)
+            {
+                NetFishCatched dt = fishList[i];
+                if (dt.CatchEvent != (byte) FishCatchEventType.CATCH_EVENT_CATCHED)
+                    continue;
+                CatchFishData cfd = SceneRuntime.FishMgr.FindFish(dt.FishID);
+                if (cfd.IsValidFishType() == false)
+                    continue;
+                SceneRuntime.PlayerMgr.UpdatePlayerGold(cd.ClientSeat,
+                    SceneRuntime.GetFishGold(cfd.FishType, cd.RateIndex));
+                cd.FishList.Add(cfd);
+                if (cfd.FishObj != null)
+                    SceneRuntime.FishMgr.DestroyFish(cfd.FishObj, false);
+            }
+            SceneRuntime.ComputeGoldNum(cd);
+            //SceneRuntime.SceneLogic.CatchFish(cd);
+        }
+
+        public void ProcessDelayOver(ushort[] fishList, CatchedData cd)
+        {
+            if (fishList == null)
+                return;
+            for (int i = 0; i < fishList.Length; ++i)
+            {
+                CatchFishData cfd = SceneRuntime.FishMgr.FindFish(fishList[i]);
+                if (cfd.IsValidFishType() == false)
+                    continue;
+                SceneRuntime.PlayerMgr.UpdatePlayerGold(cd.ClientSeat,
+                    SceneRuntime.GetFishGold(cfd.FishType, cd.RateIndex));
+                cd.FishList.Add(cfd);
+                if (cfd.FishObj != null)
+                    SceneRuntime.FishMgr.DestroyFish(cfd.FishObj, false);
+            }
+            SceneRuntime.ComputeGoldNum(cd);
+            //SceneRuntime.SceneLogic.CatchFish(cd);
+        }
+
+        private static Vector3 ScreenToCenterPoint(Vector3 pos)
+        {
+            Vector3 ScrSize = new Vector3(Screen.width >> 1, Screen.height >> 1, 0);
+            Vector3 newPos = new Vector3();
+            newPos.x = (pos.x - ScrSize.x)/ScrSize.x*(1024 >> 1);
+            newPos.y = (pos.y - ScrSize.y)/ScrSize.y*(576 >> 1);
+            newPos.z = 0;
+            return newPos;
+        }
+
+        private void ProcessLightingData(CatchLithingList cll)
+        {
+            foreach (CatchLithingData cld in cll.LithingList.Values)
+            {
+                ProcessLightingFishMain(cld.MainFish);
+                ProcessLightingFish(cld.SubFish, cld.MainFish);
+            }
+        }
+
+        public void ProcessLightingFishMain(Fish fish)
+        {
+            Vector3 p1 = fish.ScreenPos;
+            Vector3 pv1 = ScreenToCenterPoint(p1);
+
+            GameObject gov1 = SceneRuntime.EffectMgr.GetLightingFishEffect(false);
+            GlobalEffectData efc = new GlobalEffectData(gov1, 0, 2.0f);
+            GlobalEffectMgr.Instance.AddEffect(efc);
+            gov1.transform.localPosition = pv1;
+            gov1.transform.SetParent(SceneBoot.Instance.UIPanelTransform, false);
+        }
+
+        public void ProcessLightingFish(List<Fish> fishList, Fish fishLighting)
+        {
+            GlobalEffectData efc = null;
+            Vector3 p1 = fishLighting.ScreenPos;
+            Vector3 pv1 = ScreenToCenterPoint(p1);
+            foreach (Fish f in fishList)
+            {
+                Vector3 p2 = f.ScreenPos;
+                Vector3 pv2 = ScreenToCenterPoint(p2);
+                Vector3 dir = (pv2 - pv1);
+                float dist = dir.magnitude;
+                dir /= dist;
+                float dot = Vector3.Dot(Vector3.right, dir);
+                float angle = Mathf.Acos(Mathf.Clamp(dot, -1.0f, 1.0f))*Mathf.Rad2Deg;
+                if (dir.y < 0)
+                    angle = -angle;
+
+                GameObject gov2 = SceneRuntime.EffectMgr.GetLightingFishEffect(true);
+                GameObject gov3 = SceneRuntime.EffectMgr.GetLightingFishEffect(false);
+
+                efc = new GlobalEffectData(gov2, 0, 2.0f);
+                GlobalEffectMgr.Instance.AddEffect(efc);
+                efc = new GlobalEffectData(gov3, 0, 2.0f);
+                GlobalEffectMgr.Instance.AddEffect(efc);
+
+                gov2.transform.SetParent(SceneBoot.Instance.UIPanelTransform, false);
+                gov3.transform.SetParent(SceneBoot.Instance.UIPanelTransform, false);
+
+                LightingMoveData lmd = new LightingMoveData();
+                lmd.Delta = 0;
+                lmd.Trans = gov3.transform;
+                lmd.StartPos = pv1;
+                lmd.EndPos = pv2;
+                m_MoveList.Add(lmd);
+                Vector3 ss = gov2.transform.localScale;
+                ss.x = dist;
+                gov2.transform.localPosition = pv1;
+                gov3.transform.localPosition = pv1;
+                gov2.transform.localScale = ss;
+                gov2.transform.localRotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            }
+        }
+    }
+}
