@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lobby3D", "Lobby3D.csproj", "{D1F7BFE8-97BF-A051-C5EA-1E4278E85AE2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lobby3D.Editor", "Lobby3D.Editor.csproj", "{8377A314-D18F-5D0F-6430-616C0D78343C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D1F7BFE8-97BF-A051-C5EA-1E4278E85AE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1F7BFE8-97BF-A051-C5EA-1E4278E85AE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1F7BFE8-97BF-A051-C5EA-1E4278E85AE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1F7BFE8-97BF-A051-C5EA-1E4278E85AE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8377A314-D18F-5D0F-6430-616C0D78343C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8377A314-D18F-5D0F-6430-616C0D78343C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8377A314-D18F-5D0F-6430-616C0D78343C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8377A314-D18F-5D0F-6430-616C0D78343C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
