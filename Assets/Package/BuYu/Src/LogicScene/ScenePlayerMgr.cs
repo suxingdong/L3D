@@ -20,6 +20,7 @@ namespace BuYu
         private bool m_bAutoLocked = false; //自动锁定
         private uint m_LockInterval = 0;
 
+     
         public void Init()
         {
             for (byte i = 0; i < ConstValue.PLAYER_MAX_NUM; ++i)

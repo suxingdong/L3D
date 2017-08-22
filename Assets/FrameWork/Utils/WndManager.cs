@@ -6,6 +6,11 @@ class WndManager:Singleton<WndManager>
 {
     List<Transform> m_WndList = new List<Transform>();
     int m_TopIndex = 1;
+
+    private WndManager()
+    {
+        
+    }
     public void Push(GameObject obj, bool sort = true)
     {
         Push(obj.transform, sort);

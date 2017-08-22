@@ -183,7 +183,6 @@ namespace BuYu
             m_GunBarrel.HandleObj =
                 GameObject.Instantiate(SceneRuntime.PlayerMgr.GetGunBarrelObj((byte) Idx)) as GameObject;
             m_GunBarrel.HandleObj.transform.SetParent(m_TransformHandle, false);
-            m_GunBarrel.HandleObj.name = "xxxxxxxxxxx";
             m_GunBarrel.Reset(type, m_Seat);
             m_GunBarrel.BulletConsume = BulletSetting.BulletRate[m_RateIndx];
             m_GunBarrel.Init();
@@ -264,7 +263,8 @@ namespace BuYu
                 {
                     m_LauncherTime = 0;
                     //检测是否钱够
-                    if (PlayerRole.Instance.GetPlayerGlobelBySeat(m_Seat) <
+                   
+                    /*if (PlayerRole.Instance.GetPlayerGlobelBySeat(m_Seat) <
                         (BulletSetting.BulletRate[m_RateIndx]*m_LauncherSetting.Consume))
                     {
                         if (GetMaxRate())
@@ -277,14 +277,14 @@ namespace BuYu
                         {
                             UIManager.Instance.ShowMessage("金币不足", MessageBoxEnum.Style.Ok, null);
                             /*GlobalEffectMgr.Instance.ShutDownMsgBox();
-                            GlobalHallUIMgr.Instance.ShowPayWnd(PayType.Gold);*/
+                            GlobalHallUIMgr.Instance.ShowPayWnd(PayType.Gold);#1#
                         }
                         else
                             UIManager.Instance.ShowMessage("金币不足", MessageBoxEnum.Style.Ok, null);
                         /*GlobalHallUIMgr.Instance.ShowMatchMsgBox("",
-                            PlayerRole.Instance.RoleInfo.RoleMe.GetMonthID(), MatchMsgBoxType.Match_BuyGold);*/
+                            PlayerRole.Instance.RoleInfo.RoleMe.GetMonthID(), MatchMsgBoxType.Match_BuyGold);#1#
                         return;
-                    }
+                    }*/
 
                     short angle = Utility.FloatToShort(m_Angle);
                     angle = SceneRuntime.AngleInversion(angle);
@@ -479,12 +479,12 @@ namespace BuYu
 
         private bool CheckLaunch()
         {
-            Debug.Log("CheckLaunch");
             bool bauto = SceneRuntime.PlayerMgr.AutoShotOrLocked | Input.GetMouseButton(0);
             bool btop = !WndManager.Instance.HasTopWnd | SceneRuntime.PlayerMgr.AutoShotOrLocked;
             bool Vaild = m_RateValid & m_LaunchValid;
             if (bauto && SceneRuntime.HandleClickEvent == false && btop)
             {
+                Debug.Log("点击了屏幕");
                 //场景按纽界面特殊处理
                 /*if (m_bShowVipFunction && !SceneRuntime.PlayerMgr.AutoShotOrLocked)
                 {
