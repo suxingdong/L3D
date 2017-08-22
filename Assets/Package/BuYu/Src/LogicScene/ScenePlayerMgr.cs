@@ -24,13 +24,13 @@ namespace BuYu
         {
             for (byte i = 0; i < ConstValue.PLAYER_MAX_NUM; ++i)
             {
-                m_LauncherObj[i] = ResManager.Instance.LoadObject(string.Format("BulletLauncher{0}", i),
-                    "BuYu/SceneRes/Prefab/UI/Launcher/", ResType.SceneRes);
+                m_LauncherObj[i] = ResManager.Instance.LoadObject(string.Format("Emplacement{0}", i),
+                    "BuYu/Prefab/Gun/", ResType.SceneRes);
             }
             for (byte j = 0; j < m_GunBarrelObj.Length; ++j)
             {
                 m_GunBarrelObj[j] = ResManager.Instance.LoadObject(string.Format("GunBarrel{0}", j),
-                    "BuYu/SceneRes/Prefab/UI/Launcher/", ResType.SceneRes);
+                    "BuYu/Prefab/Gun/", ResType.SceneRes);
             }
             m_ComboObj = ResManager.Instance.LoadObject("Combo_UI", "SceneRes/Prefab/UI/DoubleHit/", ResType.SceneRes);
             m_ComboEftObj = ResManager.Instance.LoadObject("UIEf_Combo", "SceneRes/Prefab/UI/Combo/", ResType.SceneRes);

@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using GF;
+using GF.UI;
 using UnityEngine.UI;
 namespace BuYu
 {
@@ -103,8 +106,8 @@ namespace BuYu
             m_TransformHandle = m_ObjectHandle.transform;
 
             m_LabelScore = m_TransformHandle.GetChild(0).gameObject.GetComponent<Text>();
-            m_GlodTransform = m_TransformHandle.GetChild(0).GetChild(0);
-            m_UIGoldBg = m_GlodTransform.GetComponent<Image>();
+            //m_GlodTransform = m_TransformHandle.GetChild(0).GetChild(0);
+            //m_UIGoldBg = m_GlodTransform.GetComponent<Image>();
 
             if (m_bMyself)
             {
@@ -122,9 +125,9 @@ namespace BuYu
                             break;
                     }*/
                 }
-                m_LabelDiamond = m_TransformHandle.GetChild(1).gameObject.GetComponent<Text>();
-                m_EnergyPoolUI = m_TransformHandle.GetChild(4).gameObject.GetComponent<Image>();
-                m_LockUI = m_TransformHandle.GetChild(5).gameObject;
+                //m_LabelDiamond = m_TransformHandle.GetChild(1).gameObject.GetComponent<Text>();
+                //m_EnergyPoolUI = m_TransformHandle.GetChild(4).gameObject.GetComponent<Image>();
+                //m_LockUI = m_TransformHandle.GetChild(5).gameObject;
                 // SceneRuntime.LauncherEftMgr.PlayDiamondEft(m_TransformHandle.GetChild(1).GetChild(0));
                 //  UpdateUserGold(m_Seat);
                 /*m_VipFunctionObj = m_TransformHandle.GetChild(6).gameObject;
@@ -163,8 +166,8 @@ namespace BuYu
             CreatGunBarrel(LauncherType);
             //SceneRuntime.LauncherEftMgr.PlayGlodLightEft(m_GlodTransform);
             //是否显示锁
-            if (m_RateValid && m_LaunchValid)
-                m_LockUI.SetActive(false);
+            /*if (m_RateValid && m_LaunchValid)
+                m_LockUI.SetActive(false);*/
 
             UpdateRootPos();
 
@@ -257,7 +260,7 @@ namespace BuYu
             }
             if (CheckLaunch())
             {
-                /*if (m_LauncherTime >= m_LauncherInterval)
+                if (m_LauncherTime >= m_LauncherInterval)
                 {
                     m_LauncherTime = 0;
                     //检测是否钱够
@@ -272,19 +275,21 @@ namespace BuYu
                         // GlobalHallUIMgr.Instance.ShowSystemTipsUI(StringTable.GetString("GoldNotEnough"), 1, false);
                         if (PlayerRole.Instance.RoleInfo.RoleMe.GetMonthID() == 0)
                         {
-                            GlobalEffectMgr.Instance.ShutDownMsgBox();
-                            GlobalHallUIMgr.Instance.ShowPayWnd(PayType.Gold);
+                            UIManager.Instance.ShowMessage("金币不足", MessageBoxEnum.Style.Ok, null);
+                            /*GlobalEffectMgr.Instance.ShutDownMsgBox();
+                            GlobalHallUIMgr.Instance.ShowPayWnd(PayType.Gold);*/
                         }
                         else
-                            GlobalHallUIMgr.Instance.ShowMatchMsgBox("",
-                                PlayerRole.Instance.RoleInfo.RoleMe.GetMonthID(), MatchMsgBoxType.Match_BuyGold);
+                            UIManager.Instance.ShowMessage("金币不足", MessageBoxEnum.Style.Ok, null);
+                        /*GlobalHallUIMgr.Instance.ShowMatchMsgBox("",
+                            PlayerRole.Instance.RoleInfo.RoleMe.GetMonthID(), MatchMsgBoxType.Match_BuyGold);*/
                         return;
                     }
 
                     short angle = Utility.FloatToShort(m_Angle);
                     angle = SceneRuntime.AngleInversion(angle);
                     SceneRuntime.SceneLogic.LaunchBullet(angle);
-                }*/
+                }
             }
         }
 
@@ -321,7 +326,7 @@ namespace BuYu
 
             if (!m_bMyself || !vaild || m_bLauncherXPSkill)
                 return;
-            if (m_BankruptcyObj.activeSelf)
+            if (m_BankruptcyObj && m_BankruptcyObj.activeSelf)
                 return;
             Vector3 position;
             //if (Input.touchCount > 0)
@@ -438,16 +443,17 @@ namespace BuYu
 
         private void UpdateRootPos()
         {
-            /*Vector3 pos;
+            Vector3 pos;
             Vector3 scrPos = new Vector3(Screen.width, Screen.height, 0);
-            Vector3 worldPos = SceneObjMgr.Instance.UICamera.ScreenToWorldPoint(scrPos);
+            Vector3 worldPos = scrPos; //SceneBoot.Instance.UICamera.ScreenToWorldPoint(scrPos);
             float x = Screen.width/4;
             float x1 = Screen.width/3;
 
             switch (m_Seat)
             {
                 case 0:
-                    pos = new Vector3(x, Camera.main.rect.yMin*Screen.height, 0);
+                    //pos = new Vector3(x, Camera.main.rect.yMin*Screen.height, 0);
+                    pos = new Vector3(x, 0, 0);
                     break;
                 case 1:
                     pos = new Vector3(x1*2, Camera.main.rect.yMin*Screen.height, 0);
@@ -463,23 +469,24 @@ namespace BuYu
                     break;
             }
 
-            m_TransformHandle.position = SceneObjMgr.Instance.UICamera.ScreenToWorldPoint(pos);
+            m_TransformHandle.position = pos;//SceneObjMgr.Instance.UICamera.ScreenToWorldPoint(pos);
                 // new Vector3(-1, 0, 0);
             LauncherPos = new Vector2(m_TransformHandle.position.x, m_TransformHandle.position.y);
 
             // m_GlodPos = m_GlodTransform.position;
-            m_GunPivot = m_GunBarrel.GunPivot;*/
+            m_GunPivot = m_GunBarrel.GunPivot;
         }
 
         private bool CheckLaunch()
         {
-            /*bool bauto = SceneRuntime.PlayerMgr.AutoShotOrLocked | Input.GetMouseButton(0);
+            Debug.Log("CheckLaunch");
+            bool bauto = SceneRuntime.PlayerMgr.AutoShotOrLocked | Input.GetMouseButton(0);
             bool btop = !WndManager.Instance.HasTopWnd | SceneRuntime.PlayerMgr.AutoShotOrLocked;
             bool Vaild = m_RateValid & m_LaunchValid;
             if (bauto && SceneRuntime.HandleClickEvent == false && btop)
             {
                 //场景按纽界面特殊处理
-                if (m_bShowVipFunction && !SceneRuntime.PlayerMgr.AutoShotOrLocked)
+                /*if (m_bShowVipFunction && !SceneRuntime.PlayerMgr.AutoShotOrLocked)
                 {
                     SceneRuntime.SceneLogic.BtnsMgr.BaseBtnHide();
                     OnClickLaunch(null);
@@ -495,12 +502,12 @@ namespace BuYu
                 else if (!Vaild && PlayerRole.Instance.RoleLauncher.IsCanUseLauncher(LauncherType))
                 {
                     return false;
-                }
+                }*/
                 //解除自动射击
                 //if (SceneRuntime.PlayerMgr.AutoShot && Input.GetMouseButton(0))
                 //    SceneRuntime.PlayerMgr.SetAutoShot(false);
                 return true;
-            }*/
+            }
             return false;
         }
 

@@ -16,7 +16,10 @@ namespace GF
 {
     public class AppModel
     {
-        
+        public virtual void Update(float delt)
+        {
+            
+        }
     }
 
 }

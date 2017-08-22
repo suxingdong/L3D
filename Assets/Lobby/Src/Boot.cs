@@ -34,6 +34,7 @@ namespace Lobby
         void Update()
         {
             NetManager.Instance.Update(Time.deltaTime);
+            ModelManager.Instance.Update(Time.deltaTime);
         }
 
         public void StartInnerCoroutine(IEnumerator e)

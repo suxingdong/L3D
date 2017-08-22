@@ -144,9 +144,9 @@ namespace BuYu
         {
             if (m_BaseTransform == null)
                 return;
-            Vector3 pos = SceneBoot.Instance.UICamera.WorldToScreenPoint(m_BaseTransform.position);
+            /*Vector3 pos = SceneBoot.Instance.UICamera.WorldToScreenPoint(m_BaseTransform.position);
             m_GunPivot.x = pos.x;
-            m_GunPivot.y = pos.y;
+            m_GunPivot.y = pos.y;*/
 
         }
 

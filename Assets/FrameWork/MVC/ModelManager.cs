@@ -42,6 +42,14 @@ namespace GF
         {
             allModelList[appModule.GetType()] = appModule;
         }
+
+        public void Update(float delt)
+        {
+            foreach (var var in allModelList.Values)
+            {
+                var.Update(delt);
+            }
+        }
     }
 }
 

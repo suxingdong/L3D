@@ -54,6 +54,7 @@ namespace BuYu
             NetManager.Instance.AddNetEventListener(NetCmdType.CMD_FISH, OnFishEnter);
             NetManager.Instance.AddNetEventListener(NetCmdType.CMD_PLAYER_JOIN, OnPlayerJoin);
             NetManager.Instance.AddNetEventListener(NetCmdType.CMD_LC_JoinTable, OnJoinTable);
+            NetManager.Instance.AddNetEventListener(NetCmdType.CMD_BULLET, OnLaunchBullet);
         }
 
         public System.Collections.IEnumerator MainInitProcedure()
@@ -106,6 +107,23 @@ namespace BuYu
             get { return m_Jtable; }
         }
 
+
+        public void OnLaunchBullet(IEvent iEvent)
+        {
+            NetCmdPack pack = iEvent.parameter as NetCmdPack;
+            if (pack != null)
+            {
+                NetCmdBullet cmd = (NetCmdBullet)pack.cmd;
+                byte clientSeat, id;
+                SceneRuntime.BuuletIDToSeat(cmd.BulletID, out clientSeat, out id);
+                if (clientSeat == SceneRuntime.MyClientSeat)
+                {
+                    /*uint time = Utility.GetTickCount() - bulletTick;
+                SceneMain.Instance.bulletTime.AddTime(time);*/
+                }
+                m_PlayerMgr.LaunchBullet(pack);
+            }
+        }
         public void OnJoinTable(IEvent iEvent)
         {
             NetCmdPack pack = iEvent.parameter as NetCmdPack;
@@ -211,6 +229,46 @@ namespace BuYu
                 PlayerRole.Instance.RoleInfo.ResetSceneInfo();*/
         }
 
+        //请求发射子弹
+        public void LaunchBullet(short angle)
+        {
+            if (m_bClearScene)
+            {
+                //清场时不能发子弹。
+                return;
+            }
+            NetCmdBullet ncb = new NetCmdBullet();
+            ncb.SetCmdType(NetCmdType.CMD_BULLET);
+            ncb.Degree = angle;
+            ncb.LockFishID = m_PlayerMgr.LockedFishID;
+            ncb.LauncherType = SceneRuntime.SceneLogic.PlayerMgr.MySelf.Launcher.LauncherType;
+            Send<NetCmdBullet>(ncb);
+            //bulletTick = Utility.GetTickCount();
+        }
+
+        public override void Update(float delta)
+        {
+            if (m_bClearScene)
+            {
+                m_fClearTime += delta;
+                if (m_fClearTime >= ConstValue.CLEAR_TIME)
+                    m_bClearScene = false;
+            }
+            //初始化已经完成了
+            if (InitCompletion == false)
+                return;
+            //m_FishMgr.Update(delta);
+            //m_BulletMgr.Update(delta);
+            if (m_PlayerMgr!=null)
+            {
+                m_PlayerMgr.Update(delta);
+            }
+            
+            /*m_SkillMgr.Update(delta);
+            m_EffectMgr.Update(delta);
+            m_LauncherEffectMgr.Update(delta);
+            m_ChestMgr.Update(delta);*/
+        }
         public void Send<T>(NetCmdBase ncb)
         {
             NetManager.Instance.Send<T>(ncb);
