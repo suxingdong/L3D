@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using GF;
+using Lobby;
+
 namespace BuYu
 {
     public class OpenParma

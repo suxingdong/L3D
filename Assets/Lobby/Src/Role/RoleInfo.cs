@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using GF;
 using UnityEngine;
 
-namespace BuYu
+namespace Lobby
 {
     class RoleInfo
     {
@@ -49,12 +49,13 @@ namespace BuYu
         public Byte GetRoleUnLockRateIndex()
         {
             //获取用户未解锁的倍率范围
-            int256 RateValue = PlayerRole.Instance.RoleInfo.RoleMe.GetRateValue();
+            /*int256 RateValue = PlayerRole.Instance.RoleInfo.RoleMe.GetRateValue();
             for (Byte i = 0; i < BulletSetting.BulletRate.Length; ++i)
             {
                 if (!int256Function.GetBitStates(RateValue, i))
                     return i;
             }
+            return 0;*/
             return 0;
         }
         public Byte GetCanUseCashSum()
@@ -73,12 +74,12 @@ namespace BuYu
         public UInt32 GetUnLockRateNeedCurrcey(Byte AddRateIndex)
         {
             UInt32 CurrceySum = 0;
-            for (Byte i = 0; i <= AddRateIndex; ++i)
+            /*for (Byte i = 0; i <= AddRateIndex; ++i)
             {
                 if (IsCanUseRateIndex(i))
                     continue;
                 CurrceySum += Convert.ToUInt32(BulletSetting.RateUnlock[i]);
-            }
+            }*/
             return CurrceySum;
         }
         public bool ChangeRoleShareSatate(bool States)
@@ -734,7 +735,7 @@ namespace BuYu
         {
             LC_Cmd_ResetRoleInfo ncb = (LC_Cmd_ResetRoleInfo)obj;
             RoleMe.SetRoleInfo(ncb.RoleInfo);
-            ServerSetting.SetCallbckUrl(Utility.IPToString(ncb.OperateIP));
+            //ServerSetting.SetCallbckUrl(Utility.IPToString(ncb.OperateIP));
             //PlayerRole.Instance.RoleExChange.SetPlayerRoleIsShowExChange();
 
             PlayerRole.Instance.TableManager.ClearTableInfo();

@@ -14,7 +14,7 @@ using System.Xml;
 using GF;
 using UnityEngine;
 
-namespace  BuYu
+namespace  Lobby
 {
     class tagRoleRelation
     {

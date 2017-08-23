@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using GF;
 using UnityEngine;
 
-namespace BuYu
+namespace Lobby
 {
     //玩家的物品管理
     class RoleItem  //玩家的物品背包

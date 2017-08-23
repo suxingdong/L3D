@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-
+using BuYu;
 using GF;
+using Looby;
 
-namespace BuYu
+namespace Lobby
 {
 
 //客户端的核心类 表示玩家自己  我们用于处理玩家的函数  封装服务器 以及对服务器发送的一些命令的封装处理
@@ -212,7 +213,7 @@ namespace BuYu
         public void HandleLaunchBullet(Byte Seat, byte bulletType, byte rateIndex)
         {
             //计算需要扣除的金币的数量
-            Seat = SceneRuntime.ClientToServerSeat(Seat); //客户端转服务器端的位置
+            //Seat = SceneRuntime.ClientToServerSeat(Seat); //客户端转服务器端的位置
         }
 
         public void HandleEvent(EventTargetType EventID, UInt32 BindParam, UInt32 Param)
@@ -302,7 +303,7 @@ namespace BuYu
 
         public UInt32 GetPlayerSocreBySeat(Byte Seat)
         {
-            Seat = SceneRuntime.ClientToServerSeat(Seat);
+            /*Seat = SceneRuntime.ClientToServerSeat(Seat);
             //或者指定位置玩家的积分 
             bool IsInMonth = (PlayerRole.Instance.RoleInfo.RoleMe.GetMonthID() != 0);
             if (!IsInMonth)
@@ -316,7 +317,8 @@ namespace BuYu
             }
             if (pRole == null)
                 return 0;
-            return pRole.GetMonthScore();
+            return pRole.GetMonthScore();*/
+            return 0;
         }
 
         public UInt32 GetPlayerGlobelBySeat(Byte Seat)

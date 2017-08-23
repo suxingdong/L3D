@@ -8,7 +8,9 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using GF;
 using GF.UI;
+using Lobby;
 using UnityEngine;
 
 namespace BuYu
@@ -38,6 +40,7 @@ namespace BuYu
         {
             instance = this;
             UIManager.Instance.ShowView<RoomView>();
+            ModelManager.Instance.Register<SceneModel>();
             UIPanelTransform = GameObject.Find("Canvas").transform;
         }
 

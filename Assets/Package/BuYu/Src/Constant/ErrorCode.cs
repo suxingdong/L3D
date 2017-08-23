@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using GF;
 using UnityEngine;
 
-namespace BuYu
+namespace Lobby
 {
     public enum TableError
     {

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using GF;
+using Lobby;
 
 namespace BuYu
 {

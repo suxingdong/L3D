@@ -11,6 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using GF;
+using Lobby;
 using UnityEngine.SceneManagement;
 
 namespace BuYu
@@ -25,7 +26,7 @@ namespace BuYu
         bool m_bClearScene;
         float m_fClearTime = 0;
         bool m_bRefreshScene = false;
-
+        private bool isUpdate = false; //是否可以更新
         SceneBulletMgr m_BulletMgr;
         SceneFishMgr m_FishMgr;
         SceneEffectMgr m_EffectMgr;
@@ -37,7 +38,7 @@ namespace BuYu
 
         LC_Cmd_JoinTableResult m_Jtable = null;
         private JoinRoomData m_roomDate;
-
+        
         uint bulletTick = 0;
 
         public SceneModel()
@@ -47,6 +48,7 @@ namespace BuYu
 
         public void Init()
         {
+            isUpdate = false;
             RegisterEvent();
             SceneRuntime.Init(this);
         }
@@ -92,6 +94,7 @@ namespace BuYu
             }
             SubStartCount();
             EndInit();
+            isUpdate = true;
             yield break;
         }
 
@@ -256,6 +259,10 @@ namespace BuYu
 
         public override void Update(float delta)
         {
+            if (!isUpdate)
+            {
+                return;
+            }
             if (m_bClearScene)
             {
                 m_fClearTime += delta;

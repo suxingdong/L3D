@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Xml;
 using GF;
+using Lobby;
 
 namespace BuYu
 {

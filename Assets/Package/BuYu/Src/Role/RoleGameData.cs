@@ -10,6 +10,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using GF;
+using Lobby;
 using UnityEngine;
 
 namespace BuYu

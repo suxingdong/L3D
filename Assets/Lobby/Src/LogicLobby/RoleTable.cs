@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace BuYu
+namespace Lobby
 {
    
     class RoleTable  //桌子管理器 包含了 比赛的数据 和 桌子的处理等操作

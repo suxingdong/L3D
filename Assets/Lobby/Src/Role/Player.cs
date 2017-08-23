@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GF;
 
-namespace BuYu
+namespace Lobby
 {
     public class Player : RoleBase
     {
