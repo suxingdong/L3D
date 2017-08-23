@@ -23,8 +23,6 @@ namespace Lobby
         {
             Instance = this;
             ModelManager.Instance.Register<LoginModel>();
-            //暂时放这里
-            ModelManager.Instance.Register<SceneModel>();
             GF.Resolution.GlobalInit();
             NetCmdMapping.GlobalInit();
             DontDestroyOnLoad(this);

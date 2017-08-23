@@ -20,11 +20,19 @@ namespace BuYu
     public class RoomView : AppView
     {
         private Button btnBack;
+        private Button btnUser;
         private Button btnRoomRect;
         private GridLayoutGroup gridRooms;
+        private Text textNickName;
+        private Text textLv;
+        private Text textGold;
+        private Text textDiamond;
+
+        
         void Start()
         {
-            btnBack = transform.Find("BtnBack").GetComponent<Button>();
+            
+            btnBack = transform.Find("TopUI/BtnBack").GetComponent<Button>();
             btnBack.onClick.AddListener(delegate ()
             {
                 UIManager.Instance.HideView<RoomView>();
@@ -45,9 +53,22 @@ namespace BuYu
             }
             ModelManager.Instance.Register<RoomModel>();
 
+            InitUserInfo();
             //TODO
             FishResManager.Instance.Init();
             PathManager.Instance.Init();
+        }
+
+        void InitUserInfo()
+        {
+            btnUser = transform.Find("TopUI/BtnUser").GetComponent<Button>();
+            textNickName = btnUser.transform.Find("TextNickName").GetComponent<Text>();
+            textLv = btnUser.transform.Find("TextLV").GetComponent<Text>();
+            //textLv = transform.Find("TopUI/TextNickName").GetComponent<Text>();
+
+            textLv.text = PlayerRole.Instance.RoleInfo.RoleMe.GetLevel().ToString();
+            textNickName.text = PlayerRole.Instance.RoleInfo.RoleMe.GetNickName();
+
         }
 
         void Update()

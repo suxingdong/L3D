@@ -8,10 +8,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using BuYu;
 using UnityEngine;
 using GF;
 using GF.UI;
 using GF.NET;
+using ServerSetting = GF.ServerSetting;
+
 namespace Lobby
 {
     public class LoginModel : AppModel
@@ -35,6 +38,8 @@ namespace Lobby
         public void RegisterEvent()
         {
             NetManager.Instance.AddNetEventListener(NetCmdType.CMD_LC_AccountOnlyID, OnAccountOnlyId);
+            NetManager.Instance.AddNetEventListener(NetCmdType.CMD_LC_AccountOnlyIDSuccess, OnAccountOnlyIDSuccess);
+            
         }
 
         public void StartConnect()
@@ -114,6 +119,12 @@ namespace Lobby
             //m_LogicUI.OnStateChanged(state);
         }
 
+        public void OnAccountOnlyIDSuccess(IEvent iEvent)
+        {
+            NetCmdPack pack = (NetCmdPack)iEvent.parameter;
+            LC_Cmd_AccountOnlyIDSuccess ncb = (LC_Cmd_AccountOnlyIDSuccess)pack.cmd;
+            PlayerRole.Instance.RoleInfo.RoleMe.SetRoleInfo(ncb.RoleInfo);//设置玩家的数据
+        }
         public void OnAccountOnlyId(IEvent iEvent)
         {
             NetCmdPack pack = (NetCmdPack)iEvent.parameter;
