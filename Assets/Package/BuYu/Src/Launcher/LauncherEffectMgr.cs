@@ -31,28 +31,28 @@ namespace BuYu
             for (byte i = 0; i < ConstValue.MAX_LAUNCHER_NUM; ++i)
             {
                 m_GunFireObj[i] = ResManager.Instance.LoadObject(string.Format("Fire{0}", i),
-                    "SceneRes/Prefab/Effect/Launcher/BulletLauncher/GunBarrelFire/", ResType.SceneRes);
+                    "BuYu/SceneRes/Prefab/Effect/Launcher/BulletLauncher/GunBarrelFire/", ResType.SceneRes);
                 m_GaiEftObj[i] = ResManager.Instance.LoadObject(string.Format("GaiEffect{0}", i),
-                    "SceneRes/Prefab/Effect/Launcher/BulletLauncher/GunBarrelGai/", ResType.SceneRes);
+                    "BuYu/SceneRes/Prefab/Effect/Launcher/BulletLauncher/GunBarrelGai/", ResType.SceneRes);
                 m_MoveLightObj[i] = ResManager.Instance.LoadObject(string.Format("MoveLight{0}", i),
-                    "SceneRes/Prefab/Effect/Launcher/BulletLauncher/GunBarrelMoveLight/",
+                    "BuYu/SceneRes/Prefab/Effect/Launcher/BulletLauncher/GunBarrelMoveLight/",
                     ResType.SceneRes);
                 m_SkillLiveObj[i] = ResManager.Instance.LoadObject(string.Format("LauncherSkillLive{0}", i),
-                    "SceneRes/Prefab/Effect/Launcher/Skill/Live/",
+                    "BuYu/SceneRes/Prefab/Effect/Launcher/Skill/Live/",
                     ResType.SceneRes);
                 m_SkillMuzzleObj[i] = ResManager.Instance.LoadObject(string.Format("LauncherSkillMuzzle{0}", i),
-                    "SceneRes/Prefab/Effect/Launcher/Skill/Muzzle/",
+                    "BuYu/SceneRes/Prefab/Effect/Launcher/Skill/Muzzle/",
                     ResType.SceneRes);
                 m_SkillLaserOjb[i] = ResManager.Instance.LoadObject(string.Format("LauncherSkillMain{0}", i),
-                    "SceneRes/Prefab/Effect/Launcher/Skill/Main/",
+                    "BuYu/SceneRes/Prefab/Effect/Launcher/Skill/Main/",
                     ResType.SceneRes);
             }
-            m_SkillAvatarObj = ResManager.Instance.LoadObject(string.Format("Skill10"), "SceneRes/Prefab/Effect/Skill/",
+            m_SkillAvatarObj = ResManager.Instance.LoadObject(string.Format("Skill10"), "BuYu/SceneRes/Prefab/Effect/Skill/",
                 ResType.SceneRes);
-            m_ChangeEftObj = ResManager.Instance.LoadObject("LauncherChange", "SceneRes/Prefab/Effect/Launcher/Change/",
+            m_ChangeEftObj = ResManager.Instance.LoadObject("LauncherChange", "BuYu/SceneRes/Prefab/Effect/Launcher/Change/",
                 ResType.SceneRes);
             m_SkillActiveObj = ResManager.Instance.LoadObject("LauncherSkillActive0",
-                "SceneRes/Prefab/Effect/Launcher/Skill/Active/", ResType.SceneRes);
+                "BuYu/SceneRes/Prefab/Effect/Launcher/Skill/Active/", ResType.SceneRes);
         }
 
         public void Update(float delta)

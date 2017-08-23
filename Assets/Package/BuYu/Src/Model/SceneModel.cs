@@ -38,6 +38,8 @@ namespace BuYu
         LC_Cmd_JoinTableResult m_Jtable = null;
         private JoinRoomData m_roomDate;
 
+        uint bulletTick = 0;
+
         public SceneModel()
         {
             Init();
@@ -242,8 +244,14 @@ namespace BuYu
             ncb.Degree = angle;
             ncb.LockFishID = m_PlayerMgr.LockedFishID;
             ncb.LauncherType = SceneRuntime.SceneLogic.PlayerMgr.MySelf.Launcher.LauncherType;
-            Send<NetCmdBullet>(ncb);
-            //bulletTick = Utility.GetTickCount();
+            //Send<NetCmdBullet>(ncb);
+            bulletTick = Utility.GetTickCount();
+
+            //Test
+            NetCmdPack pack = new NetCmdPack();
+            pack.cmd = ncb;
+            pack.tick = bulletTick;
+            SceneRuntime.SceneLogic.PlayerMgr.LaunchBullet(pack);
         }
 
         public override void Update(float delta)
@@ -258,7 +266,7 @@ namespace BuYu
             if (InitCompletion == false)
                 return;
             //m_FishMgr.Update(delta);
-            //m_BulletMgr.Update(delta);
+            m_BulletMgr.Update(delta);
             if (m_PlayerMgr!=null)
             {
                 m_PlayerMgr.Update(delta);

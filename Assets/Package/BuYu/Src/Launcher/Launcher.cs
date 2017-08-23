@@ -345,7 +345,7 @@ namespace BuYu
 #endif
                 position = new Vector3(Input.mousePosition.x, Input.mousePosition.y, ConstValue.NEAR_Z);
             }
-
+            //position = new Vector3(1920/2,1080/2);
             Vector2 UpDir = new Vector2(0, m_Seat > 1 ? -1 : 1);
             Vector2 pos = new Vector2(position.x, position.y);
             m_Direction = (pos - m_GunPivot);
@@ -474,7 +474,8 @@ namespace BuYu
             LauncherPos = new Vector2(m_TransformHandle.position.x, m_TransformHandle.position.y);
 
             // m_GlodPos = m_GlodTransform.position;
-            m_GunPivot = m_GunBarrel.GunPivot;
+            //m_GunPivot = Camera.main.ScreenToWorldPoint( m_GunBarrel.GunPivot);
+            m_GunPivot = m_TransformHandle.position;//m_GunBarrel.GunPivot;
         }
 
         private bool CheckLaunch()
@@ -710,9 +711,9 @@ namespace BuYu
                 {
                     m_EnergyPoolLogic[LauncherType].UpdateEnergyPool(LauncherType, m_RateIndx, Energy);
                     // m_EnergyPoolLogic[LauncherType].UpdateEnergyPool(LauncherType, m_RateIndx);
-                    m_EnergyPoolUI.fillAmount = m_EnergyPoolLogic[LauncherType].FillAmount;
+                    /*m_EnergyPoolUI.fillAmount = m_EnergyPoolLogic[LauncherType].FillAmount;
                     if (m_EnergyPoolLogic[LauncherType].Full)
-                        PlayXPSkillEft();
+                        PlayXPSkillEft();*/
                 }
             }
 

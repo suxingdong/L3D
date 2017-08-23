@@ -34,11 +34,11 @@ namespace BuYu
             for (int j = 0; j < m_BulletObj.Length; ++j)
             {
                 string str = string.Format("LauncherBullet{0}", j);
-                m_BulletObj[j] = ResManager.Instance.LoadObject(str, "SceneRes/Prefab/Effect/Launcher/Bullet/",
+                m_BulletObj[j] = ResManager.Instance.LoadObject(str, "BuYu/SceneRes/Prefab/Effect/Launcher/Bullet/",
                     ResType.SceneRes);
 
                 str = string.Format("LauncherPar{0}", j);
-                m_BulletParObj[j] = ResManager.Instance.LoadObject(str, "SceneRes/Prefab/Effect/Launcher/Par/",
+                m_BulletParObj[j] = ResManager.Instance.LoadObject(str, "BuYu/SceneRes/Prefab/Effect/Launcher/Par/",
                     ResType.SceneRes);
             }
         }

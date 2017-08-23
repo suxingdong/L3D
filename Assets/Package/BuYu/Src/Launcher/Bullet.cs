@@ -35,6 +35,7 @@ namespace BuYu
             byte reboundCount, ushort lockFishID)
         {
             m_Object = (GameObject) GameObject.Instantiate(SceneRuntime.BulletMgr.BulletObj[launcherType]);
+            
             m_Trans = m_Object.transform;
             m_LockFishID = lockFishID;
             m_ReboundCount = reboundCount;

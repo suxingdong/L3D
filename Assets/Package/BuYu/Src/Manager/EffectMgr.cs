@@ -151,6 +151,11 @@ namespace BuYu
             m_UIGrayShader = Shader.Find("FishShader/UIGray");
             return true;
         }
+
+        private GlobalEffectMgr()
+        {
+            
+        }
         public void GlobalInit()
         {
             //m_Message.Init();
