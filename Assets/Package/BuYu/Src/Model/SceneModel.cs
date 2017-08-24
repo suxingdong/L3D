@@ -55,10 +55,15 @@ namespace BuYu
 
         public void RegisterEvent()
         {
+            //服务器下发鱼
             NetManager.Instance.AddNetEventListener(NetCmdType.CMD_FISH, OnFishEnter);
+            //其它玩家服务器
             NetManager.Instance.AddNetEventListener(NetCmdType.CMD_PLAYER_JOIN, OnPlayerJoin);
+            //玩家自己竟然房间信息
             NetManager.Instance.AddNetEventListener(NetCmdType.CMD_LC_JoinTable, OnJoinTable);
+            //收到服务器下发子弹数据
             NetManager.Instance.AddNetEventListener(NetCmdType.CMD_BULLET, OnLaunchBullet);
+            NetManager.Instance.AddNetEventListener(NetCmdType.CMD_CATCHED, onCatchedFish);
         }
 
         public System.Collections.IEnumerator MainInitProcedure()
@@ -102,9 +107,14 @@ namespace BuYu
         public void OnFishEnter(IEvent iEvent)
         {
             Debug.Log("OnFishEnter");
-            NetCmdPack cmd = iEvent.parameter as NetCmdPack;
-            FishManager.Instance.LaunchFish(cmd);
-           
+            NetCmdPack pack = iEvent.parameter as NetCmdPack;
+            //FishManager.Instance.LaunchFish(cmd);
+            if (m_FishMgr != null)
+            {
+                m_FishMgr.LaunchFish(pack);
+            }
+            
+
         }
 
         public NetCmdBase JoinTable
@@ -112,6 +122,11 @@ namespace BuYu
             get { return m_Jtable; }
         }
 
+        public void onCatchedFish(IEvent iEvent)
+        {
+            NetCmdPack pack = iEvent.parameter as NetCmdPack;
+            m_SkillMgr.FishCatched(pack);
+        }
 
         public void OnLaunchBullet(IEvent iEvent)
         {
@@ -247,14 +262,15 @@ namespace BuYu
             ncb.Degree = angle;
             ncb.LockFishID = m_PlayerMgr.LockedFishID;
             ncb.LauncherType = SceneRuntime.SceneLogic.PlayerMgr.MySelf.Launcher.LauncherType;
-            //Send<NetCmdBullet>(ncb);
+            bulletTick = Utility.GetTickCount();
+            Send<NetCmdBullet>(ncb);
             bulletTick = Utility.GetTickCount();
 
             //Test
-            NetCmdPack pack = new NetCmdPack();
+            /*NetCmdPack pack = new NetCmdPack();
             pack.cmd = ncb;
-            pack.tick = bulletTick;
-            SceneRuntime.SceneLogic.PlayerMgr.LaunchBullet(pack);
+            
+            SceneRuntime.SceneLogic.PlayerMgr.LaunchBullet(pack);*/
         }
 
         public override void Update(float delta)
@@ -272,17 +288,17 @@ namespace BuYu
             //初始化已经完成了
             if (InitCompletion == false)
                 return;
-            //m_FishMgr.Update(delta);
+            m_FishMgr.Update(delta);
             m_BulletMgr.Update(delta);
             if (m_PlayerMgr!=null)
             {
                 m_PlayerMgr.Update(delta);
             }
             
-            /*m_SkillMgr.Update(delta);
+            m_SkillMgr.Update(delta);
             m_EffectMgr.Update(delta);
             m_LauncherEffectMgr.Update(delta);
-            m_ChestMgr.Update(delta);*/
+            m_ChestMgr.Update(delta);
         }
         public void Send<T>(NetCmdBase ncb)
         {
@@ -331,6 +347,14 @@ namespace BuYu
             SceneRuntime.Shutdown();
             PlayerRole.Instance.OnUserLeaveTable();
         }
+
+        public void CatchFish(CatchedData cd)
+        {
+            PlayerRole.Instance.HandeCatchFishData(cd);
+            //PlayMusic(cd);
+            //m_LogicUI.ShowWonderfulUI(cd);
+        }
+
         public bool bClearScene
         {
             get { return m_bClearScene; }

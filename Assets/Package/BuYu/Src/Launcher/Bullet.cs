@@ -221,10 +221,10 @@ namespace BuYu
             if (m_Time >= LIFE_TIME) //1.5f保证所有子弹出屏幕外
                 return false;
             m_Pos += m_Dir*delta*LauncherSetting.LauncherDataList[m_LauncherType].Speed;
-
+            
             m_Trans.position = m_Pos;
             m_ParEftTrans.position = m_Pos;
-            CheckBoundary();
+            //CheckBoundary();
             return true;
         }
     }

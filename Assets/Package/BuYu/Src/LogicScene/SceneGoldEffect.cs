@@ -258,14 +258,14 @@ namespace BuYu
         Object m_BossFishSpecailEftObj = null;
         public void Init()
         {
-            m_GoldObj = ResManager.Instance.LoadObject("SceneGoldEffect", "SceneRes/Prefab/UI/Gold/", ResType.SceneRes);
-            m_ScoreObj = ResManager.Instance.LoadObject("SceneStarEffect", "SceneRes/Prefab/UI/Gold/", ResType.SceneRes);
-            m_DiamondObj = ResManager.Instance.LoadObject("SceneDiamondEffect", "SceneRes/Prefab/UI/Gold/", ResType.SceneRes);
+            m_GoldObj = ResManager.Instance.LoadObject("SceneGoldEffect", "BuYu/SceneRes/Prefab/UI/Gold/", ResType.SceneRes);
+            m_ScoreObj = ResManager.Instance.LoadObject("SceneStarEffect", "BuYu/SceneRes/Prefab/UI/Gold/", ResType.SceneRes);
+            m_DiamondObj = ResManager.Instance.LoadObject("SceneDiamondEffect", "BuYu/SceneRes/Prefab/UI/Gold/", ResType.SceneRes);
 
-            m_LabelObj = ResManager.Instance.LoadObject("SceneGoldLabelEffect", "SceneRes/Prefab/UI/Gold/", ResType.SceneRes);
-            m_LargenGoldObj = ResManager.Instance.LoadObject("SceneGoldLargen", "SceneRes/Prefab/UI/Gold/", ResType.SceneRes);
-            m_GetGoldLabelObj = ResManager.Instance.LoadObject("SceneGetGoldLabel", "SceneRes/Prefab/UI/Gold/", ResType.SceneRes);
-            m_BossFishSpecailEftObj = ResManager.Instance.LoadObject("Ef_Boss", "SceneRes/Prefab/Effect/Boss/", ResType.SceneRes);
+            m_LabelObj = ResManager.Instance.LoadObject("SceneGoldLabelEffect", "BuYu/SceneRes/Prefab/UI/Gold/", ResType.SceneRes);
+            m_LargenGoldObj = ResManager.Instance.LoadObject("SceneGoldLargen", "BuYu/SceneRes/Prefab/UI/Gold/", ResType.SceneRes);
+            m_GetGoldLabelObj = ResManager.Instance.LoadObject("SceneGetGoldLabel", "BuYu/SceneRes/Prefab/UI/Gold/", ResType.SceneRes);
+            m_BossFishSpecailEftObj = ResManager.Instance.LoadObject("Ef_Boss", "BuYu/SceneRes/Prefab/Effect/Boss/", ResType.SceneRes);
         }
         public void Clear()
         {

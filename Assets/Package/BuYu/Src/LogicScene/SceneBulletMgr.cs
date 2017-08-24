@@ -81,20 +81,20 @@ namespace BuYu
         {
             PlayerBullets pb = m_PlayerBullets[clientSeat];
             CatchBulletData cbd = new CatchBulletData();
-            /*if (pb.BulletList.TryGetValue(id, out cbd.BulletObj) == false)
+            if (pb.BulletList.TryGetValue(id, out cbd.BulletObj) == false)
             {
                 DestroyBulletData dbd;
                 if (pb.DestroyBulletList.TryGetValue(id, out dbd))
                 {
-                    //cbd.LauncherType = dbd.LauncherType;
-                    //cbd.RateIndex = dbd.RateIndex;
+                    cbd.LauncherType = dbd.LauncherType;
+                    cbd.RateIndex = dbd.RateIndex;
                 }
                 else
                 {
-                    //cbd.LauncherType = 255;
+                    cbd.LauncherType = 255;
                     LogMgr.Log("不存在的子弹, Seat:" + clientSeat + ", id:" + id);
                 }
-            }*/
+            }
             return cbd;
         }
 
@@ -134,7 +134,6 @@ namespace BuYu
                         volume);*/
                 }
             }
-
             SceneRuntime.GetBulletPosAndDir(clientSeat, angle, out dir, out startpos);
             SceneRuntime.PlayerMgr.ChangeLauncherAngle(dir, clientSeat); //改变炮台角度
             bullet.Init(clientSeat, id, launcherType, rateIndex, startpos, dir, reboundCount, lockfishid);

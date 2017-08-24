@@ -485,7 +485,6 @@ namespace BuYu
             bool Vaild = m_RateValid & m_LaunchValid;
             if (bauto && SceneRuntime.HandleClickEvent == false && btop)
             {
-                Debug.Log("点击了屏幕");
                 //场景按纽界面特殊处理
                 /*if (m_bShowVipFunction && !SceneRuntime.PlayerMgr.AutoShotOrLocked)
                 {

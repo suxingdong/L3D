@@ -230,7 +230,7 @@ namespace BuYu
             for (byte i = 0; i < m_FishNetObj.Length; ++i)
             {
                 string name = "LauncherHit" + i.ToString();
-                m_FishNetObj[i] = ResManager.Instance.LoadObject(name, "SceneRes/Prefab/Effect/Launcher/Hit/",
+                m_FishNetObj[i] = ResManager.Instance.LoadObject(name, "BuYu/SceneRes/Prefab/Effect/Launcher/Hit/",
                     ResType.SceneRes);
             }
             LoadBackEffect();
@@ -348,7 +348,7 @@ namespace BuYu
 
         public void ShowGetGoldNum(int GoldNum, byte ClientSeat)
         {
-            m_GoldEffect.ShowGetGoldNum(GoldNum, ClientSeat);
+            //m_GoldEffect.ShowGetGoldNum(GoldNum, ClientSeat);
         }
 
         public void Clear()

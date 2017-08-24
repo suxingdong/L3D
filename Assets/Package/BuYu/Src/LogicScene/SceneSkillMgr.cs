@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using GF;
 using GF.NET;
+using Lobby;
 
 namespace BuYu
 {
@@ -488,7 +489,175 @@ namespace BuYu
 
         public void FishCatched(NetCmdPack pack)
         {
-            
+            Debug.Log("FishCatched");
+            NetCmdCatched cmd = (NetCmdCatched)pack.cmd;
+            byte clientSeat;
+            byte id;
+            SceneRuntime.BuuletIDToSeat(cmd.BulletID, out clientSeat, out id);
+            CatchBulletData cbd = SceneRuntime.BulletMgr.GetBullet(clientSeat, id);
+            if (cbd.IsValid() == false)
+                return;
+            if (SceneRuntime.PlayerMgr.GetPlayer(clientSeat) == null)
+                return;
+            bool bNotDelay = Utility.GetTickCount() - pack.tick < ConstValue.FISH_OVER_TIME;
+            CatchedData cd = new CatchedData();
+            cd.CatchType = (byte)CatchedType.CATCHED_BULLET;
+            cd.ClientSeat = clientSeat;
+            cd.FishList = new List<CatchFishData>();
+            ushort lockfishid = 0;
+            if (cbd.BulletObj != null)
+            {
+                if (cbd.BulletObj.LauncherType == 4)
+                    lockfishid = cbd.BulletObj.LockedFishID;
+                cd.SubType = cbd.BulletObj.LauncherType;
+                cd.RateIndex = cbd.BulletObj.RateIndex;
+            }
+            else
+            {
+                cd.SubType = cbd.LauncherType;
+                cd.RateIndex = cbd.RateIndex;
+            }
+
+            if (bNotDelay == false)
+            {
+                ProcessDelayOver(cmd.Fishs, cd);
+                return;
+            }
+
+            CatchLithingList cll = null;
+            BlendData bd = new BlendData(Color.red, 0.6f, 0, 0, 0.4f);
+            if (cmd.Fishs != null)
+                for (int i = 0; i < cmd.Fishs.Length; ++i)
+                {
+                    NetFishCatched nfc = cmd.Fishs[i];
+                    CatchFishData cfd = SceneRuntime.FishMgr.FindFish(nfc.FishID);
+                    if (cfd.IsValidFishType() == false)
+                        continue;
+                    Fish fish = cfd.FishObj;
+                    if (fish != null && fish.FishID == lockfishid)
+                    {
+                        cbd.BulletObj.ClearLockFishID();//只有穿透子弹才需要清空锁定，其他子弹发生碰撞就销毁了。
+                    }
+                    switch ((FishCatchEventType)nfc.CatchEvent)
+                    {
+                        case FishCatchEventType.CATCH_EVENT_EFFECT:
+                            if (fish == null || fish.Catched)
+                                continue;
+
+                            if (fish.HasOpt == false)
+                            {
+                                FishOptReduction ff = new FishOptReduction(1.0f, new ReductionData(1.0f, 0, 0, 0.5f), 0, bd);
+                                fish.AddOpt(ff);
+                            }
+                            break;
+                        case FishCatchEventType.CATCH_EVENT_ATTACK:
+                            if (fish == null || fish.Catched)
+                                continue;
+                            FishOptReduction ff1 = new FishOptReduction(0.5f, new ReductionData(0.5f, 0, 0, 0.5f), 0, bd);
+                            fish.AddOpt(ff1);
+                            if (FishResManager.Instance.GetFishData(fish.FishType).ClipLength[(int)FishClipType.CLIP_GONGJI] != 0)
+                            {
+                                FishOptAction foa = new FishOptAction(FishClipType.CLIP_GONGJI, 1.5f);
+                                fish.AddOpt(foa);
+                            }
+                            break;
+                        case FishCatchEventType.CATCH_EVENT_CATCHED:
+                            if (fish != null)
+                            {
+                                FishOptReduction deadRed = new FishOptReduction(1.0f, new ReductionData(0, 0, 1.0f, 0), 0, bd);
+                                FishOptAction fod = new FishOptAction(FishClipType.CLIP_SIWANG, 1.0f);
+                                fod.SetDeadData(0, false, cd);
+                                fish.ClearOpt();
+                                fish.AddOpt(fod);
+                                fish.AddOpt(deadRed);
+                                fish.SetCatched(clientSeat);
+
+                                fish.SetDropReward(nfc.nReward);
+                            }
+                            else
+                            {
+                                SceneRuntime.PlayerMgr.UpdatePlayerGold(clientSeat, SceneRuntime.GetFishGold(cfd.FishType, cd.RateIndex));
+                            }
+                            cd.FishList.Add(cfd);
+                            break;
+                        case FishCatchEventType.CATCH_EVENT_CATCHED_LIGHTING_MAIN:
+                            if (fish != null)
+                            {
+                                FishOptReduction deadRed = new FishOptReduction(1.0f, new ReductionData(0, 0, 2.0f, 0), 0, null);
+                                FishOptAction fod = new FishOptAction(FishClipType.CLIP_SIWANG, 1.0f);
+                                fod.SetDeadData(1, false, cd);
+                                fish.ClearOpt();
+                                fish.AddOpt(fod);
+                                fish.AddOpt(deadRed);
+                                fish.SetCatched(clientSeat);
+                                fish.SetDropReward(nfc.nReward);
+                                if (cll == null)
+                                    cll = new CatchLithingList();
+                                cll.AddMainFish(fish);
+                            }
+                            else
+                            {
+                                SceneRuntime.PlayerMgr.UpdatePlayerGold(clientSeat, SceneRuntime.GetFishGold(cfd.FishType, cd.RateIndex));
+                            }
+                            cd.FishList.Add(cfd);
+                            break;
+                        case FishCatchEventType.CATCH_EVENT_CATCHED_LIGHTING:
+                            if (fish != null)
+                            {
+                                FishOptReduction deadRed = new FishOptReduction(1.0f, new ReductionData(0, 0, 2.0f, 0), 0, null);
+                                FishOptAction fod = new FishOptAction(FishClipType.CLIP_SIWANG, 1.0f);
+                                fod.SetDeadData(1, false, cd);
+                                fish.ClearOpt();
+                                fish.AddOpt(fod);
+                                fish.AddOpt(deadRed);
+                                fish.SetCatched(clientSeat);
+                                fish.SetDropReward(nfc.nReward);
+
+                                CatchFishData cfd2 = SceneRuntime.FishMgr.FindFish(nfc.LightingFishID);
+                                if (cfd2.IsValidFishType())
+                                {
+                                    if (cll == null)
+                                        cll = new CatchLithingList();
+                                    cll.AddSubFish(cfd2.FishObj, fish);
+                                }
+                            }
+                            else
+                            {
+                                SceneRuntime.PlayerMgr.UpdatePlayerGold(clientSeat, SceneRuntime.GetFishGold(cfd.FishType, cd.RateIndex));
+                            }
+                            cd.FishList.Add(cfd);
+                            break;
+                    }
+                }
+            if (cd.FishList.Count > 0)
+            {
+                SceneRuntime.ComputeGoldNum(cd);
+                SceneRuntime.SceneLogic.CatchFish(cd);
+            }
+
+            SceneRuntime.PlayerMgr.FishCatch(clientSeat, cmd.Combo);
+            if (cbd.BulletObj != null)
+            {
+                cbd.BulletObj.GoldNum += cd.GoldNum;
+                SceneRuntime.EffectMgr.PlayFishNet(cbd.BulletObj.Position, cd.SubType);
+            }
+            if (cd.SubType != 4)
+                SceneRuntime.BulletMgr.RemoveBullet(clientSeat, id);
+
+            if (cll != null)
+                ProcessLightingData(cll);
+            //SceneRuntime.PlayerMgr.UpdatePlayerGold(clientSeat, cd.GoldNum);
+            //if (clientSeat == SceneRuntime.MyClientSeat)
+            //{
+            //    if (cd.GoldNum != cmd.GoldNum)
+            //    {
+            //        LogMgr.Log("子弹:金币不相等:" + cd.GoldNum + "," + cmd.GoldNum);
+            //    }
+            //    else if (PlayerRole.Instance.RoleInfo.RoleMe.GetGlobel() != cmd.TotalNum)
+            //    {
+            //        LogMgr.Log("子弹:总金币不相等:" + (PlayerRole.Instance.RoleInfo.RoleMe.GetGlobel()) + "," + cmd.TotalNum);
+            //    }
+            //}
         }
 
         public void FishCatchedByFreeze(NetCmdPack pack)
@@ -518,6 +687,13 @@ namespace BuYu
                     cfd.FishObj.ClearOpt();
                     cfd.FishObj.AddOpt(ff);
                 }
+        }
+
+        public void CatchFish(CatchedData cd)
+        {
+            PlayerRole.Instance.HandeCatchFishData(cd);
+            //PlayMusic(cd);
+            //m_LogicUI.ShowWonderfulUI(cd);
         }
 
         //清场动画

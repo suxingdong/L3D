@@ -104,13 +104,13 @@ namespace BuYu
     }
     public struct CatchBulletData
     {
-        /*public byte LauncherType;
+        public byte LauncherType;
         public byte RateIndex;
         public Bullet BulletObj;
         public bool IsValid()
         {
             return BulletObj != null || LauncherType != 255;
-        }*/
+        }
     }
 }
 
