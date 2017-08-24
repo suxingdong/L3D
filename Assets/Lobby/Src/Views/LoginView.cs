@@ -21,13 +21,11 @@ namespace Lobby
         void Start()
         {
             btnAccountLogin = GameObject.Find("BtnAccountLogin").GetComponent<Button>();
-            btnAccountLogin.onClick.AddListener(delegate () {
-                onBtnAccountLogin();
-            });
+            btnAccountLogin.onClick.AddListener(OnBtnAccountLogin);
         }
 
 
-        public void onBtnAccountLogin()
+        public void OnBtnAccountLogin()
         {
             UIManager.Instance.ShowView<RegisterView>();
             //UIManager.Instance;
