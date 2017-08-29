@@ -80,7 +80,7 @@ namespace BuYu
         {
             ModelManager.Instance.Get<RoomModel>().OnEnterRoom(1);
             UIManager.Instance.HideView<RoomView>();
-            UIManager.Instance.ShowView<LoadResView>();
+            UIManager.Instance.ShowTopView<LoadResView>();
         }
 
     }

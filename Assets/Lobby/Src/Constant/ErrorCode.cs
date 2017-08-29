@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GF;
 
-namespace Looby
+namespace Lobby
 {
     public enum ErrorCode
     {

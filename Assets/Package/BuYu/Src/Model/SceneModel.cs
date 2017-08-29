@@ -64,6 +64,9 @@ namespace BuYu
             //收到服务器下发子弹数据
             NetManager.Instance.AddNetEventListener(NetCmdType.CMD_BULLET, OnLaunchBullet);
             NetManager.Instance.AddNetEventListener(NetCmdType.CMD_CATCHED, onCatchedFish);
+
+            NetManager.Instance.AddNetEventListener(NetCmdType.CMD_CHANGE_LAUNCHER, onChangeLauncher);
+            
         }
 
         public System.Collections.IEnumerator MainInitProcedure()
@@ -126,6 +129,11 @@ namespace BuYu
         {
             NetCmdPack pack = iEvent.parameter as NetCmdPack;
             m_SkillMgr.FishCatched(pack);
+        }
+
+        public void onChangeLauncher(IEvent iEvent)
+        {
+            Debug.Log("改变炮台成功");
         }
 
         public void OnLaunchBullet(IEvent iEvent)
@@ -271,6 +279,17 @@ namespace BuYu
             pack.cmd = ncb;
             
             SceneRuntime.SceneLogic.PlayerMgr.LaunchBullet(pack);*/
+        }
+
+
+        //切换到指定类型 的炮
+        public void ChangeDestLauncher(byte launcherType)
+        {
+            NetCmdChangeLauncherType ncb = new NetCmdChangeLauncherType();
+            ncb.SetCmdType(NetCmdType.CMD_CHANGE_LAUNCHER_TYPE);
+            ncb.Seat = SceneRuntime.ClientToServerSeat(m_PlayerMgr.MyClientSeat);
+            ncb.LauncherType = launcherType;
+            Send<NetCmdChangeLauncherType>(ncb);
         }
 
         public override void Update(float delta)

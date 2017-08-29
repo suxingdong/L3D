@@ -71,6 +71,8 @@ namespace BuYu
         private LockedFishEft m_LockedFishEft = new LockedFishEft();
         private Image m_VipLevelIcon;
 
+        private bool m_isPress = false;
+
         public Launcher(byte launcherType, bool valid, byte seat, byte rateIndx)
         {
             m_Seat = seat;
@@ -108,7 +110,7 @@ namespace BuYu
             m_LabelScore = m_TransformHandle.GetChild(0).gameObject.GetComponent<Text>();
             //m_GlodTransform = m_TransformHandle.GetChild(0).GetChild(0);
             //m_UIGoldBg = m_GlodTransform.GetComponent<Image>();
-
+            CreatGunBarrel(LauncherType);
             if (m_bMyself)
             {
                 for (byte i = 0; i < 2; ++i)
@@ -149,6 +151,21 @@ namespace BuYu
                 m_AutoShotCancel = m_TransformHandle.GetChild(9).gameObject;
                 UIEventListener.Get(m_AutoShotCancel).onClick = OnClickAutoShotCancel;
                 UIEventListener.Get(m_AutoShotCancel).onPress = OnButtonPressMsg;*/
+
+                Button btn = m_GunBarrel.HandleObj.GetComponentInChildren<Button>();
+                btn.onClick.AddListener(delegate ()
+                {
+                    OnClickLaunch(btn.gameObject);
+                });
+
+                btn = m_TransformHandle.FindChild("CanonOption/BtnChangeCanon").GetComponentInChildren<Button>();
+                btn.onClick.AddListener(delegate ()
+                {
+                    OnClickChnageLaunch(btn.gameObject);
+                });
+
+                m_VipFunctionObj = m_TransformHandle.FindChild("CanonOption").gameObject;
+                m_VipFunctionObj.SetActive(false);
             }
             else
             {
@@ -163,7 +180,7 @@ namespace BuYu
                 //  UpdateUserGold(m_Seat);
             }
 
-            CreatGunBarrel(LauncherType);
+            
             //SceneRuntime.LauncherEftMgr.PlayGlodLightEft(m_GlodTransform);
             //是否显示锁
             /*if (m_RateValid && m_LaunchValid)
@@ -480,7 +497,7 @@ namespace BuYu
 
         private bool CheckLaunch()
         {
-            bool bauto = SceneRuntime.PlayerMgr.AutoShotOrLocked | Input.GetMouseButton(0);
+            bool bauto = SceneRuntime.PlayerMgr.AutoShotOrLocked | IsPress;
             bool btop = !WndManager.Instance.HasTopWnd | SceneRuntime.PlayerMgr.AutoShotOrLocked;
             bool Vaild = m_RateValid & m_LaunchValid;
             if (bauto && SceneRuntime.HandleClickEvent == false && btop)
@@ -574,6 +591,7 @@ namespace BuYu
 
         private void OnClickChnageLaunch(GameObject go)
         {
+            UIManager.Instance.ShowView<ChangeCanonView>();
             //SceneRuntime.LogicUI.ShowChangeLauncherWnd();
         }
 
@@ -806,10 +824,11 @@ namespace BuYu
 
         private void OnClickLaunch(GameObject go)
         {
-            if (m_BankruptcyObj.activeSelf)
+            
+            /*if (m_BankruptcyObj.activeSelf)
                 return;
             if (m_AutoShotCancel.activeSelf)
-                return;
+                return;*/
             //显示
             if (m_bShowVipFunction)
                 m_VipFunctionObj.SetActive(false);
@@ -928,6 +947,12 @@ namespace BuYu
         {
             get { return m_LauncherSetting; }
             set { m_LauncherSetting = value; }
+        }
+
+        public bool IsPress
+        {
+            get{ return m_isPress;}
+            set { m_isPress = value; }
         }
     }
 }

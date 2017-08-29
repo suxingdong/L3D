@@ -10,20 +10,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using GF;
+using UnityEngine.EventSystems;
 
 namespace BuYu
 {
-    public class GameView : AppView
+    public class GameView : AppView, IPointerDownHandler,IPointerUpHandler
     {
+
+        private SceneModel scemModel;
 
         void Start()
         {
+            scemModel = ModelManager.Instance.Get<SceneModel>();
 
         }
-
-        void Update()
+        public void OnPointerDown(PointerEventData eventData)
         {
+            scemModel.PlayerMgr.GetPlayer(0).Launcher.IsPress = true;
+        }
 
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            scemModel.PlayerMgr.GetPlayer(0).Launcher.IsPress = false;
         }
     }
 }

@@ -20,7 +20,7 @@ namespace BuYu
         private bool m_bAutoShot = false;
         private bool m_bAutoLocked = false; //自动锁定
         private uint m_LockInterval = 0;
-
+        
      
         public void Init()
         {
@@ -162,6 +162,7 @@ namespace BuYu
             return true;
         }
 
+        
         public void SetPlayerHeader(uint playerID, byte seat, Texture2D tex)
         {
             if (GetPlayer(seat) == null)
@@ -567,6 +568,8 @@ namespace BuYu
         {
             get { return m_LockedObj; }
         }
+
+        
     }
 
 }

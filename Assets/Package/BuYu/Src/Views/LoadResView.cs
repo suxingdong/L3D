@@ -30,7 +30,6 @@ namespace BuYu
             sceneModel = ModelManager.Instance.Get<SceneModel>();
             NetManager.Instance.CanProcessCmd = false;
             StartCoroutine(LoadRes());
-            
         }
 
 
@@ -42,6 +41,7 @@ namespace BuYu
 
             Object objErrorStr = ResManager.Instance.LoadObject("ErrorString", "BuYu/GlobalRes/ServerSetting/", ResType.GlobalRes, typeof(TextAsset));
 
+            UIManager.Instance.ShowView<GameView>(); yield return new WaitForEndOfFrame();
 
             yield return StartCoroutine(FishConfig.Instance.LoadFishConfig(obj, objErrorStr));
 
@@ -67,7 +67,7 @@ namespace BuYu
             }
             else
             {
-                UIManager.Instance.ShowView<GameView>();
+                
                 UIManager.Instance.HideView<LoadResView>();
             }
         }

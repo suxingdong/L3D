@@ -15,7 +15,6 @@ using GF;
 using GF.UI;
 using System;
 using GF.NET;
-using Looby;
 
 namespace Lobby
 {

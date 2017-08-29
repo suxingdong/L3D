@@ -138,6 +138,8 @@ namespace BuYu
             m_GunBarrelDate.PlaySpriteAnim = obj.m_PlaySpriteAnim;
             m_GunBarrelDate.ComponentCount = obj.m_ComponentCount;
             GameObject.Destroy(m_HandleObj.GetComponent<LauncherComponent>());
+            
+            
         }
 
         public void UpdatePivot()
