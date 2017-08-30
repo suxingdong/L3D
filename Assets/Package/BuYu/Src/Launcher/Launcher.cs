@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using GF;
 using GF.UI;
+using Lobby;
 using UnityEngine.UI;
 namespace BuYu
 {
@@ -152,7 +153,7 @@ namespace BuYu
                 UIEventListener.Get(m_AutoShotCancel).onClick = OnClickAutoShotCancel;
                 UIEventListener.Get(m_AutoShotCancel).onPress = OnButtonPressMsg;*/
 
-                Button btn = m_GunBarrel.HandleObj.GetComponentInChildren<Button>();
+                /*Button btn = m_GunBarrel.HandleObj.GetComponentInChildren<Button>();
                 btn.onClick.AddListener(delegate ()
                 {
                     OnClickLaunch(btn.gameObject);
@@ -165,7 +166,7 @@ namespace BuYu
                 });
 
                 m_VipFunctionObj = m_TransformHandle.FindChild("CanonOption").gameObject;
-                m_VipFunctionObj.SetActive(false);
+                m_VipFunctionObj.SetActive(false);*/
             }
             else
             {
@@ -206,6 +207,22 @@ namespace BuYu
 
             //SceneRuntime.LauncherEftMgr.PlayGaiEffect(m_GunBarrel.GaiTransfom, type);
             //SceneRuntime.LauncherEftMgr.PlayMoveLight(m_GunBarrel.BaseTransform, type, m_Seat);
+
+            Button btn = m_GunBarrel.HandleObj.GetComponentInChildren<Button>();
+            btn.onClick.AddListener(delegate ()
+            {
+                OnClickLaunch(btn.gameObject);
+            });
+
+            btn = m_TransformHandle.FindChild("CanonOption/BtnChangeCanon").GetComponentInChildren<Button>();
+            btn.onClick.AddListener(delegate ()
+            {
+                OnClickChnageLaunch(btn.gameObject);
+            });
+
+            m_VipFunctionObj = m_TransformHandle.FindChild("CanonOption").gameObject;
+            m_VipFunctionObj.SetActive(false);
+
         }
 
         public void Update(float delta)
@@ -623,10 +640,10 @@ namespace BuYu
 
         public void ChangeLauncher(byte type, bool valid)
         {
-            /*m_Type = type;
+            m_Type = type;
 
             m_GunBarrel.ShutDown();
-            SceneRuntime.LauncherEftMgr.PlayChangeLauncherEft(LauncherPos);
+            //SceneRuntime.LauncherEftMgr.PlayChangeLauncherEft(LauncherPos);
             //SceneRuntime.LauncherEftMgr.RemoveAtEffect();
             m_LauncherSetting = LauncherSetting.LauncherDataList[type];
             CreatGunBarrel(m_Type);
@@ -637,19 +654,18 @@ namespace BuYu
             {
                 bool Valid = m_RateValid & m_LaunchValid;
                 //是否显示锁
-                if (m_LockUI.activeSelf == valid)
-                    m_LockUI.SetActive(!valid);
+                /*if (m_LockUI.activeSelf == valid)
+                    m_LockUI.SetActive(!valid);*/
             }
-
             //切换能量槽
             if (m_bMyself)
             {
                 ClearXPSkillEft();
-                m_EnergyPoolLogic[LauncherType].UpdateEnergyPool(m_RateIndx);
+                /*m_EnergyPoolLogic[LauncherType].UpdateEnergyPool(m_RateIndx);
                 m_EnergyPoolUI.fillAmount = m_EnergyPoolLogic[LauncherType].FillAmount;
                 if (m_EnergyPoolLogic[LauncherType].Full)
-                    PlayXPSkillEft();
-            }*/
+                    PlayXPSkillEft();*/
+            }
         }
 
         public void UpdateLauncherChange()

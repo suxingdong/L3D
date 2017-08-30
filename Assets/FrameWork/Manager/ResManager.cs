@@ -138,6 +138,13 @@ namespace GF
 #endif
         }
 
+        public Sprite LoadSprite(string filePath)
+        {
+            Sprite sp = Resources.Load(filePath, typeof(Sprite)) as Sprite;
+            return sp;
+        }
+
+
 
     }
 }

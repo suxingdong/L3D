@@ -134,6 +134,8 @@ namespace BuYu
         public void onChangeLauncher(IEvent iEvent)
         {
             Debug.Log("改变炮台成功");
+            NetCmdPack pack = iEvent.parameter as NetCmdPack;
+            m_PlayerMgr.ChangeLauncher(pack);
         }
 
         public void OnLaunchBullet(IEvent iEvent)
