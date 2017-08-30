@@ -22,6 +22,7 @@ namespace BuYu
         private Button btnBack;
         private Button btnUser;
         private Button btnRoomRect;
+        private Button btnPetBoss;
         private GridLayoutGroup gridRooms;
         private Text textNickName;
         private Text textLv;
@@ -37,6 +38,12 @@ namespace BuYu
             {
                 UIManager.Instance.HideView<RoomView>();
                 UIManager.Instance.ShowView<MainMenuView>();
+            });
+
+            btnPetBoss = transform.FindChild("BtnPetBoss").GetComponent<Button>();
+            btnPetBoss.onClick.AddListener(delegate ()
+            {
+                Handheld.PlayFullScreenMovie("petboss.mp4", Color.black, FullScreenMovieControlMode.Minimal);
             });
 
             if (gridRooms == null)
@@ -82,6 +89,14 @@ namespace BuYu
             UIManager.Instance.HideView<RoomView>();
             UIManager.Instance.ShowTopView<LoadResView>();
         }
+
+        public void onBtnPetBoss(GameObject obj)
+        {
+            ModelManager.Instance.Get<RoomModel>().OnEnterRoom(1);
+            UIManager.Instance.HideView<RoomView>();
+            UIManager.Instance.ShowTopView<LoadResView>();
+        }
+
 
     }
 

@@ -23,13 +23,26 @@ namespace Lobby
         private Button btnAccountLogin;
         private Text labelUID;
         private Text labelPWD;
+        private Animation animation;
         public void OnPointerClick(PointerEventData eventData)
         {
-            UIManager.Instance.HideView<RegisterView>();
+            animation.Play("ViewOut");
+            /*AnimationEvent evt = new AnimationEvent();
+            evt.time = animation.GetClip("ViewOut").length;
+            evt.functionName = "OnClose";
+            animation.GetClip("ViewOut").AddEvent(evt);*/
+            StartCoroutine(OnClose());
         }
 
+        IEnumerator OnClose()
+        {
+            yield return new WaitForSeconds(0.2f);
+            UIManager.Instance.HideView<RegisterView>();
+        }
+        
         protected override void OnStart()
         {
+            
             btnAccountLogin = transform.FindChild("Background/BtnLogin").GetComponent<Button>();
             btnAccountLogin.onClick.AddListener(delegate () 
             {
@@ -37,6 +50,8 @@ namespace Lobby
                 //UIManager.Instance.HideView<RegisterView>();
                 onEnterMainGame();
             });
+            animation = transform.FindChild("Background").GetComponent<Animation>();
+            animation.Play("ViewIn");
 
             labelUID = transform.FindChild("Background/UID/InputField/Text").GetComponent<Text>();
             labelPWD = transform.FindChild("Background/PWD/InputField/Text").GetComponent<Text>();
