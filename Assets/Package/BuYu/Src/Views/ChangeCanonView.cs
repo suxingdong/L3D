@@ -105,8 +105,8 @@ namespace BuYu
 
             }
             canonTemplet.SetActive(false);
-            var count = grid.transform.childCount - 1;
-            rectTransform.sizeDelta = new Vector2(count * 360, 400);
+            //var count = grid.transform.childCount;
+            rectTransform.sizeDelta = new Vector2((int)LauncherType.LAUNCHER_MAX * 360, 400);
         }
 
         public void OnUpdateCanonSkill(IEvent iEvent)

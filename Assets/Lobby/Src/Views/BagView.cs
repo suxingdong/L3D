@@ -82,14 +82,14 @@ namespace Lobby
         public void UpdataBagList()
         {
             ShowKnapsackItemInfo();
-            ShowShopGoodsListInfo();
+            //ShowShopGoodsListInfo();
         }
 
 
         //显示背包物品
         void ShowKnapsackItemInfo()
         {
-            if (m_BaseWndObject == null || m_BaseWndObject.activeSelf != true)
+            /*if (m_BaseWndObject == null || m_BaseWndObject.activeSelf != true)
                 return;
             ClearKnapsackGird();
             int Idx = 0;
@@ -130,7 +130,7 @@ namespace Lobby
                 if ((Idx % 7) != 0)
                     InitEmptyKnapsack(Idx, (Idx / 7 + 1) * 7);
             }
-            m_KnapList.Clear();
+            m_KnapList.Clear();*/
         }
 
     }

@@ -41,6 +41,7 @@ namespace BuYu
             instance = this;
             UIManager.Instance.ShowView<RoomView>();
             ModelManager.Instance.Register<SceneModel>();
+            ModelManager.Instance.Register<SkillModel>();
             UIPanelTransform = GameObject.Find("Canvas").transform;
         }
 
