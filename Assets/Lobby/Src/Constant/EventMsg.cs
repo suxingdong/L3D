@@ -16,6 +16,7 @@ namespace Lobby
         public static string REGISTER_SUCCESS      = "REGISTER_SUCCESS";       //注册成功
         public static string REGISTER_FAIL         = "REGISTER_FAIL";          //注册失败
 
+        public static string UPDATE_CANON_SKILL    = "UPDATE_CANON_SKILL";     //更新炮台
     }
 }
 

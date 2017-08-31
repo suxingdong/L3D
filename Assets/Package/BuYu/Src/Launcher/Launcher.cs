@@ -20,7 +20,7 @@ namespace BuYu
     internal enum SkillFailedType
     {
         SFT_OK,
-        SFT_CD,
+        SFT_CD,         
         SFT_INVALID,
         SFT_COUNT,
         SFT_UNLOCK,

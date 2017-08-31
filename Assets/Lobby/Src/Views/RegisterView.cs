@@ -58,7 +58,7 @@ namespace Lobby
             RegisterEvent();
         }
 
-        void OnDestroy()
+        protected override void OnDestroy()
         {
             EventManager.Instance.RemoveEventListener(EventMsg.LOGON_SUCCESS, OnRegisterSuccess);
         }
@@ -89,7 +89,7 @@ namespace Lobby
             {
                 //ModelManager.Instance.Get<LoginModel>().RegisterLogon(info);
                 ModelManager.Instance.Get<LoginModel>().Logon(info);
-               // StartCoroutine(LoginSuscess());
+                //StartCoroutine(LoginSuscess());
                 //UIManager.Instance.ShowView<MainMenuView>();
             }
             else

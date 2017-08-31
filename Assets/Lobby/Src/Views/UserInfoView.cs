@@ -27,14 +27,22 @@ namespace Lobby
         private GameObject bagPanel;
         private GameObject archevePanel;
         private GameObject userInfoPanel;
+        private Animation animation;
 
         public void OnPointerClick(PointerEventData eventData)
         {
+            animation.Play("ViewOut");
+            StartCoroutine(OnClose());
+        }
+
+        IEnumerator OnClose()
+        {
+            yield return new WaitForSeconds(0.2f);
             UIManager.Instance.HideView<UserInfoView>();
         }
 
 
-        void Start()
+        protected override void OnStart()
         {
             Transform parent = transform.Find("Background");
             tableBtn1 = parent.Find("TabeleBtn1").GetComponent<Button>();
@@ -65,6 +73,9 @@ namespace Lobby
                 archevePanel.SetActive(false);
                 bagPanel.SetActive(true);
             });
+
+            animation = parent.GetComponent<Animation>();
+            animation.Play("ViewIn");
 
         }
     }

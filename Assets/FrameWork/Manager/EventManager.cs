@@ -25,10 +25,10 @@ namespace GF
             eventDispatcher = new EventDispatcher(this);
         }
 
-        public bool AddNetEventListener(NetCmdType aEventName_cmd, EventDelegate aEventDelegate)
+        /*public bool AddNetEventListener(NetCmdType aEventName_cmd, EventDelegate aEventDelegate)
         {
             return AddEventListener(aEventName_cmd + "", aEventDelegate);
-        }
+        }*/
 
         public bool AddEventListener( string aEventName_string, EventDelegate aEventDelegate)
         {

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GF;
 using GF.UI;
+using Lobby;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -20,15 +21,34 @@ namespace BuYu
     {
 
         private SceneModel scemModel;
+        private SkillModel skillModel;
         private Button btnShowMenu;
         private Button btnSetting;
         private Button btnBack;
         private Button btnShop;
         private bool isShowMenu = false;
         private Animation animation;
+
+        private Button btnVip;
+        //private Button btnShop;
+        private Button btnLockFish;
+        private Button btnSkillEp;
+
+        protected override void OnDestroy()
+        {
+            EventManager.Instance.RemoveEventListener(EventMsg.UPDATE_CANON_SKILL, OnUpdateCanonSkill);
+        }
+
+        private void RegisterEvent()
+        {
+            EventManager.Instance.AddEventListener(EventMsg.UPDATE_CANON_SKILL, OnUpdateCanonSkill);
+        }
+
         void Start()
         {
             scemModel = ModelManager.Instance.Get<SceneModel>();
+            skillModel = ModelManager.Instance.Get<SkillModel>();
+
             btnShowMenu = transform.FindChild("BtnMenu").GetComponent<Button>();
             btnSetting = btnShowMenu.transform.FindChild("BtnSetting").GetComponent<Button>();
             btnBack = btnShowMenu.transform.FindChild("BtnBack").GetComponent<Button>();
@@ -43,6 +63,19 @@ namespace BuYu
             btnSetting.gameObject.SetActive(false);
             btnBack.gameObject.SetActive(false);
             btnShop.gameObject.SetActive(false);
+            RegisterEvent();
+
+            var tSkillNode = transform.FindChild("Skill");
+            btnVip = tSkillNode.FindChild("BtnVip").GetComponent<Button>();
+            btnLockFish = tSkillNode.FindChild("BtnLockFish").GetComponent<Button>();
+            btnSkillEp = tSkillNode.FindChild("BtnSkillEp").GetComponent<Button>();
+
+            btnSkillEp.onClick.AddListener(delegate ()
+            {
+                Debug.Log("使用技能");
+                OnClickSkill();
+            });
+
         }
         public void OnPointerDown(PointerEventData eventData)
         {
@@ -83,6 +116,23 @@ namespace BuYu
         {
 
         }
+
+        public void OnOpenVip()
+        {
+            Debug.Log("OnOpenVip");
+        }
+
+        public void OnUpdateCanonSkill(IEvent iEvent)
+        {
+            Debug.Log("OnUpdateCanonSkill");
+        }
+
+        void OnClickSkill()
+        {
+            skillModel.OnProcessSkill();
+        }
+        
+
     }
 }
 

@@ -23,6 +23,7 @@ namespace Lobby
         {
             Instance = this;
             ModelManager.Instance.Register<LoginModel>();
+            ModelManager.Instance.Register<BagModel>();
             GF.Resolution.GlobalInit();
             NetCmdMapping.GlobalInit();
             DontDestroyOnLoad(this);

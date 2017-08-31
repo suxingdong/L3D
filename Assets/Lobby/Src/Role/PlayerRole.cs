@@ -126,6 +126,13 @@ namespace Lobby
             get { return m_TableManager; }
         }
 
+        //23.炮台管理器
+        private RoleLauncher m_RoleLauncher = new RoleLauncher();
+        internal RoleLauncher RoleLauncher
+        {
+            get { return m_RoleLauncher; }
+        }
+
 
         //31.Vip
         private RoleVip m_RoleVip = new RoleVip();

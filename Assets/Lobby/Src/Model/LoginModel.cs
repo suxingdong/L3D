@@ -164,12 +164,17 @@ namespace Lobby
             }
         }
 
+
         public void ConnectHall()
         {
             Debug.Log("开始连接UDP");
             NetManager.Instance.Disconnect();
             SetState(LogonState.LOGON_CONNECT_HALL);
             NetManager.Instance.Connect(false, ServerSetting.HallServerIP, ServerSetting.HallServerPort);
+
+            //TODO 这里不要处理UI逻辑
+            UIManager.Instance.HideView<LoginView>();
+            UIManager.Instance.HideView<RegisterView>();
             UIManager.Instance.ShowView<MainMenuView>();
             
         }

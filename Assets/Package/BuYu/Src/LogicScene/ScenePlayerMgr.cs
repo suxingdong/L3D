@@ -297,6 +297,10 @@ namespace BuYu
             {
                 /*SceneRuntime.LogicUI.UpateLaunchData();
                 SceneRuntime.LogicUI.UpdateSkillState();*/
+                
+                IEvent evt = new GF.Event(EventMsg.UPDATE_CANON_SKILL);
+                evt.parameter = ncc;
+                EventManager.Instance.DispatchEvent(evt);
             }
         }
 

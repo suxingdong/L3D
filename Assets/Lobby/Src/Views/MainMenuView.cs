@@ -18,21 +18,33 @@ namespace Lobby
 {
     public class MainMenuView : AppView
     {
-        private Button btnAddFriend;
+        private Button btnFriends;
         private Button btnUserInfo;
+        private Button btnRank;
+        private Button btnBag;
         [SerializeField]
         private GridLayoutGroup gridGames;
 
         protected override void OnStart()
         {
-            btnAddFriend = GameObject.Find("BtnAddFriends").GetComponent<Button>();
+            btnFriends = GameObject.Find("BtnFriends").GetComponent<Button>();
+            btnRank = GameObject.Find("BtnRank").GetComponent<Button>();
             btnUserInfo = GameObject.Find("BtnUserInfo").GetComponent<Button>();
-            btnAddFriend.onClick.AddListener(delegate () {
-                this.onBtnFriends();
+            btnBag = GameObject.Find("BtnBag").GetComponent<Button>();
+            btnFriends.onClick.AddListener(delegate () {
+
             });
 
             btnUserInfo.onClick.AddListener(delegate () {
                 UIManager.Instance.ShowView<UserInfoView>();
+            });
+
+            btnRank.onClick.AddListener(delegate () {
+
+            });
+
+            btnBag.onClick.AddListener(delegate () {
+                UIManager.Instance.ShowView<BagView>();
             });
 
             string v = VerManager.Instance.ResVer;

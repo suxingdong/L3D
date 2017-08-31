@@ -666,7 +666,8 @@ namespace  Lobby
         IT_GlobelBag = 17,//聚宝盆物品
         IT_Horn = 18,//喇叭
     }
-    class tagItemConfig
+
+    public class tagItemConfig
     {
         public UInt32 ItemID;
         public EItemType ItemTypeID;
