@@ -452,8 +452,11 @@ namespace Lobby
             if ((ncb.States & FishDataInfo.MsgEnd) != 0)
             {
                 m_IsLoadItem = true;
-                tagItemChangeEvent Event = new tagItemChangeEvent();
+                //tagItemChangeEvent Event = new tagItemChangeEvent();
                 //MsgEventHandle.HandleMsg(Event);
+                IEvent evt = new GF.Event(EventMsg.UPDATE_USERITEM);
+                //evt.parameter = ncc;
+                EventManager.Instance.DispatchEvent(evt);
             }
             return true;
         }

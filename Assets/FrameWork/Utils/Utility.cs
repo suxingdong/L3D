@@ -378,4 +378,14 @@ public class Utility
     //    }
     //    return true;
     //}
+
+    public static void DetoryChilds(Transform tar)
+    {
+        for (int i = tar.childCount - 1; i >= 0; --i)
+        {
+            var child = tar.GetChild(i).gameObject;
+            GameObject.Destroy(child);
+        }
+    }
+
 }

@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using GF;
+using GF.UI;
+
 namespace Lobby
 {
     public class LogonLoadResView : AppView
@@ -28,7 +30,15 @@ namespace Lobby
         IEnumerator LoadRes()
         {
             yield return new WaitForEndOfFrame();
+            Object obj = ResManager.Instance.LoadObject("FishConfig", "BuYu/GlobalRes/ServerSetting/", ResType.GlobalRes, typeof(TextAsset));
+            Object objErrorStr = ResManager.Instance.LoadObject("ErrorString", "BuYu/GlobalRes/ServerSetting/", ResType.GlobalRes, typeof(TextAsset));
+      
+            yield return StartCoroutine(FishConfig.Instance.LoadFishConfig(obj, objErrorStr));
+            UIManager.Instance.ShowView<LoginView>();
+            UIManager.Instance.HideView<LogonLoadResView>();
         }
+
+
         void Update()
         {
 

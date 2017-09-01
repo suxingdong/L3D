@@ -27,7 +27,7 @@ namespace Lobby
             GF.Resolution.GlobalInit();
             NetCmdMapping.GlobalInit();
             DontDestroyOnLoad(this);
-            UIManager.Instance.ShowView<LoginView>();
+            UIManager.Instance.ShowView<LogonLoadResView>();
         }
 
         void Update()

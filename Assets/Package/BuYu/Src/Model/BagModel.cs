@@ -42,8 +42,12 @@ namespace BuYu
 
         public void OnUserItem(IEvent iEvent)
         {
-            
+            Debug.Log("==OnUserItem==");
+            NetCmdPack pack = (NetCmdPack)iEvent.parameter;
+            PlayerRole.Instance.ItemManager.HandleCmd(pack.cmd);
         }
+
+       
 
     }
 

@@ -20,6 +20,7 @@ namespace BuYu
             float dist2 = pi.GetPos(0).x - pi.GetPos(0.01666f).x;
             return dist / dist2 * 0.01666f;
         }
+
     }
 
 
