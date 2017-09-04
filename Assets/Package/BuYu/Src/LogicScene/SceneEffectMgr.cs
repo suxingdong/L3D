@@ -110,17 +110,17 @@ namespace BuYu
             m_SkillEffectList = new Object[10];
             m_LaserSubEffectList = new Object[3];
             for (int i = 0; i < m_SkillEffectList.Length; ++i)
-                m_SkillEffectList[i] = ResManager.Instance.LoadObject("skill" + i, "SceneRes/Prefab/Effect/Skill/",
+                m_SkillEffectList[i] = ResManager.Instance.LoadObject("skill" + i, "BuYu/SceneRes/Prefab/Effect/Skill/",
                     ResType.SceneRes);
 
             for (int i = 0; i < m_LaserSubEffectList.Length; ++i)
                 m_LaserSubEffectList[i] = ResManager.Instance.LoadObject("HitPoint0" + i,
-                    "SceneRes/Prefab/Effect/Launcher/HitPoint/", ResType.SceneRes);
+                    "BuYu/SceneRes/Prefab/Effect/Launcher/HitPoint/", ResType.SceneRes);
 
             m_LightingFishEffect1 = ResManager.Instance.LoadObject("Ef_thunderFishMain",
-                "SceneRes/Prefab/Effect/ThunderFish/", ResType.SceneRes);
+                "BuYu/SceneRes/Prefab/Effect/ThunderFish/", ResType.SceneRes);
             m_LightingFishEffect2 = ResManager.Instance.LoadObject("Ef_thunderFishLight",
-                "SceneRes/Prefab/Effect/ThunderFish/", ResType.SceneRes);
+                "BuYu/SceneRes/Prefab/Effect/ThunderFish/", ResType.SceneRes);
         }
 
         public GameObject GetLightingFishEffect(bool main)
@@ -330,10 +330,10 @@ namespace BuYu
                     }
                     else //其他卡片
                     {
-                        if (SceneRuntime.SceneLogic.PlayerMgr.GetPlayer(cd.ClientSeat) == null)
+                        if (SceneRuntime.SceneModelLogic.PlayerMgr.GetPlayer(cd.ClientSeat) == null)
                             continue;
-                        Vector2 vecPos = SceneRuntime.SceneLogic.PlayerMgr.GetPlayer(cd.ClientSeat).Launcher.LauncherPos;
-                        /*SceneRuntime.SceneLogic.LogicUI.MoveDropCard(SceneRuntime.WorldToNGUI(fish.Position),
+                        Vector2 vecPos = SceneRuntime.SceneModelLogic.PlayerMgr.GetPlayer(cd.ClientSeat).Launcher.LauncherPos;
+                        /*SceneRuntime.SceneModelLogic.LogicUI.MoveDropCard(SceneRuntime.WorldToNGUI(fish.Position),
                             new Vector3(vecPos.x, vecPos.y, 0), (ushort) uItemid);*/
                     }
                 }

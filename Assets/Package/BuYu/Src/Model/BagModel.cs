@@ -3,7 +3,7 @@
 	Creation: 2017-08-31
 	Author：East.Su
 	Version：V1.0.0
-	Desc: 
+	Desc: 背包数据Model
 **********************************************/
 
 using System.Collections;
@@ -21,17 +21,17 @@ namespace BuYu
             Init();
         }
 
-        public void Init()
+        private void Init()
         {
             RegisterEvent();
         }
-
-        public void RegisterEvent()
+        private void RegisterEvent()
         {
             //服务器下发炮台数据
-            NetManager.Instance.AddNetEventListener(NetCmdType.CMD_LC_LauncherData, OnCanonData);
-            NetManager.Instance.AddNetEventListener(NetCmdType.CMD_LC_GetUserItem, OnUserItem);
-            
+            _RegisterEvent(NetCmdType.CMD_LC_LauncherData, OnCanonData);
+            //服务器下发道具数据
+            _RegisterEvent(NetCmdType.CMD_LC_GetUserItem, OnUserItem);
+
         }
 
         public void OnCanonData(IEvent iEvent)
@@ -42,12 +42,9 @@ namespace BuYu
 
         public void OnUserItem(IEvent iEvent)
         {
-            Debug.Log("==OnUserItem==");
             NetCmdPack pack = (NetCmdPack)iEvent.parameter;
             PlayerRole.Instance.ItemManager.HandleCmd(pack.cmd);
         }
-
-       
 
     }
 

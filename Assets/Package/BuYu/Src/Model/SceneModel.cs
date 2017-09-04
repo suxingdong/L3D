@@ -31,13 +31,12 @@ namespace BuYu
         SceneFishMgr m_FishMgr;
         SceneEffectMgr m_EffectMgr;
         ScenePlayerMgr m_PlayerMgr;
-        SceneSkillMgr m_SkillMgr;
         LauncherEffectMgr m_LauncherEffectMgr;
         SceneChestMgr m_ChestMgr;
 
 
         LC_Cmd_JoinTableResult m_Jtable = null;
-        private JoinRoomData m_roomDate;
+        private LinkRoomData m_roomDate;
         
         uint bulletTick = 0;
 
@@ -56,16 +55,17 @@ namespace BuYu
         public void RegisterEvent()
         {
             //服务器下发鱼
-            NetManager.Instance.AddNetEventListener(NetCmdType.CMD_FISH, OnFishEnter);
+            _RegisterEvent(NetCmdType.CMD_FISH, OnFishEnter);
             //其它玩家服务器
-            NetManager.Instance.AddNetEventListener(NetCmdType.CMD_PLAYER_JOIN, OnPlayerJoin);
+            _RegisterEvent(NetCmdType.CMD_PLAYER_JOIN, OnPlayerJoin);
             //玩家自己竟然房间信息
-            NetManager.Instance.AddNetEventListener(NetCmdType.CMD_LC_JoinTable, OnJoinTable);
+            _RegisterEvent(NetCmdType.CMD_LC_JoinTable, OnJoinTable);
             //收到服务器下发子弹数据
-            NetManager.Instance.AddNetEventListener(NetCmdType.CMD_BULLET, OnLaunchBullet);
-            NetManager.Instance.AddNetEventListener(NetCmdType.CMD_CATCHED, onCatchedFish);
+            _RegisterEvent(NetCmdType.CMD_BULLET, OnLaunchBullet);
 
-            NetManager.Instance.AddNetEventListener(NetCmdType.CMD_CHANGE_LAUNCHER, onChangeLauncher);
+            //切换炮台
+            _RegisterEvent(NetCmdType.CMD_CHANGE_LAUNCHER, onChangeLauncher);
+            
             
         }
 
@@ -80,7 +80,6 @@ namespace BuYu
             m_FishMgr = new SceneFishMgr();
             m_BulletMgr = new SceneBulletMgr();
             m_PlayerMgr = new ScenePlayerMgr();
-            m_SkillMgr = new SceneSkillMgr();
             m_EffectMgr = new SceneEffectMgr();
             m_LauncherEffectMgr = new LauncherEffectMgr();
             m_ChestMgr = new SceneChestMgr();
@@ -89,7 +88,6 @@ namespace BuYu
             m_BulletMgr.Init(); yield return new WaitForEndOfFrame();
             m_LauncherEffectMgr.Init(); yield return new WaitForEndOfFrame();
             m_PlayerMgr.Init(); yield return new WaitForEndOfFrame();
-            m_SkillMgr.Init(); yield return new WaitForEndOfFrame();
             m_EffectMgr.Init(); yield return new WaitForEndOfFrame();
             m_ChestMgr.Init(); yield return new WaitForEndOfFrame();
 
@@ -125,11 +123,7 @@ namespace BuYu
             get { return m_Jtable; }
         }
 
-        public void onCatchedFish(IEvent iEvent)
-        {
-            NetCmdPack pack = iEvent.parameter as NetCmdPack;
-            m_SkillMgr.FishCatched(pack);
-        }
+        
 
         public void onChangeLauncher(IEvent iEvent)
         {
@@ -166,7 +160,7 @@ namespace BuYu
                 PlayerRole.Instance.RoleInfo.RoleMe.SetTableTypeID(m_Jtable.bTableTypeID);
 
                 //PlayerRole.Instance.RoleGameData.OnHandleRoleJoinTable();//表示玩家已经进入房间了
-                m_roomDate = new JoinRoomData();
+                m_roomDate = new LinkRoomData();
                 m_roomDate.RoomID = m_Jtable.bTableTypeID;
                 m_roomDate.BackgroundImage = m_Jtable.BackgroundImage;
                 m_roomDate.LauncherType = m_Jtable.LauncherType;
@@ -196,7 +190,7 @@ namespace BuYu
             m_PlayerMgr.PlayerJoin(pd, clientSeat, ncp.rateIndex, clientLauncherType, launcherValid);
         }
 
-        public void ResetPlayerData(JoinRoomData jrd, bool bFirst)
+        public void ResetPlayerData(LinkRoomData jrd, bool bFirst)
         {
             byte serverSeat = jrd.Seat;
             byte serverLauncherType = jrd.LauncherType;
@@ -271,7 +265,7 @@ namespace BuYu
             ncb.SetCmdType(NetCmdType.CMD_BULLET);
             ncb.Degree = angle;
             ncb.LockFishID = m_PlayerMgr.LockedFishID;
-            ncb.LauncherType = SceneRuntime.SceneLogic.PlayerMgr.MySelf.Launcher.LauncherType;
+            ncb.LauncherType = SceneRuntime.SceneModelLogic.PlayerMgr.MySelf.Launcher.LauncherType;
             bulletTick = Utility.GetTickCount();
             Send<NetCmdBullet>(ncb);
             bulletTick = Utility.GetTickCount();
@@ -280,7 +274,7 @@ namespace BuYu
             /*NetCmdPack pack = new NetCmdPack();
             pack.cmd = ncb;
             
-            SceneRuntime.SceneLogic.PlayerMgr.LaunchBullet(pack);*/
+            SceneRuntime.SceneModelLogic.PlayerMgr.LaunchBullet(pack);*/
         }
 
 
@@ -316,7 +310,6 @@ namespace BuYu
                 m_PlayerMgr.Update(delta);
             }
             
-            m_SkillMgr.Update(delta);
             m_EffectMgr.Update(delta);
             m_LauncherEffectMgr.Update(delta);
             m_ChestMgr.Update(delta);
@@ -357,7 +350,6 @@ namespace BuYu
             m_FishMgr.Shutdown();
             m_BulletMgr.Shutdown();
             m_PlayerMgr.Shutdown();
-            m_SkillMgr.Shutdown();
             m_EffectMgr.Shutdown();
             m_LauncherEffectMgr.ShutDown();
             m_ChestMgr.ShutDown();
@@ -408,11 +400,7 @@ namespace BuYu
             get { return m_LauncherEffectMgr; }
         }
 
-        public SceneSkillMgr SkillMgr
-        {
-            get { return m_SkillMgr; }
-        }
-
+      
         public void StartInit()
         {
             ++m_InitStartCount;

@@ -187,14 +187,11 @@ namespace Lobby
 
         KnapsackShopWnd m_KnapsackShopWnd = new KnapsackShopWnd();    //背包商店
 
-        protected override void OnDestroy()
-        {
-            EventManager.Instance.RemoveEventListener(EventMsg.UPDATE_USERITEM, ChangeShopWndUI);
-        }
+     
 
         private void RegisterEvent()
         {
-            EventManager.Instance.AddEventListener(EventMsg.UPDATE_USERITEM, ChangeShopWndUI);
+            _RegisterEvent(EventMsg.UPDATE_USERITEM, ChangeShopWndUI);
         }
 
         protected override void OnStart()

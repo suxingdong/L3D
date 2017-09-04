@@ -209,7 +209,7 @@ public class NetCmdChangeLauncher : NetCmdBase
     [TypeInfo(0)]
     public byte Seat;
     [TypeInfo(1)]
-    public byte LauncherType;   //发送时：1表示向上加，0表示向下减。接收时：最高位表示是否有效。
+    public byte LauncherType;   //发送
 }
 public class NetCmdChangeLauncherType : NetCmdBase
 {

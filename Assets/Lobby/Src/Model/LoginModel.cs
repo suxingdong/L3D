@@ -37,8 +37,8 @@ namespace Lobby
 
         public void RegisterEvent()
         {
-            NetManager.Instance.AddNetEventListener(NetCmdType.CMD_LC_AccountOnlyID, OnAccountOnlyId);
-            NetManager.Instance.AddNetEventListener(NetCmdType.CMD_LC_AccountOnlyIDSuccess, OnAccountOnlyIDSuccess);
+            _RegisterEvent(NetCmdType.CMD_LC_AccountOnlyID, OnAccountOnlyId);
+            _RegisterEvent(NetCmdType.CMD_LC_AccountOnlyIDSuccess, OnAccountOnlyIDSuccess);
             
         }
 

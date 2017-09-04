@@ -37,14 +37,15 @@ namespace BuYu
             UIManager.Instance.HideView<ChangeCanonView>();
         }
 
-        protected override void OnDestroy()
+        /*protected override void OnDestroy()
         {
             EventManager.Instance.RemoveEventListener(EventMsg.UPDATE_CANON_SKILL, OnUpdateCanonSkill);
-        }
+        }*/
 
         private void RegisterEvent()
         {
-            EventManager.Instance.AddEventListener(EventMsg.UPDATE_CANON_SKILL, OnUpdateCanonSkill);
+            _RegisterEvent(EventMsg.UPDATE_CANON_SKILL, OnUpdateCanonSkill);
+            //EventManager.Instance.AddEventListener(EventMsg.UPDATE_CANON_SKILL, OnUpdateCanonSkill);
         }
 
         protected override void OnStart()
@@ -151,7 +152,7 @@ namespace BuYu
                 }
                 else if (m_State == CanonState.NoEquiped)
                 {
-                    SceneRuntime.SceneLogic.ChangeDestLauncher(m_LaunchType);
+                    SceneRuntime.SceneModelLogic.ChangeDestLauncher(m_LaunchType);
                 }
                 sceneModel.ChangeDestLauncher(m_LaunchType);
             });

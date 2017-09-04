@@ -3,7 +3,7 @@
 	Creation: 2017-08-04
 	Author：East.Su
 	Version：V1.0.0
-	Desc: 
+	Desc: 游戏场景运行的数据中心管理
 **********************************************/
 
 using System.Collections;
@@ -12,16 +12,18 @@ using UnityEngine;
 
 namespace BuYu
 {
-    public class JoinRoomData
+    //捕鱼房间信息
+    public class LinkRoomData
     {
-        public byte Result;
-        public byte RoomID;
-        public byte Seat;
-        public byte LauncherType;
-        public byte BackgroundImage;
-        public byte RateIndex;
-        public int Energy;
+        public byte Result;             //服务器的结果 0表示OK
+        public byte RoomID;             //房间的ID
+        public byte Seat;               //房间的座位，玩家本身是永远是0
+        public byte LauncherType;       //启动炮台类型
+        public byte BackgroundImage;    //游戏背景
+        public byte RateIndex;          //炮台倍率
+        public int Energy;              
     }
+
     public class BulletStartPosData
     {
         public Vector3 Dir;
@@ -34,7 +36,9 @@ namespace BuYu
         //场景相关的属性
         static public SceneRuntime Instance;
         public bool SeatInversion;  //是否反转
-        public SceneModel Scene;
+        public SceneModel sceneModel;
+        public SkillModel skillModel;
+
         public byte[] SeatMapping = new byte[] { 3, 2, 1, 0 };
         public byte[] IndxMapping = new byte[] { 1, 1, 2, 3 };
         public byte m_BackgroundIndex;
@@ -86,17 +90,28 @@ namespace BuYu
         }
         public static void Send<T>(NetCmdBase ncb)
         {
-            SceneLogic.Send<T>(ncb);
+            SceneModelLogic.Send<T>(ncb);
         }
-        public static SceneModel SceneLogic
+        public static SceneModel SceneModelLogic
         {
             get
             {
                 if (Instance == null)
                     return null;
-                return Instance.Scene;
+                return Instance.sceneModel;
             }
         }
+
+        public static SkillModel SkillModel
+        {
+            get
+            {
+                if (Instance == null)
+                    return null;
+                return Instance.skillModel;
+            }
+        }
+
         public static int FishNum
         {
             get
@@ -104,7 +119,7 @@ namespace BuYu
                 if (Instance == null || FishMgr == null)
                     return 0;
                 else
-                    return SceneLogic.FishMgr.FishNum;
+                    return SceneModelLogic.FishMgr.FishNum;
             }
         }
         public static bool Inversion
@@ -204,7 +219,7 @@ namespace BuYu
         public static void Init(SceneModel logic)
         {
             Instance = new SceneRuntime();
-            Instance.Scene = logic;
+            Instance.sceneModel = logic;
 
             float LAUNCHER_X = 15.5f;
             float LAUNCHER_X_RIGHT = 10.5f;
@@ -272,7 +287,7 @@ namespace BuYu
         {
             get
             {
-                return SceneLogic.BulletMgr;
+                return SceneModelLogic.BulletMgr;
             }
         }
         public static SceneBoot LogicUI
@@ -280,42 +295,42 @@ namespace BuYu
             get
             {
                 return null;
-                //return SceneLogic.LogicUI;
+                //return SceneModelLogic.LogicUI;
             }
         }
         public static SceneSkillMgr SkillMgr
         {
             get
             {
-                return SceneLogic.SkillMgr;
+                return SkillModel.SkillMgr;
             }
         }
         public static SceneFishMgr FishMgr
         {
             get
             {
-                return SceneLogic.FishMgr;
+                return SceneModelLogic.FishMgr;
             }
         }
         public static ScenePlayerMgr PlayerMgr
         {
             get
             {
-                return SceneLogic.PlayerMgr;
+                return SceneModelLogic.PlayerMgr;
             }
         }
         public static SceneEffectMgr EffectMgr
         {
             get
             {
-                return SceneLogic.EffectMgr;
+                return SceneModelLogic.EffectMgr;
             }
         }
         public static LauncherEffectMgr LauncherEftMgr
         {
             get
             {
-                return SceneLogic.LauncherEftMgr;
+                return SceneModelLogic.LauncherEftMgr;
             }
         }
         public static byte BackgroundIndex
@@ -333,7 +348,7 @@ namespace BuYu
         {
             get
             {
-                return Instance.Scene.PlayerMgr.MyClientSeat;
+                return Instance.sceneModel.PlayerMgr.MyClientSeat;
             }
         }
 
@@ -367,8 +382,8 @@ namespace BuYu
         }
         public static void RefreshScene()
         {
-            if (Instance != null && Instance.Scene != null)
-                Instance.Scene.RefreshScene(true);
+            if (Instance != null && Instance.sceneModel != null)
+                Instance.sceneModel.RefreshScene(true);
         }
     }
 

@@ -285,7 +285,7 @@ namespace BuYu
                 //向服务器发送大招请求
                 short angle = Utility.FloatToShort(m_Angle);
                 angle = SceneRuntime.AngleInversion(angle);
-                /*if (SceneRuntime.SceneLogic.UseLaser(angle))
+                /*if (SceneRuntime.SceneModelLogic.UseLaser(angle))
                 {
                     m_bLauncherXPSkill = true;
                     m_EnergyPoolLogic[LauncherType].bSendXPSkill = false;
@@ -322,7 +322,7 @@ namespace BuYu
 
                     short angle = Utility.FloatToShort(m_Angle);
                     angle = SceneRuntime.AngleInversion(angle);
-                    SceneRuntime.SceneLogic.LaunchBullet(angle);
+                    SceneRuntime.SceneModelLogic.LaunchBullet(angle);
                 }
             }
         }
@@ -463,7 +463,7 @@ namespace BuYu
                     .MinRate;
             if (PlayerRole.Instance.GetPlayerGlobelBySeat(m_Seat) <
                 BulletSetting.BulletRate[minRate]*m_LauncherSetting.Consume
-                && SceneRuntime.SceneLogic.BulletMgr.HaveBullet(m_Seat) == false)
+                && SceneRuntime.SceneModelLogic.BulletMgr.HaveBullet(m_Seat) == false)
                 m_BankruptcyObj.SetActive(true);
             else
             {
@@ -522,7 +522,7 @@ namespace BuYu
                 //场景按纽界面特殊处理
                 /*if (m_bShowVipFunction && !SceneRuntime.PlayerMgr.AutoShotOrLocked)
                 {
-                    SceneRuntime.SceneLogic.BtnsMgr.BaseBtnHide();
+                    SceneRuntime.SceneModelLogic.BtnsMgr.BaseBtnHide();
                     OnClickLaunch(null);
                 }
                 if (m_bLauncherXPSkill || !m_bMyself) // 炮为锁状态
@@ -530,7 +530,7 @@ namespace BuYu
                 if (!Vaild && PlayerRole.Instance.RoleLauncher.IsCanUseLauncher(LauncherType) == false)
                 {
                     // GlobalHallUIMgr.Instance.ShowVipWnd();
-                    SceneRuntime.SceneLogic.ChangeDestLauncher(0);
+                    SceneRuntime.SceneModelLogic.ChangeDestLauncher(0);
                     return false;
                 }
                 else if (!Vaild && PlayerRole.Instance.RoleLauncher.IsCanUseLauncher(LauncherType))
@@ -575,7 +575,7 @@ namespace BuYu
                 if (PlayerRole.Instance.GetPlayerGlobelBySeat(m_Seat) <
                     (BulletSetting.BulletRate[i]*m_LauncherSetting.Consume))
                     continue;
-                SceneRuntime.SceneLogic.ChangeDestRate((byte) i);
+                SceneRuntime.SceneModelLogic.ChangeDestRate((byte) i);
                 return true;
             }*/
             return false;
@@ -589,9 +589,9 @@ namespace BuYu
 
             GlobalAudioMgr.Instance.PlayOrdianryMusic(Audio.OrdianryMusic.m_BtnMusic);
 
-            SceneRuntime.SceneLogic.ChangeRate(false);*/
+            SceneRuntime.SceneModelLogic.ChangeRate(false);*/
 
-            // SceneRuntime.SceneLogic.ChangeLauncher(1);
+            // SceneRuntime.SceneModelLogic.ChangeLauncher(1);
         }
 
         private void OnAddButtonMessage(GameObject button)
@@ -602,8 +602,8 @@ namespace BuYu
                 return;
             GlobalAudioMgr.Instance.PlayOrdianryMusic(Audio.OrdianryMusic.m_BtnMusic);
 
-            SceneRuntime.SceneLogic.ChangeRate(true);*/
-            // SceneRuntime.SceneLogic.ChangeLauncher(0);
+            SceneRuntime.SceneModelLogic.ChangeRate(true);*/
+            // SceneRuntime.SceneModelLogic.ChangeLauncher(0);
         }
 
         private void OnClickChnageLaunch(GameObject go)
@@ -635,7 +635,7 @@ namespace BuYu
                 return;
             GlobalAudioMgr.Instance.PlayOrdianryMusic(Audio.OrdianryMusic.m_BtnMusic);*/
 
-            //SceneRuntime.SceneLogic.ChangeRate(m_RateIndx);
+            //SceneRuntime.SceneModelLogic.ChangeRate(m_RateIndx);
         }
 
         public void ChangeLauncher(byte type, bool valid)
@@ -875,6 +875,7 @@ namespace BuYu
                 m_FaceTexture.mainTexture = img;*/
         }
 
+        //玩家是否破产
         public bool IsBankruptcy()
         {
             return m_BankruptcyObj.activeSelf;
@@ -914,7 +915,7 @@ namespace BuYu
             }
             else
             {
-                //SceneRuntime.SceneLogic.BtnsMgr.BaseBtnHide();
+                //SceneRuntime.SceneModelLogic.BtnsMgr.BaseBtnHide();
             }
         }
 

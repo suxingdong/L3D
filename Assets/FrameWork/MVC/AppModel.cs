@@ -16,9 +16,24 @@ namespace GF
 {
     public class AppModel
     {
+        protected Dictionary<string, EventDelegate> msgList = new Dictionary<string, EventDelegate>();
+
         public virtual void Update(float delt)
         {
             
+        }
+
+        protected virtual void _RegisterEvent(NetCmdType aEventName_cmd, EventDelegate aEventDelegate)
+        {
+            NetManager.Instance.AddNetEventListener(aEventName_cmd, aEventDelegate);
+        }
+
+        protected virtual void _removeMsgList()
+        {
+            foreach (var var in msgList)
+            {
+                NetManager.Instance.RemoveEventListener(var.Key, var.Value);
+            }
         }
     }
 

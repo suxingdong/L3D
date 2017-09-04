@@ -34,17 +34,14 @@ namespace BuYu
         private Button btnLockFish;
         private Button btnSkillEp;
 
-        protected override void OnDestroy()
-        {
-            EventManager.Instance.RemoveEventListener(EventMsg.UPDATE_CANON_SKILL, OnUpdateCanonSkill);
-        }
-
+  
         private void RegisterEvent()
         {
-            EventManager.Instance.AddEventListener(EventMsg.UPDATE_CANON_SKILL, OnUpdateCanonSkill);
+            _RegisterEvent(EventMsg.UPDATE_CANON_SKILL, OnUpdateSkillBtn);
+            _RegisterEvent(EventMsg.HIDE_CANON_SKILL, OnDisableSkillBtn);
         }
 
-        void Start()
+        protected override void OnStart()
         {
             scemModel = ModelManager.Instance.Get<SceneModel>();
             skillModel = ModelManager.Instance.Get<SkillModel>();
@@ -75,7 +72,6 @@ namespace BuYu
                 Debug.Log("使用技能");
                 OnClickSkill();
             });
-
         }
         public void OnPointerDown(PointerEventData eventData)
         {
@@ -122,10 +118,22 @@ namespace BuYu
             Debug.Log("OnOpenVip");
         }
 
-        public void OnUpdateCanonSkill(IEvent iEvent)
+
+        public void OnUpdateSkillBtn(IEvent iEvent )
         {
-            Debug.Log("OnUpdateCanonSkill");
+            byte idx = (byte)iEvent.parameter;
+            btnSkillEp.gameObject.SetActive(true);
+            var skilIcon = string.Format("Skill_Btn{0}", idx);
+            btnSkillEp.gameObject.GetComponent<Image>().sprite = ResManager.Instance.LoadSprite("BuYu/Texture/Skill/" + skilIcon);
         }
+
+        public void OnDisableSkillBtn(IEvent iEvent)
+        {
+            btnSkillEp.gameObject.SetActive(false);
+        }
+
+
+       
 
         void OnClickSkill()
         {

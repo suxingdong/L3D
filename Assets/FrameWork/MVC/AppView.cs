@@ -25,6 +25,7 @@ namespace GF
 
         private static Dictionary<string, AppView> CacheView = new Dictionary<string, AppView>();
 
+        protected Dictionary<string, EventDelegate>  eventList = new Dictionary<string, EventDelegate>();
         #region 底层方法
 
         //public static AppView ShowView(Type viewType, AppView msg, CallBack<AppView> loadViewComplete)
@@ -121,14 +122,26 @@ namespace GF
         {
 
         }
-        protected virtual void OnDestroy()
-        {
-
-        }
 
         public virtual void OnViewVisible(bool b)
         {
 
+        }
+
+        protected virtual void OnDestroy()
+        {
+            foreach (var var in eventList)
+            {
+                EventManager.Instance.RemoveEventListener(var.Key, var.Value);
+            }
+        }
+
+        
+
+        protected virtual void _RegisterEvent(string aEventName_string, EventDelegate aEventDelegate)
+        {
+            eventList[aEventName_string] = aEventDelegate;
+            EventManager.Instance.AddEventListener(aEventName_string, aEventDelegate);
         }
         #endregion
 

@@ -58,14 +58,14 @@ namespace Lobby
             RegisterEvent();
         }
 
-        protected override void OnDestroy()
+        /*protected override void OnDestroy()
         {
             EventManager.Instance.RemoveEventListener(EventMsg.LOGON_SUCCESS, OnRegisterSuccess);
-        }
+        }*/
 
         private void RegisterEvent()
         {
-            EventManager.Instance.AddEventListener( EventMsg.LOGON_SUCCESS, OnRegisterSuccess);
+            _RegisterEvent(EventMsg.LOGON_SUCCESS, OnRegisterSuccess);
         }
 
         public void onEnterMainGame()

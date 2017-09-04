@@ -24,10 +24,12 @@ namespace BuYu
         public Image ProgressBar;
         private float speed = 0.2f;
         private SceneModel sceneModel;
+        private SkillModel skillModel;
         void Start()
         {
             ProgressBar.fillAmount = 0;
             sceneModel = ModelManager.Instance.Get<SceneModel>();
+            skillModel = ModelManager.Instance.Get<SkillModel>();
             NetManager.Instance.CanProcessCmd = false;
             StartCoroutine(LoadRes());
         }
@@ -37,17 +39,13 @@ namespace BuYu
         {
             yield return StartCoroutine(ServerSetting.OnNewInit(null));
 
-            Object obj = ResManager.Instance.LoadObject("FishConfig", "BuYu/GlobalRes/ServerSetting/", ResType.GlobalRes, typeof(TextAsset));
-
-            Object objErrorStr = ResManager.Instance.LoadObject("ErrorString", "BuYu/GlobalRes/ServerSetting/", ResType.GlobalRes, typeof(TextAsset));
-
             UIManager.Instance.ShowView<GameView>(); yield return new WaitForEndOfFrame();
 
-            yield return StartCoroutine(FishConfig.Instance.LoadFishConfig(obj, objErrorStr));
-
             NetManager.Instance.CanProcessCmd = true; yield return new WaitForEndOfFrame();
-            //JoinRoomData 
+          
             yield return StartCoroutine(sceneModel.MainInitProcedure());
+
+            yield return StartCoroutine(skillModel.MainInitProcedure());
 
             FishManager.Instance.Init(); yield return new WaitForEndOfFrame();
             BulletManager.Instance.Init(); yield return new WaitForEndOfFrame();
