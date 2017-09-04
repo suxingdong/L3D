@@ -56,7 +56,6 @@ namespace BuYu
 
     public class SceneSkillMgr
     {
-
         private Vector3[,] m_Pos = new Vector3[3, 5];
         private List<LightingMoveData> m_MoveList = new List<LightingMoveData>();
         private List<CatchLithingList> m_LightinData = new List<CatchLithingList>();

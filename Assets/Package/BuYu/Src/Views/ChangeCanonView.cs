@@ -6,8 +6,6 @@
 	Desc: 
 **********************************************/
 
-using System.Collections;
-using System.Collections.Generic;
 using GF;
 using UnityEngine;
 using GF.UI;
@@ -28,41 +26,33 @@ namespace BuYu
     public class ChangeCanonView : AppView, IPointerClickHandler
     {
         [SerializeField]
-        private GridLayoutGroup grid;
+        private GridLayoutGroup _mGrid;
         [SerializeField]
-        private GameObject canonTemplet;
-        private SceneModel sceneModel;
+        private GameObject _mCanonTemplet;
         public void OnPointerClick(PointerEventData eventData)
         {
             UIManager.Instance.HideView<ChangeCanonView>();
         }
-
-        /*protected override void OnDestroy()
-        {
-            EventManager.Instance.RemoveEventListener(EventMsg.UPDATE_CANON_SKILL, OnUpdateCanonSkill);
-        }*/
+        
 
         private void RegisterEvent()
         {
             _RegisterEvent(EventMsg.UPDATE_CANON_SKILL, OnUpdateCanonSkill);
-            //EventManager.Instance.AddEventListener(EventMsg.UPDATE_CANON_SKILL, OnUpdateCanonSkill);
         }
 
         protected override void OnStart()
         {
             RegisterEvent();
-            sceneModel = ModelManager.Instance.Get<SceneModel>();
             InitLauncherList();
         }
 
 
         void InitLauncherList()
         {
-            
-            RectTransform rectTransform = grid.GetComponent<RectTransform>();
-            for (int i = 0; i<grid.transform.childCount;i++ )
+            RectTransform rectTransform = _mGrid.GetComponent<RectTransform>();
+            for (int i = 0; i<_mGrid.transform.childCount;i++ )
             {
-                GameObject go = grid.transform.GetChild(i).gameObject;
+                GameObject go = _mGrid.transform.GetChild(i).gameObject;
                 Destroy(go);
             }
 
@@ -77,7 +67,7 @@ namespace BuYu
                // var item = GameObject.Instantiate(canonTemplet);
 
                 CanonItem item = new CanonItem();
-                item.Init(canonTemplet);
+                item.Init(_mCanonTemplet);
                 byte tType = (byte)i;
                 if (PlayerRole.Instance.RoleLauncher.IsCanUseLauncher(i))
                 {
@@ -88,7 +78,7 @@ namespace BuYu
                 }
                 else
                     item.ShowLaunchInfo(CanonState.WithOutGet, pItem,tType);
-                item.m_BaseTrans.parent = grid.transform;
+                item.m_BaseTrans.parent = _mGrid.transform;
 
                 //////////////////////
 
@@ -105,8 +95,7 @@ namespace BuYu
                 
 
             }
-            canonTemplet.SetActive(false);
-            //var count = grid.transform.childCount;
+            _mCanonTemplet.SetActive(false);
             rectTransform.sizeDelta = new Vector2((int)LauncherType.LAUNCHER_MAX * 360, 400);
         }
 
@@ -116,7 +105,6 @@ namespace BuYu
             InitLauncherList();
         }
 
-
     }
 
 
@@ -124,39 +112,38 @@ namespace BuYu
     {
         public GameObject m_BaseWndObject;
         public Transform m_BaseTrans;
-        Image icon;
-        Text title;
-        Text state;
-        GameObject m_Locked;
-        Button m_UIButton;
-        Image m_ButtonBg;
-        CanonState m_State;
-        byte m_LaunchType;
+        Image _mImageIcon;
+        Text _mTextTitle;
+        Text _mTextState;
+        GameObject _mGoLocked;
+        Button _mUiButton;
+        CanonState _mState;
+        byte _mLaunchType;
         private SceneModel sceneModel;
 
         public void Init(GameObject go)
         {
             sceneModel = ModelManager.Instance.Get<SceneModel>();
-            m_BaseWndObject = GameObject.Instantiate(go) as GameObject;
+            m_BaseWndObject = Object.Instantiate(go);
             m_BaseTrans = m_BaseWndObject.transform;
             m_BaseWndObject.SetActive(true);
-            icon = m_BaseTrans.FindChild("Icon").GetComponent<Image>();
-            title = m_BaseTrans.FindChild("Title").GetComponent<Text>();
-            state = m_BaseTrans.FindChild("State").GetComponent<Text>();
-            m_UIButton = m_BaseTrans.GetComponent<Button>();
-            m_UIButton.onClick.AddListener(delegate ()
+            _mImageIcon = m_BaseTrans.FindChild("Icon").GetComponent<Image>();
+            _mTextTitle = m_BaseTrans.FindChild("Title").GetComponent<Text>();
+            _mTextState = m_BaseTrans.FindChild("State").GetComponent<Text>();
+            _mGoLocked = m_BaseTrans.FindChild("LockFlag").gameObject;
+            _mUiButton = m_BaseTrans.GetComponent<Button>();
+            _mUiButton.onClick.AddListener(delegate ()
             {
-                if (m_State == CanonState.WithOutGet)
+                if (_mState == CanonState.WithOutGet)
                 {
                      //TODO 显示VIP充值
                 }
-                else if (m_State == CanonState.NoEquiped)
+                else if (_mState == CanonState.NoEquiped)
                 {
-                    SceneRuntime.SceneModelLogic.ChangeDestLauncher(m_LaunchType);
+                    SceneRuntime.SceneModelLogic.ChangeDestLauncher(_mLaunchType);
                 }
-                sceneModel.ChangeDestLauncher(m_LaunchType);
+                sceneModel.ChangeDestLauncher(_mLaunchType);
             });
-            //icon.sprite = ResManager.Instance.LoadSprite("BuYu/Texture/Gun/Icon/" + pItem.ItemIcon);
 
         }
         public void ResetScale()
@@ -166,27 +153,27 @@ namespace BuYu
 
         public void ShowLaunchInfo(CanonState tState, tagItemConfig itemConfig, byte tType)
         {
-            m_State = tState;
-            m_LaunchType = tType;
-            icon.sprite = ResManager.Instance.LoadSprite("BuYu/Texture/Gun/Icon/" + itemConfig.ItemIcon);
-            title.text = itemConfig.ItemName;
-            if (m_State == CanonState.Equiped)
+            _mState = tState;
+            _mLaunchType = tType;
+            _mImageIcon.sprite = ResManager.Instance.LoadSprite("BuYu/Texture/Gun/Icon/" + itemConfig.ItemIcon);
+            _mTextTitle.text = itemConfig.ItemName;
+            if (_mState == CanonState.Equiped)
             {
-                m_UIButton.enabled = false;
-                state.text = "已装备";
-                //m_Locked.SetActive(false);
+                _mUiButton.enabled = false;
+                _mTextState.text = "已装备";
+                _mGoLocked.SetActive(false);
             }
-            else if (m_State == CanonState.NoEquiped)
+            else if (_mState == CanonState.NoEquiped)
             {
-                m_UIButton.enabled = true;
-                state.text = "装备";
-                //m_Locked.SetActive(false);
+                _mUiButton.enabled = true;
+                _mTextState.text = "装备";
+                _mGoLocked.SetActive(false);
             }
             else
             {
-                m_UIButton.enabled = true;
-                state.text = "装备";
-                //m_Locked.SetActive(false);
+                _mUiButton.enabled = true;
+                _mTextState.text = "装备";
+                _mGoLocked.SetActive(true);
             }
         }
       

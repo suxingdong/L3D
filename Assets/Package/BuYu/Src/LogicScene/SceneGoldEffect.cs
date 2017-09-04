@@ -289,7 +289,7 @@ namespace BuYu
             GlobalEffectMgr.Instance.AddEffect(bossFishEft);
             // GlobalEffectMgr.SetEffectOnUI(go);
 
-            //Scene.Instance.PlayBack(BackAnimType.BACK_ANIM_BOSS);
+            //sceneModel.Instance.PlayBack(BackAnimType.BACK_ANIM_BOSS);
 
         }
         public void ShowDiamond(CatchedData cd, Fish fish)
@@ -321,7 +321,7 @@ namespace BuYu
                 ged.m_DelayTime = 0;
                 ged.GoldNum = 1;
                 ged.PlayTween(true);
-                ged.m_vecpathend = SceneRuntime.GetLauncherGoldIconPos(SceneRuntime.SceneLogic.PlayerMgr.MySelf.ClientSeat);
+                ged.m_vecpathend = SceneRuntime.GetLauncherGoldIconPos(SceneRuntime.SceneModelLogic.PlayerMgr.MySelf.ClientSeat);
                 m_UnlockRateList.Add(ged);*/
             }
             //  if (SceneRuntime.PlayerMgr.GetPlayer(ged.catchedData.ClientSeat) == SceneRuntime.PlayerMgr.MySelf)

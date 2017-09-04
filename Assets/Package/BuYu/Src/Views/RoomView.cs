@@ -40,7 +40,7 @@ namespace BuYu
                 UIManager.Instance.ShowView<MainMenuView>();
             });
 
-            btnPetBoss = transform.FindChild("BtnPetBoss").GetComponent<Button>();
+            btnPetBoss = transform.FindChild("BottomUI/BtnPetBoss").GetComponent<Button>();
             btnPetBoss.onClick.AddListener(delegate ()
             {
                 Handheld.PlayFullScreenMovie("petboss.mp4", Color.black, FullScreenMovieControlMode.Minimal);
