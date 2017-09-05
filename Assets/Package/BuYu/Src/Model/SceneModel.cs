@@ -58,7 +58,7 @@ namespace BuYu
             _RegisterEvent(NetCmdType.CMD_FISH, OnFishEnter);
             //其它玩家服务器
             _RegisterEvent(NetCmdType.CMD_PLAYER_JOIN, OnPlayerJoin);
-            //玩家自己竟然房间信息
+            //玩家自己进入房间信息
             _RegisterEvent(NetCmdType.CMD_LC_JoinTable, OnJoinTable);
             //收到服务器下发子弹数据
             _RegisterEvent(NetCmdType.CMD_BULLET, OnLaunchBullet);

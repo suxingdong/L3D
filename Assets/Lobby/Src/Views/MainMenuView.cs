@@ -40,7 +40,7 @@ namespace Lobby
             });
 
             btnRank.onClick.AddListener(delegate () {
-
+                OnBtnShop();
             });
 
             btnBag.onClick.AddListener(delegate () {
@@ -87,6 +87,11 @@ namespace Lobby
         public void onBtnFriends()
         {
             UIManager.Instance.ShowView<FriendsView>();
+        }
+
+        public void OnBtnShop()
+        {
+            UIManager.Instance.ShowView<ShopView>();
         }
 
         public void onLoadGame(GameObject obj)
