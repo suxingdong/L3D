@@ -22,32 +22,31 @@ namespace BuYu
 
         int leftBgNum = 1;
         int rightBgNum = 2;
+        float orgPos;
         // Use this for initialization
         void Start()
         {
             bg1 = GetTransform(this.gameObject.transform, "Bg1");
             bg2 = GetTransform(this.gameObject.transform, "Bg2");
+            orgPos = bg2.localPosition.x;
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (GetBgByNum(rightBgNum).localPosition.x <= 4f)
+            if (GetBgByNum(rightBgNum).localPosition.x <= 0f)
             {
                 Vector3 leftPos = GetBgByNum(leftBgNum).localPosition;
-                leftPos.x = 1920;
+                leftPos.x = orgPos;
                 GetBgByNum(leftBgNum).localPosition = leftPos;
                 ResetLeftRight();
             }
-            else
-            {
-                Vector3 bg1Pos = bg1.localPosition;
-                Vector3 bg2Pos = bg2.localPosition;
-                bg1Pos.x -= MoveSpeedInGame;
-                bg2Pos.x -= MoveSpeedInGame;
-                bg1.localPosition = bg1Pos;
-                bg2.localPosition = bg2Pos;
-            }
+            Vector3 bg1Pos = bg1.localPosition;
+            Vector3 bg2Pos = bg2.localPosition;
+            bg1Pos.x -= MoveSpeedInGame;
+            bg2Pos.x -= MoveSpeedInGame;
+            bg1.localPosition = bg1Pos;
+            bg2.localPosition = bg2Pos;
         }
         private Transform GetBgByNum(int num)
         {
