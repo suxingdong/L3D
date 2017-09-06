@@ -29,9 +29,12 @@ namespace Lobby
         TE_ItemError = 6,//缺少进入物品
         [EnumDisplay("桌子不存在")]
         TE_IsNotExists = 7,//桌子不存在
+        [EnumDisplay("未知错误！！")]
         TE_RateError = 8,
+        [EnumDisplay("等级太低，进入其他房间")]
         TE_MinLevel = 9,
-        TE_MaxLevel = 10,
+        [EnumDisplay("等级过高，进入其他房间")]
+        TE_MaxLevel = 10,//等级过高，进入其他房间
     }
 
 }

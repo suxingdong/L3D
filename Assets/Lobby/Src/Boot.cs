@@ -43,9 +43,10 @@ namespace Lobby
 
         void OnLevelWasLoaded(int level)
         {
-            if (level == 1)
+            if (level != 0)
             {
-
+                UIManager.Instance.HideView<MainMenuView>();
+                UIManager.Instance.HideView<RegisterView>();
             }
 
         }

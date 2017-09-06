@@ -29,15 +29,15 @@ namespace BuYu
         private Text textGold;
         private Text textDiamond;
 
-        
-        void Start()
+
+        protected override void OnStart()
         {
-            
             btnBack = transform.Find("TopUI/BtnBack").GetComponent<Button>();
             btnBack.onClick.AddListener(delegate ()
             {
                 UIManager.Instance.HideView<RoomView>();
                 UIManager.Instance.ShowView<MainMenuView>();
+                SceneManager.LoadScene("MainScene");
             });
 
             btnPetBoss = transform.FindChild("BottomUI/BtnPetBoss").GetComponent<Button>();
@@ -55,7 +55,7 @@ namespace BuYu
             foreach (Button item in btnRoomItems)
             {
                 item.onClick.AddListener(delegate () {
-                    this.onBtnClickRoom(item.gameObject);
+                    onBtnClickRoom(item.gameObject);
                 });
             }
             ModelManager.Instance.Register<RoomModel>();
@@ -68,14 +68,17 @@ namespace BuYu
 
         void InitUserInfo()
         {
+            textGold = transform.Find("TopUI/BtnGold/TextGold").GetComponent<Text>();
+            textDiamond = transform.Find("TopUI/BtnDiamond/TextGold").GetComponent<Text>();
+
             btnUser = transform.Find("TopUI/BtnUser").GetComponent<Button>();
             textNickName = btnUser.transform.Find("TextNickName").GetComponent<Text>();
             textLv = btnUser.transform.Find("TextLV").GetComponent<Text>();
-            //textLv = transform.Find("TopUI/TextNickName").GetComponent<Text>();
 
             textLv.text = PlayerRole.Instance.RoleInfo.RoleMe.GetLevel().ToString();
             textNickName.text = PlayerRole.Instance.RoleInfo.RoleMe.GetNickName();
-
+            textDiamond.text = PlayerRole.Instance.RoleInfo.RoleMe.GetGlobel().ToString();
+            textGold.text = PlayerRole.Instance.RoleInfo.RoleMe.GetCurrency().ToString();
         }
 
         void Update()
@@ -85,16 +88,30 @@ namespace BuYu
 
         public void onBtnClickRoom(GameObject obj)
         {
-            ModelManager.Instance.Get<RoomModel>().OnEnterRoom(1);
-            UIManager.Instance.HideView<RoomView>();
-            UIManager.Instance.ShowTopView<LoadResView>();
+            bool ret = false;
+            if (obj.name == "BaiPao")
+            {
+                ret = ModelManager.Instance.Get<RoomModel>().OnEnterRoom(1);
+            }
+            else if (obj.name == "QianPao")
+            {
+                ret = ModelManager.Instance.Get<RoomModel>().OnEnterRoom(2);
+            }
+            else
+            {
+                ret = ModelManager.Instance.Get<RoomModel>().OnEnterRoom(3);
+            }
+            if (ret)
+            {
+                UIManager.Instance.HideView<RoomView>();
+                UIManager.Instance.ShowTopView<LoadResView>();
+            }
+            
         }
 
         public void onBtnPetBoss(GameObject obj)
         {
-            ModelManager.Instance.Get<RoomModel>().OnEnterRoom(1);
-            UIManager.Instance.HideView<RoomView>();
-            UIManager.Instance.ShowTopView<LoadResView>();
+            
         }
 
 

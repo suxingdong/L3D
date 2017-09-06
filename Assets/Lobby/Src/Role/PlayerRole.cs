@@ -134,6 +134,12 @@ namespace Lobby
         }
 
 
+        private RoleRecharge m_RoleRecharge = new RoleRecharge();
+        internal RoleRecharge RoleRecharge
+        {
+            get { return m_RoleRecharge; }
+        }
+
         //31.Vip
         private RoleVip m_RoleVip = new RoleVip();
         internal RoleVip RoleVip

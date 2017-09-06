@@ -97,8 +97,7 @@ namespace Lobby
         public void onLoadGame(GameObject obj)
         {
             SceneManager.LoadScene("BuYuScene");
-            UIManager.Instance.HideView<MainMenuView>();
-            UIManager.Instance.HideView<RegisterView>();
+            UIManager.Instance.HideView<AccountLoginView>();
             UIManager.Instance.HideView<LoginView>();
         }
     }

@@ -17,12 +17,23 @@ using ServerSetting = GF.ServerSetting;
 
 namespace Lobby
 {
+
+    struct ByteData
+    {
+        public ByteData(byte[] d)
+        {
+            strData = d;
+        }
+        public byte[] strData;
+    }
+
     public class LoginModel : AppModel
     {
         //登录状态
         LogonState m_State;
         UInt32 _mUserId;
         UInt32 _mOnlyId;
+        AccountInfo accountInfo;
 
         public LoginModel()
         {
@@ -86,7 +97,7 @@ namespace Lobby
                 ncb.PasswordCrc2 = ad.CRC2;
                 ncb.PasswordCrc3 = ad.CRC3;
             }
-
+            accountInfo = rd;
             ncb.VersionID = ServerSetting.ClientVer;
             ncb.PlateFormID = (Byte)UIDevice.GetPlatformString();
             ncb.PathCrc = ServerSetting.RES_VERSION;
@@ -160,6 +171,8 @@ namespace Lobby
                 ServerSetting.HallServerPort = ncb.GatePort;
                 ServerSetting.NewIP = ncb.GameIp;
                 ServerSetting.NewPort = ncb.GamePort;
+                UserDefault.Instance.SetStringForKey("Account", accountInfo.UID);
+                UserDefault.Instance.SetStringForKey("Password", accountInfo.PWD);
                 ConnectHall();//加入到大厅并且发送命令 设置好IP 和 Port 并且 设置好需要发送的命令的参赛
             }
         }
@@ -174,7 +187,7 @@ namespace Lobby
 
             //TODO 这里不要处理UI逻辑
             UIManager.Instance.HideView<LoginView>();
-            UIManager.Instance.HideView<RegisterView>();
+            UIManager.Instance.HideView<AccountLoginView>();
             UIManager.Instance.ShowView<MainMenuView>();
             
         }

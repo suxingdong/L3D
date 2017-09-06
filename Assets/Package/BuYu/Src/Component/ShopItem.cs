@@ -9,6 +9,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using GF;
+using GF.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -102,8 +103,20 @@ namespace Lobby
         }
         void OnClickBuy()
         {
-           Debug.Log("OnClickBuy");
+            UIManager.Instance.ShowMessage("充值金额："+ m_ItemCurPrice.text+ "¥", MessageBoxEnum.Style.OkAndCancel, OnPay);
+        }
 
+        public void OnPay(MessageBoxEnum.Result result)
+        {
+            if (result == MessageBoxEnum.Result.Ok)
+            {
+                Debug.Log("充值");
+                PlayerRole.Instance.RoleRecharge.SendRecharge(m_ItemID, SDKMgr.Instance.IsServerOrder);
+            }
+            else
+            {
+                Debug.Log("退出");
+            }
         }
 
     }

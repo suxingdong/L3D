@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GF;
+
 //客户端的全部的消息类
 //public enum ErrorCode
 //{
@@ -449,20 +451,31 @@ public enum UserOperateMessage
     //排行榜
     UOM_Rank_GetWeekReward_Sucess,
     UOM_Rank_GetWeekReward_Failed,
+    [EnumDisplay("排行榜不存在")]
     UOM_Rank_GetWeekReward_Failed_1,//排行榜不存在
+    [EnumDisplay("玩家未上榜")]
     UOM_Rank_GetWeekReward_Failed_2,//玩家未上榜
+    [EnumDisplay("已经领取奖励了")]
     UOM_Rank_GetWeekReward_Failed_3,//已经领取奖励了
 
     //充值
+    [EnumDisplay("充值成功")]
     UOM_Recharge_SendRecharge_Sucess,
     UOM_Recharge_SendRecharge_Failed,
-    UOM_Recharge_SendRecharge_Failed_1,//商品不存在
-    UOM_Recharge_SendRecharge_Failed_2,//RMB不够
-    UOM_Recharge_SendRecharge_Failed_3,//已经首冲过了
-    UOM_Recharge_SendRecharge_Failed_4,//金币已经到达最大上限
+    [EnumDisplay("商品不存在")]
+    UOM_Recharge_SendRecharge_Failed_1,
+    [EnumDisplay("RMB不够")]
+    UOM_Recharge_SendRecharge_Failed_2,
+    [EnumDisplay("已经首冲过了")]
+    UOM_Recharge_SendRecharge_Failed_3,
+    [EnumDisplay("金币已经到达最大上限")]
+    UOM_Recharge_SendRecharge_Failed_4,
 
+    [EnumDisplay("获得订单成功")]
     UOM_Recharge_GetOrderID_Success,
+    [EnumDisplay("获得订单失败")]
     UOM_Recharge_GetOrderID_Failed,
+    [EnumDisplay("获得订单失败")]
     UOM_Recharge_GetOrderID_Failed_1,
 
     //关系
@@ -499,15 +512,25 @@ public enum UserOperateMessage
     //桌子
     UOM_Table_JoinTable_Sucess,
     UOM_Table_JoinTable_Failed,
+    [EnumDisplay("桌子不存在")]
     UOM_Table_JoinTable_Failed_1,//桌子不存在
+    [EnumDisplay("金币太少")]
     UOM_Table_JoinTable_Failed_2,//金币太少
+    [EnumDisplay("金币太多")]
     UOM_Table_JoinTable_Failed_3,//金币太多
+    [EnumDisplay("钻石太少")]
     UOM_Table_JoinTable_Failed_4,//钻石太少
+    [EnumDisplay("钻石太多")]
     UOM_Table_JoinTable_Failed_5,//钻石太多
+    [EnumDisplay("进入桌子门票不够")]
     UOM_Table_JoinTable_Failed_6,//进入桌子门票不够
+    [EnumDisplay("系统错误")]
     UOM_Table_JoinTable_Failed_7,//系统错误
+    [EnumDisplay("为开启房间最低倍率 ")]
     UOM_Table_JoinTable_Failed_8,//为开启房间最低倍率 
+    [EnumDisplay("等级太低")]
     UOM_Table_JoinTable_Failed_9,//等级太低
+    [EnumDisplay("等级太高")]
     UOM_Table_JoinTable_Failed_10,//等级太高
 
     //任务

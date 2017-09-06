@@ -76,6 +76,34 @@ namespace Lobby
 
             animation = parent.GetComponent<Animation>();
             animation.Play("ViewIn");
+            InitUserData();
+        }
+
+        public void InitUserData()
+        {
+            Text text = userInfoPanel.transform.Find("NickName/Text").GetComponent<Text>();
+            text.text = PlayerRole.Instance.RoleInfo.RoleMe.GetNickName();
+
+            text = userInfoPanel.transform.Find("GameID/Text").GetComponent<Text>();
+            text.text = PlayerRole.Instance.RoleInfo.RoleMe.GetGameID().ToString();
+
+            text = userInfoPanel.transform.Find("Area/Text").GetComponent<Text>();
+            text.text = PlayerRole.Instance.RoleInfo.RoleMe.GetIPAddress();
+
+            text = userInfoPanel.transform.Find("Level/Text").GetComponent<Text>();
+            text.text = PlayerRole.Instance.RoleInfo.RoleMe.GetLevel().ToString();
+
+            text = userInfoPanel.transform.Find("Archieve/Text").GetComponent<Text>();
+            text.text = PlayerRole.Instance.RoleInfo.RoleMe.GetAchievementPoint().ToString();
+
+            text = userInfoPanel.transform.Find("Diamond/Text").GetComponent<Text>();
+            text.text = PlayerRole.Instance.RoleInfo.RoleMe.GetGlobel().ToString();
+
+            text = userInfoPanel.transform.Find("Gold/Text").GetComponent<Text>();
+            text.text = PlayerRole.Instance.RoleInfo.RoleMe.GetCurrency().ToString();
+
+            text = userInfoPanel.transform.Find("SafeDepositBox/Text").GetComponent<Text>();
+            text.text = "0";
 
         }
     }

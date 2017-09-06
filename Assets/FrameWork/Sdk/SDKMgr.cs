@@ -21,6 +21,11 @@ public class SDKMgr : Singleton<SDKMgr>, ISDKCallback
     SDKSceneCallback    m_SceneCallback     = null;
 
     ISDKInterface       m_Interface         = null;
+
+    private SDKMgr()
+    {
+        
+    }
 #if UNITY_ANDROID
     AndroidJavaObject   m_AndroidObj        = null;
 #endif

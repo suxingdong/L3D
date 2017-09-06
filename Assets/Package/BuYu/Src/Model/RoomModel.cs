@@ -10,6 +10,7 @@ using System.Collections;
 using System.Collections.Generic;
 using GF;
 using GF.UI;
+using Lobby;
 using UnityEngine;
 
 namespace BuYu
@@ -37,17 +38,17 @@ namespace BuYu
         }
 
 
-        public void OnEnterRoom(byte roomid)
+        public bool OnEnterRoom(byte roomid)
         {
-            /*TableError pError = TableManager.Instance.IsCanEnterTable(roomid, false);
+            TableError pError = TableManager.Instance.IsCanEnterTable(roomid, false);
             if (pError != TableError.TE_Sucess)
             {
                 //进入房间失败了 我们进行处理 
-                tagJoinTableEvent pEvent = new tagJoinTableEvent(roomid, pError);
-                MsgEventHandle.HandleMsg(pEvent);//无法进入房间的事件
-                UIManager.Instance.ShowMessage("",MessageBoxEnum.Style.Ok,null);
-                return;
-            }*/
+                /*tagJoinTableEvent pEvent = new tagJoinTableEvent(roomid, pError);
+                MsgEventHandle.HandleMsg(pEvent);//无法进入房间的事件*/
+                UIManager.Instance.ShowMessage(pError.Description(), MessageBoxEnum.Style.Ok,null);
+                return false;
+            }
 
             //GlobalEffectMgr.Instance.ShowLoadingMessage();
 
@@ -58,6 +59,7 @@ namespace BuYu
             NetManager.Instance.Send<CL_Cmd_JoinTable>(ncb);
 
             State = RoomState.HALL_JOIN_ROOM;
+            return true;
         }
 
     }
