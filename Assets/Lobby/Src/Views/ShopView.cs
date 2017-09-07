@@ -18,6 +18,8 @@ namespace Lobby
 {
     public class ShopView : AppView, IPointerClickHandler
     {
+        private Animation animation;
+
         List<ShopItem> m_PayInfoList = new List<ShopItem>();
 
         private GameObject diamondPanel;
@@ -38,12 +40,23 @@ namespace Lobby
 
         public void OnPointerClick(PointerEventData eventData)
         {
+            animation.Play("ViewOut");
+            StartCoroutine(OnClose());
+        }
+
+        IEnumerator OnClose()
+        {
+            yield return new WaitForSeconds(0.2f);
             UIManager.Instance.HideView<ShopView>();
         }
 
         protected override void OnStart()
         {
             Transform background = transform.Find("BackGround").transform;
+
+            animation = background.GetComponent<Animation>();
+            animation.Play("ViewIn");
+
             diamondPanel = background.Find("DiamondPanel").gameObject;
             goldPanel = background.Find("GoldPanel").gameObject;
             itemPanel = background.Find("ItemPanel").gameObject;
@@ -118,7 +131,7 @@ namespace Lobby
                 num++;
             }
             RectTransform rectTransform = gridDiamond.GetComponent<RectTransform>();
-            rectTransform.sizeDelta = new Vector2(num * 360, 360);
+            rectTransform.sizeDelta = new Vector2(1100, 240* num);
             diamondTemp.SetActive(false);
         }
 
@@ -139,7 +152,7 @@ namespace Lobby
                 //item.ResetLocalScale();
             }
             RectTransform rectTransform = gridGold.GetComponent<RectTransform>();
-            rectTransform.sizeDelta = new Vector2(num * 360, 360);
+            rectTransform.sizeDelta = new Vector2(1100, 240*num);
             goldTemp.SetActive(false);
         }
 

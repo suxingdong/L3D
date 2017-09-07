@@ -8,6 +8,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
 using GF;
@@ -24,7 +25,7 @@ namespace Lobby
         private InputField labelUID;
         private InputField labelPWD;
         private Animation animation;
-
+        
         public void OnPointerClick(PointerEventData eventData)
         {
             animation.Play("ViewOut");

@@ -97,10 +97,10 @@ namespace Lobby
             text.text = PlayerRole.Instance.RoleInfo.RoleMe.GetAchievementPoint().ToString();
 
             text = userInfoPanel.transform.Find("Diamond/Text").GetComponent<Text>();
-            text.text = PlayerRole.Instance.RoleInfo.RoleMe.GetGlobel().ToString();
+            text.text = PlayerRole.Instance.RoleInfo.RoleMe.GetCurrency().ToString();
 
             text = userInfoPanel.transform.Find("Gold/Text").GetComponent<Text>();
-            text.text = PlayerRole.Instance.RoleInfo.RoleMe.GetCurrency().ToString();
+            text.text = PlayerRole.Instance.RoleInfo.RoleMe.GetGlobel().ToString();
 
             text = userInfoPanel.transform.Find("SafeDepositBox/Text").GetComponent<Text>();
             text.text = "0";

@@ -77,8 +77,8 @@ namespace BuYu
 
             textLv.text = PlayerRole.Instance.RoleInfo.RoleMe.GetLevel().ToString();
             textNickName.text = PlayerRole.Instance.RoleInfo.RoleMe.GetNickName();
-            textDiamond.text = PlayerRole.Instance.RoleInfo.RoleMe.GetGlobel().ToString();
-            textGold.text = PlayerRole.Instance.RoleInfo.RoleMe.GetCurrency().ToString();
+            textDiamond.text = PlayerRole.Instance.RoleInfo.RoleMe.GetCurrency().ToString();
+            textGold.text = PlayerRole.Instance.RoleInfo.RoleMe.GetGlobel().ToString();
         }
 
         void Update()
