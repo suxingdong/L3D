@@ -259,8 +259,8 @@ public class SDKMgr : Singleton<SDKMgr>, ISDKCallback
     {
         m_Interface.ReleaseResource();
 #if UNITY_ANDROID
-        if(SDKMgr.IS_SDK_CHANNEL)
-            SceneMain.Instance.StartInnerCoroutine(ExitThread(null));
+        /*if(SDKMgr.IS_SDK_CHANNEL)
+            SceneMain.Instance.StartInnerCoroutine(ExitThread(null));*/
 #endif
     }
     public void PayCallback(bool bResult)

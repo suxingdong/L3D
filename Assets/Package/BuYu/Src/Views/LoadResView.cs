@@ -54,7 +54,9 @@ namespace BuYu
 
 
             sceneModel.ResetScene(true); yield return new WaitForEndOfFrame();
-            
+            ProgressBar.fillAmount = 1;
+
+
         }
 
         protected override void OnUpdate(float time)

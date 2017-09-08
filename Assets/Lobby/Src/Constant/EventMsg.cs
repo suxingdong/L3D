@@ -19,6 +19,7 @@ namespace Lobby
         public static string UPDATE_CANON_SKILL    = "UPDATE_CANON_SKILL";     //更新炮台
         public static string HIDE_CANON_SKILL      = "HIDE_CANON_SKILL";       //隐藏炮台
         public static string UPDATE_USERITEM       = "UPDATE_USERITEM";        //刷新ITEM
+        public static string UPDATE_SKILLCDTIME    = "UPDATE_SKILLCDTIME";     //刷新技能CD
     }
 }
 

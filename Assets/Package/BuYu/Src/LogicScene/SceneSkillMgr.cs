@@ -478,7 +478,28 @@ namespace BuYu
 
         public void UseSkillLock(NetCmdPack pack)
         {
-            
+            NetCmdSkillLock cmd = (NetCmdSkillLock)pack.cmd;
+            //客户端可以使用锁定技能
+            //...
+            byte clientSeat = SceneRuntime.ServerToClientSeat(cmd.Seat);
+            if (clientSeat == SceneRuntime.PlayerMgr.MyClientSeat)
+            {
+                IEvent evt = new GF.Event(EventMsg.UPDATE_USERITEM);
+                object[] parameter =
+                {
+                    SkillSetting.SkillDataList[(byte) SkillType.SKILL_LOCK].CDTime,
+                    SkillType.SKILL_LOCK
+                };
+                evt.parameter = parameter;
+                EventManager.Instance.DispatchEvent(evt);
+                //SceneRuntime.LogicUI.PlayCD(SkillSetting.SkillDataList[(byte)SkillType.SKILL_LOCK].CDTime, SkillType.SKILL_LOCK);
+                SceneRuntime.PlayerMgr.MySelf.Launcher.OnClickAutoShotCancel(null);
+                SceneRuntime.PlayerMgr.SetLocked(true);                
+            }
+            else
+            {
+                SceneRuntime.PlayerMgr.ShowOtherUserLocked(clientSeat);
+            }
         }
 
         public void UseSkillDisaster(NetCmdPack pack)

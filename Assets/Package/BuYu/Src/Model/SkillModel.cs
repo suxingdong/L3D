@@ -27,8 +27,8 @@ namespace BuYu
     public class SkillModel : AppModel
     {
         public ushort[] m_nCountRecord = new ushort[(byte)SkillType.SKILL_MAX];
-
-        bool[] m_bUseing = new bool[2];     //技能是否正在使用 0是炮弹技能 1是锁定
+        List<CDInfo> m_CDList = new List<CDInfo>();
+        bool[] m_bCanUse = new bool[2];     //技能是否正在使用 0是炮弹技能 1是锁定
         bool m_bClearScene = true;          //是否正在切换捕鱼场景
         byte m_CurSkillType;                //当前技能类型
 
@@ -42,6 +42,7 @@ namespace BuYu
         public void Init()
         {
             RegisterEvent();
+            UpdateLockedSkillSate();
         }
 
         public System.Collections.IEnumerator MainInitProcedure()
@@ -63,7 +64,7 @@ namespace BuYu
             _RegisterEvent(NetCmdType.CMD_SKILL_FREEZE_RESPONSE, OnUseSkillFreeze);
             //锁定技能
             _RegisterEvent(NetCmdType.CMD_SKILL_LOCK_RESPONSE, OnUseSkillLock);
-            //
+            //鱼的碰撞
             _RegisterEvent(NetCmdType.CMD_CATCHED, onCatchedFish);
 
         }
@@ -122,7 +123,7 @@ namespace BuYu
         
         public void OnProcessLock()
         {
-            if (m_bUseing[1] == false)
+            if (m_bCanUse[1] == false)
             {
                 if (PlayerRole.Instance.RoleInfo.RoleMe.GetVipLevel() < 2)
                 {
@@ -145,7 +146,7 @@ namespace BuYu
         }
         public void OnProcessSkill()
         {
-            if (m_bUseing[0] == false)
+            if (m_bCanUse[0] == false)
             {
                 if (PlayerRole.Instance.RoleInfo.RoleMe.GetVipLevel() < 2)
                 {
@@ -240,6 +241,12 @@ namespace BuYu
 
         public override void Update(float delta)
         {
+            for (byte i = 0; i < m_CDList.Count;)
+            {
+                if (UpdateCD(delta, i))
+                    ++i;
+            }
+
             if (m_SkillMgr!=null)
             {
                 m_SkillMgr.Update(delta);
@@ -249,7 +256,23 @@ namespace BuYu
 
         public bool UpdateCD(float deltaTime, byte Indx)
         {
-            return false;
+            m_CDList[Indx].m_CurTime -= deltaTime;
+            if (m_CDList[Indx].m_CurTime < 0)
+                m_CDList[Indx].m_CurTime = 0;
+            //m_CDSprite[m_CDList[Indx].m_CDIndx].fillAmount = m_CDList[Indx].m_CurTime / m_CDList[Indx].m_CDTime;
+
+            if (m_CDList[Indx].m_CurTime <= 0)
+            {
+                if (m_CDList[Indx].m_CDIndx == 1)
+                    SceneRuntime.PlayerMgr.SetLocked(false);
+                // m_UIButton[m_CDList[Indx].m_CDIndx].isEnabled = true;
+                if (m_CDList[Indx].m_bUseing)
+                    m_bCanUse[m_CDList[Indx].m_CDIndx] = true;
+
+                Utility.ListRemoveAt(m_CDList, Indx);
+                return false;
+            }
+            return true;
         }
 
         public void ShowRateReward()
@@ -274,7 +297,7 @@ namespace BuYu
 
         public void UpdateLockedSkillSate()
         {
-            
+            m_bCanUse[1] = true;
         }
 
         //普通技能
@@ -288,7 +311,7 @@ namespace BuYu
                     if (Idx != 255)
                     {
                         m_CurSkillType = Idx;
-                        m_bUseing[0] = true;
+                        m_bCanUse[0] = true;
                         IEvent evt = new GF.Event(EventMsg.UPDATE_CANON_SKILL);
                         evt.parameter = m_CurSkillType;
                         EventManager.Instance.DispatchEvent(evt);
@@ -314,12 +337,32 @@ namespace BuYu
             NetCmdPack pack = iEvent.parameter as NetCmdPack;
             m_SkillMgr.FishCatched(pack);
         }
-
-      
+        
 
         public void PlayCD(float time, byte Indx)
         {
-            
+            CDInfo cdInfo = new CDInfo();
+            cdInfo.m_CDIndx = Indx;
+            cdInfo.m_CDTime = time;
+            cdInfo.m_CurTime = time;
+            //m_CDSprite[Indx].fillAmount = 1;
+            //m_UIButton[Indx].isEnabled = false;
+            if (m_bCanUse[Indx])
+            {
+                cdInfo.m_bUseing = true;
+                m_bCanUse[Indx] = false;
+            }
+            else
+                cdInfo.m_bUseing = false;
+
+            m_CDList.Add(cdInfo);
+
+            /*if (type < SkillType.SKILL_LOCK)
+                m_SkillBar.PlayCD(time, 0);
+            else
+            {
+                m_SkillBar.PlayCD(time, 1);
+            }*/
         }
 
         public SceneSkillMgr SkillMgr

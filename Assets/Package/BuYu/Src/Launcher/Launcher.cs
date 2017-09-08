@@ -859,7 +859,7 @@ namespace BuYu
         public void OnClickAutoShotCancel(GameObject go)
         {
             SceneRuntime.PlayerMgr.SetAutoShot(false);
-            m_AutoShotCancel.SetActive(false);
+            //m_AutoShotCancel.SetActive(false);
         }
 
         public void SetPlayerImg(Texture2D img, uint imgCrc)
@@ -878,7 +878,9 @@ namespace BuYu
         //玩家是否破产
         public bool IsBankruptcy()
         {
-            return m_BankruptcyObj.activeSelf;
+            //TODO
+            return false;
+            //return m_BankruptcyObj.activeSelf;
         }
 
         public void PlaySkillAvatarEft()

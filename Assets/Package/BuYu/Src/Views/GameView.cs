@@ -39,6 +39,7 @@ namespace BuYu
         {
             _RegisterEvent(EventMsg.UPDATE_CANON_SKILL, OnUpdateSkillBtn);
             _RegisterEvent(EventMsg.HIDE_CANON_SKILL, OnDisableSkillBtn);
+            _RegisterEvent(EventMsg.UPDATE_SKILLCDTIME, OnPlayCD);
         }
 
         protected override void OnStart()
@@ -65,13 +66,10 @@ namespace BuYu
             var tSkillNode = transform.FindChild("Skill");
             btnVip = tSkillNode.FindChild("BtnVip").GetComponent<Button>();
             btnLockFish = tSkillNode.FindChild("BtnLockFish").GetComponent<Button>();
+            btnLockFish.onClick.AddListener(OnClickLock);
+            
             btnSkillEp = tSkillNode.FindChild("BtnSkillEp").GetComponent<Button>();
-
-            btnSkillEp.onClick.AddListener(delegate ()
-            {
-                Debug.Log("使用技能");
-                OnClickSkill();
-            });
+            btnSkillEp.onClick.AddListener(OnClickSkill);
         }
         public void OnPointerDown(PointerEventData eventData)
         {
@@ -133,7 +131,24 @@ namespace BuYu
         }
 
 
-       
+        public void OnPlayCD(IEvent iEvent)
+        {
+            object[] obj = iEvent.parameter as object[];
+            float time = (float)obj[0];
+            SkillType type = (SkillType)obj[1];
+            //float time, SkillType type
+            if (type < SkillType.SKILL_LOCK)
+                skillModel.PlayCD(time, 0);
+            else
+            {
+                skillModel.PlayCD(time, 1);
+            }
+        }
+
+        void OnClickLock()
+        {
+            skillModel.OnProcessLock();
+        }
 
         void OnClickSkill()
         {

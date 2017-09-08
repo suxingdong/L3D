@@ -65,8 +65,6 @@ namespace BuYu
 
             //切换炮台
             _RegisterEvent(NetCmdType.CMD_CHANGE_LAUNCHER, onChangeLauncher);
-            
-            
         }
 
         public System.Collections.IEnumerator MainInitProcedure()
@@ -132,6 +130,7 @@ namespace BuYu
             m_PlayerMgr.ChangeLauncher(pack);
         }
 
+     
         public void OnLaunchBullet(IEvent iEvent)
         {
             NetCmdPack pack = iEvent.parameter as NetCmdPack;

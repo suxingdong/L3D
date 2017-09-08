@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using BuYu;
 using System;
-using System.Web;
 public class SDKBase:ISDKInterface
 {
     #if UNITY_ANDROID

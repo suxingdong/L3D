@@ -49,7 +49,7 @@ namespace Lobby
         {
             if (!NetManager.Instance.IsConnected)
             {
-                NetManager.Instance.Connect(true, "127.0.0.1", 40056);
+                NetManager.Instance.Connect(true, "192.168.77.226", 40056);
             }
             yield return new WaitForSeconds(0.1f);
             float timeCount = 0;
