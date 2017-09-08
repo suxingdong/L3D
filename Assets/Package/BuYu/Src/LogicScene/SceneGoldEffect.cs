@@ -321,7 +321,7 @@ namespace BuYu
                 ged.m_DelayTime = 0;
                 ged.GoldNum = 1;
                 ged.PlayTween(true);
-                ged.m_vecpathend = SceneRuntime.GetLauncherGoldIconPos(SceneRuntime.SceneModelLogic.PlayerMgr.MySelf.ClientSeat);
+                ged.m_vecpathend = SceneRuntime.GetLauncherGoldIconPos(SceneRuntime.SceneModel.PlayerMgr.MySelf.ClientSeat);
                 m_UnlockRateList.Add(ged);*/
             }
             //  if (SceneRuntime.PlayerMgr.GetPlayer(ged.catchedData.ClientSeat) == SceneRuntime.PlayerMgr.MySelf)

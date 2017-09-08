@@ -171,7 +171,7 @@ namespace BuYu
         }
         public bool Updata(float dTime)
         {
-            if (SceneRuntime.SceneModelLogic.bClearScene)
+            if (SceneRuntime.SceneModel.bClearScene)
             {
                 return true;
             }

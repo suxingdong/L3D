@@ -330,10 +330,10 @@ namespace BuYu
                     }
                     else //其他卡片
                     {
-                        if (SceneRuntime.SceneModelLogic.PlayerMgr.GetPlayer(cd.ClientSeat) == null)
+                        if (SceneRuntime.SceneModel.PlayerMgr.GetPlayer(cd.ClientSeat) == null)
                             continue;
-                        Vector2 vecPos = SceneRuntime.SceneModelLogic.PlayerMgr.GetPlayer(cd.ClientSeat).Launcher.LauncherPos;
-                        /*SceneRuntime.SceneModelLogic.LogicUI.MoveDropCard(SceneRuntime.WorldToNGUI(fish.Position),
+                        Vector2 vecPos = SceneRuntime.SceneModel.PlayerMgr.GetPlayer(cd.ClientSeat).Launcher.LauncherPos;
+                        /*SceneRuntime.SceneModel.LogicUI.MoveDropCard(SceneRuntime.WorldToNGUI(fish.Position),
                             new Vector3(vecPos.x, vecPos.y, 0), (ushort) uItemid);*/
                     }
                 }

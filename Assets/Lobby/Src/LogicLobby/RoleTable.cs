@@ -543,7 +543,7 @@ namespace Lobby
             else
             {
                 /*if (SceneRuntime.Instance != null)
-                    SceneRuntime.SceneModelLogic.BackToHall();*/
+                    SceneRuntime.SceneModel.BackToHall();*/
                 PlayerRole.Instance.OnUserLeaveTable();//玩家离开桌子的触发函数
             }
             return true;

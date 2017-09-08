@@ -303,10 +303,10 @@ namespace BuYu
 
         public void NewPlayerProtect()
         {
-            //SceneRuntime.SceneModelLogic.ChangeDestLauncher(0);
+            //SceneRuntime.SceneModel.ChangeDestLauncher(0);
             //   byte rateIndex = (byte)(BulletSetting.BulletRate.Length + 1);
             byte rateIndex = 0;
-            //SceneRuntime.SceneModelLogic.ChangeDestRate(rateIndex);
+            //SceneRuntime.SceneModel.ChangeDestRate(rateIndex);
         }
 
         public void ChangeRate(NetCmdPack pack)
@@ -359,7 +359,7 @@ namespace BuYu
                 elapsedTime, cmd.ReboundCount, cmd.LockFishID);
             sp.Launcher.LauncherBullet(cmd.Energy);
 
-            // SceneRuntime.SceneModelLogic.LaunchBullet(clientSeat, sp.Launcher.LauncherType, sp.RateIndex);
+            // SceneRuntime.SceneModel.LaunchBullet(clientSeat, sp.Launcher.LauncherType, sp.RateIndex);
             int gold = LauncherSetting.LauncherDataList[sp.Launcher.LauncherType].Consume
                        *BulletSetting.BulletRate[sp.RateIndex];
             ConsumeGold(clientSeat, gold, sp);

@@ -285,7 +285,7 @@ namespace BuYu
                 //向服务器发送大招请求
                 short angle = Utility.FloatToShort(m_Angle);
                 angle = SceneRuntime.AngleInversion(angle);
-                /*if (SceneRuntime.SceneModelLogic.UseLaser(angle))
+                /*if (SceneRuntime.SceneModel.UseLaser(angle))
                 {
                     m_bLauncherXPSkill = true;
                     m_EnergyPoolLogic[LauncherType].bSendXPSkill = false;
@@ -322,7 +322,7 @@ namespace BuYu
 
                     short angle = Utility.FloatToShort(m_Angle);
                     angle = SceneRuntime.AngleInversion(angle);
-                    SceneRuntime.SceneModelLogic.LaunchBullet(angle);
+                    SceneRuntime.SceneModel.LaunchBullet(angle);
                 }
             }
         }
@@ -463,7 +463,7 @@ namespace BuYu
                     .MinRate;
             if (PlayerRole.Instance.GetPlayerGlobelBySeat(m_Seat) <
                 BulletSetting.BulletRate[minRate]*m_LauncherSetting.Consume
-                && SceneRuntime.SceneModelLogic.BulletMgr.HaveBullet(m_Seat) == false)
+                && SceneRuntime.SceneModel.BulletMgr.HaveBullet(m_Seat) == false)
                 m_BankruptcyObj.SetActive(true);
             else
             {
@@ -522,7 +522,7 @@ namespace BuYu
                 //场景按纽界面特殊处理
                 /*if (m_bShowVipFunction && !SceneRuntime.PlayerMgr.AutoShotOrLocked)
                 {
-                    SceneRuntime.SceneModelLogic.BtnsMgr.BaseBtnHide();
+                    SceneRuntime.SceneModel.BtnsMgr.BaseBtnHide();
                     OnClickLaunch(null);
                 }
                 if (m_bLauncherXPSkill || !m_bMyself) // 炮为锁状态
@@ -530,7 +530,7 @@ namespace BuYu
                 if (!Vaild && PlayerRole.Instance.RoleLauncher.IsCanUseLauncher(LauncherType) == false)
                 {
                     // GlobalHallUIMgr.Instance.ShowVipWnd();
-                    SceneRuntime.SceneModelLogic.ChangeDestLauncher(0);
+                    SceneRuntime.SceneModel.ChangeDestLauncher(0);
                     return false;
                 }
                 else if (!Vaild && PlayerRole.Instance.RoleLauncher.IsCanUseLauncher(LauncherType))
@@ -575,7 +575,7 @@ namespace BuYu
                 if (PlayerRole.Instance.GetPlayerGlobelBySeat(m_Seat) <
                     (BulletSetting.BulletRate[i]*m_LauncherSetting.Consume))
                     continue;
-                SceneRuntime.SceneModelLogic.ChangeDestRate((byte) i);
+                SceneRuntime.SceneModel.ChangeDestRate((byte) i);
                 return true;
             }*/
             return false;
@@ -589,9 +589,9 @@ namespace BuYu
 
             GlobalAudioMgr.Instance.PlayOrdianryMusic(Audio.OrdianryMusic.m_BtnMusic);
 
-            SceneRuntime.SceneModelLogic.ChangeRate(false);*/
+            SceneRuntime.SceneModel.ChangeRate(false);*/
 
-            // SceneRuntime.SceneModelLogic.ChangeLauncher(1);
+            // SceneRuntime.SceneModel.ChangeLauncher(1);
         }
 
         private void OnAddButtonMessage(GameObject button)
@@ -602,8 +602,8 @@ namespace BuYu
                 return;
             GlobalAudioMgr.Instance.PlayOrdianryMusic(Audio.OrdianryMusic.m_BtnMusic);
 
-            SceneRuntime.SceneModelLogic.ChangeRate(true);*/
-            // SceneRuntime.SceneModelLogic.ChangeLauncher(0);
+            SceneRuntime.SceneModel.ChangeRate(true);*/
+            // SceneRuntime.SceneModel.ChangeLauncher(0);
         }
 
         private void OnClickChnageLaunch(GameObject go)
@@ -635,7 +635,7 @@ namespace BuYu
                 return;
             GlobalAudioMgr.Instance.PlayOrdianryMusic(Audio.OrdianryMusic.m_BtnMusic);*/
 
-            //SceneRuntime.SceneModelLogic.ChangeRate(m_RateIndx);
+            //SceneRuntime.SceneModel.ChangeRate(m_RateIndx);
         }
 
         public void ChangeLauncher(byte type, bool valid)
@@ -917,7 +917,7 @@ namespace BuYu
             }
             else
             {
-                //SceneRuntime.SceneModelLogic.BtnsMgr.BaseBtnHide();
+                //SceneRuntime.SceneModel.BtnsMgr.BaseBtnHide();
             }
         }
 

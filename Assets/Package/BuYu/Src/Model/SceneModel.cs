@@ -65,6 +65,7 @@ namespace BuYu
 
             //切换炮台
             _RegisterEvent(NetCmdType.CMD_CHANGE_LAUNCHER, onChangeLauncher);
+
         }
 
         public System.Collections.IEnumerator MainInitProcedure()
@@ -264,7 +265,7 @@ namespace BuYu
             ncb.SetCmdType(NetCmdType.CMD_BULLET);
             ncb.Degree = angle;
             ncb.LockFishID = m_PlayerMgr.LockedFishID;
-            ncb.LauncherType = SceneRuntime.SceneModelLogic.PlayerMgr.MySelf.Launcher.LauncherType;
+            ncb.LauncherType = SceneRuntime.SceneModel.PlayerMgr.MySelf.Launcher.LauncherType;
             bulletTick = Utility.GetTickCount();
             Send<NetCmdBullet>(ncb);
             bulletTick = Utility.GetTickCount();
@@ -273,7 +274,7 @@ namespace BuYu
             /*NetCmdPack pack = new NetCmdPack();
             pack.cmd = ncb;
             
-            SceneRuntime.SceneModelLogic.PlayerMgr.LaunchBullet(pack);*/
+            SceneRuntime.SceneModel.PlayerMgr.LaunchBullet(pack);*/
         }
 
 
@@ -366,6 +367,14 @@ namespace BuYu
             //PlayMusic(cd);
             //m_LogicUI.ShowWonderfulUI(cd);
         }
+
+        public void SetClearScene()
+        {
+            //m_LogicUI.ShowClearSceneMsg();
+            m_bClearScene = true;
+            m_fClearTime = 0;
+        }
+
 
         public bool bClearScene
         {

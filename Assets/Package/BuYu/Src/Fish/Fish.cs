@@ -498,7 +498,7 @@ namespace BuYu
         }
         public void OnActiveBox()
         {
-            //SceneRuntime.SceneModelLogic.ChestMgr.MoveBox(SceneRuntime.WorldToNGUI(m_BoxModel.transform.position));
+            //SceneRuntime.SceneModel.ChestMgr.MoveBox(SceneRuntime.WorldToNGUI(m_BoxModel.transform.position));
         }
         public Vector3 ScreenPos
         {
@@ -545,9 +545,9 @@ namespace BuYu
             {
                 if (m_CatchSeat == SceneRuntime.PlayerMgr.MyClientSeat)
                 {
-                    // SceneRuntime.SceneModelLogic.LogicUI.GetSkillBar.JudgeGuide();
-                    Vector2 vecPos = SceneRuntime.SceneModelLogic.PlayerMgr.MySelf.Launcher.LauncherPos;
-                   // SceneRuntime.SceneModelLogic.LogicUI.MoveCard(m_FishCard, new Vector3(vecPos.x, vecPos.y, 0));
+                    // SceneRuntime.SceneModel.LogicUI.GetSkillBar.JudgeGuide();
+                    Vector2 vecPos = SceneRuntime.SceneModel.PlayerMgr.MySelf.Launcher.LauncherPos;
+                   // SceneRuntime.SceneModel.LogicUI.MoveCard(m_FishCard, new Vector3(vecPos.x, vecPos.y, 0));
                 }
                 else
                 {

@@ -67,6 +67,7 @@ namespace BuYu
             //鱼的碰撞
             _RegisterEvent(NetCmdType.CMD_CATCHED, onCatchedFish);
 
+            _RegisterEvent(NetCmdType.CMD_CLEAR_SCENE, OnChangeScene);
         }
 
         public void OnSkillFail(IEvent iEvent)
@@ -233,7 +234,7 @@ namespace BuYu
 
         public void RecordUsed(SkillType index, byte byseat)
         {
-            if (byseat == SceneRuntime.SceneModelLogic.PlayerMgr.MyClientSeat)
+            if (byseat == SceneRuntime.SceneModel.PlayerMgr.MyClientSeat)
             {
                 m_nCountRecord[(byte)index]++;
             }
@@ -337,7 +338,20 @@ namespace BuYu
             NetCmdPack pack = iEvent.parameter as NetCmdPack;
             m_SkillMgr.FishCatched(pack);
         }
-        
+
+        public void OnChangeScene(IEvent iEvent)
+        {
+            Debug.Log("切换场景。。。");
+            NetCmdPack pack = iEvent.parameter as NetCmdPack;
+            m_SkillMgr.ClearScene(pack);
+        }
+
+        public void OnChangeLauncher(IEvent iEvent)
+        {
+            NetCmdPack pack = iEvent.parameter as NetCmdPack;
+            m_SkillMgr.ClearScene(pack);
+        }
+
 
         public void PlayCD(float time, byte Indx)
         {

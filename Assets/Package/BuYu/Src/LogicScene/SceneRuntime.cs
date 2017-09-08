@@ -90,9 +90,9 @@ namespace BuYu
         }
         public static void Send<T>(NetCmdBase ncb)
         {
-            SceneModelLogic.Send<T>(ncb);
+            SceneModel.Send<T>(ncb);
         }
-        public static SceneModel SceneModelLogic
+        public static SceneModel SceneModel
         {
             get
             {
@@ -119,7 +119,7 @@ namespace BuYu
                 if (Instance == null || FishMgr == null)
                     return 0;
                 else
-                    return SceneModelLogic.FishMgr.FishNum;
+                    return SceneModel.FishMgr.FishNum;
             }
         }
         public static bool Inversion
@@ -287,7 +287,7 @@ namespace BuYu
         {
             get
             {
-                return SceneModelLogic.BulletMgr;
+                return SceneModel.BulletMgr;
             }
         }
         public static SceneBoot LogicUI
@@ -295,7 +295,7 @@ namespace BuYu
             get
             {
                 return null;
-                //return SceneModelLogic.LogicUI;
+                //return SceneModel.LogicUI;
             }
         }
         public static SceneSkillMgr SkillMgr
@@ -309,28 +309,28 @@ namespace BuYu
         {
             get
             {
-                return SceneModelLogic.FishMgr;
+                return SceneModel.FishMgr;
             }
         }
         public static ScenePlayerMgr PlayerMgr
         {
             get
             {
-                return SceneModelLogic.PlayerMgr;
+                return SceneModel.PlayerMgr;
             }
         }
         public static SceneEffectMgr EffectMgr
         {
             get
             {
-                return SceneModelLogic.EffectMgr;
+                return SceneModel.EffectMgr;
             }
         }
         public static LauncherEffectMgr LauncherEftMgr
         {
             get
             {
-                return SceneModelLogic.LauncherEftMgr;
+                return SceneModel.LauncherEftMgr;
             }
         }
         public static byte BackgroundIndex

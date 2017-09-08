@@ -140,7 +140,7 @@ namespace BuYu
                 }
                 else if (_mState == CanonState.NoEquiped)
                 {
-                    SceneRuntime.SceneModelLogic.ChangeDestLauncher(_mLaunchType);
+                    SceneRuntime.SceneModel.ChangeDestLauncher(_mLaunchType);
                 }
                 sceneModel.ChangeDestLauncher(_mLaunchType);
             });
