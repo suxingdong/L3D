@@ -9,7 +9,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using DG.Tweening;
 using GF;
+using GF.UI;
 using Lobby;
 using UnityEngine;
 using UnityEngine.UI;
@@ -135,7 +137,7 @@ namespace BuYu
         }
         public void SetText(string str)
         {
-            GoldLLabel.text = "+" + str;
+           // GoldLLabel.text = "+" + str;
         }
         public void SetLabelFontSize()
         {
@@ -166,7 +168,7 @@ namespace BuYu
     public class GoldEffectData
     {
         public GameObject GameObj;
-        //public SimplePath Path;
+        public SimplePath Path;
         public Vector3 m_vecpathend;
         public CatchedData catchedData;
         public SceneGoldEffect.GoldTween m_Tween;
@@ -187,35 +189,34 @@ namespace BuYu
                 InitCRPath();
                 PlayTween(false);
             }
-            /*GameObj.transform.position = Path.Update(dTime);
-            return !Path.Finished;*/
-            return false;
+            GameObj.transform.position = Path.Update(dTime);
+            return !Path.Finished;
 
         }
         public void PlayTween(bool bPlay)
         {
-            /*if (bPlay)
+            if (bPlay)
             {
                 if (!m_Tween.m_Pos.enabled)
                     m_Tween.m_Pos.enabled = true;
                 if (!m_Tween.m_Sclae.enabled)
                     m_Tween.m_Sclae.enabled = true;
-                m_Tween.m_Pos.ResetToBeginning();
+                /*m_Tween.m_Pos.ResetToBeginning();
                 m_Tween.m_Sclae.ResetToBeginning();
                 m_Tween.m_Pos.PlayForward();
-                m_Tween.m_Sclae.PlayForward();
+                m_Tween.m_Sclae.PlayForward();*/
             }
             else
             {
                 m_Tween.m_Pos.enabled = false;
                 m_Tween.m_Sclae.enabled = false;
-            }*/
+            }
         }
         public void InitCRPath()
         {
 
-            /*Path = new SimplePath(GameObj.transform.position, m_vecpathend);
-            Path.Speed = Utility.Range(2.0f, 3.0f);*/
+            Path = new SimplePath(GameObj.transform.position, m_vecpathend);
+            Path.Speed = Utility.Range(2.0f, 3.0f);
 
             //Vector3 PlayerPos = SceneRuntime.GetLauncherGoldIconPos(catchedData.ClientSeat);
             //Vector3 startControl = (((GameObj.transform.position + PlayerPos) * 0.5f) + GameObj.transform.position)*0.5f;
@@ -297,15 +298,24 @@ namespace BuYu
             GoldEffectData ged = new GoldEffectData();
             ged.GameObj = Initobj(m_DiamondObj);
 
-            /*ged.GameObj.transform.position = SceneRuntime.WorldToNGUI(fish.Position) + (new Vector3(Utility.RandFloat(), Utility.RandFloat(), 0) * 0.45f);
-            ged.m_Tween.m_Pos = ged.GameObj.transform.GetComponent<TweenPosition>();
-            ged.m_Tween.m_Sclae = ged.GameObj.transform.GetComponent<TweenScale>();
+            
+            ged.GameObj.transform.position = UIManager.Instance.WordToScenePoint(fish.Position)+(new Vector3(Utility.RandFloat(), Utility.RandFloat(), 0) * 0.45f);
+            /*ged.m_Tween.m_Pos = ged.GameObj.transform.GetComponent<TweenPosition>();
+            ged.m_Tween.m_Sclae = ged.GameObj.transform.GetComponent<TweenScale>();*/
+            ged.m_Tween.m_Pos = ged.GameObj.transform.GetComponents<DOTweenAnimation>()[0];
+            ged.m_Tween.m_Sclae = ged.GameObj.transform.GetComponents<DOTweenAnimation>()[1];
             ged.ScaleGoldTR(1.0f, 0.6f);
             ged.m_DelayTime = 2;
             ged.GoldNum = 1;
             ged.PlayTween(true);
+            ged.m_Tween.m_Pos.enabled = false;
+            ged.ScaleGoldTR(1.0f, fish.IsBossFish() ? 1.0f : 0.6f);
+
+            Vector3 vecGoldEndpos = Vector3.one;
+            vecGoldEndpos = SceneRuntime.GetLauncherGoldIconPos(cd.ClientSeat);
+            DOTween.To(() => ged.GameObj.transform.position, x => ged.GameObj.transform.position = x, vecGoldEndpos, 2);
             ged.m_vecpathend = SceneRuntime.GetLauncherGoldIconPos(cd.ClientSeat);
-            m_diamondList.Add(ged);*/
+            m_diamondList.Add(ged);
         }
         //单个金币
         public void ShowUnLockRateReward(Vector3 pos)
@@ -316,13 +326,15 @@ namespace BuYu
                 ged.GameObj = Initobj(m_GoldObj);
                 ged.GameObj.transform.position = pos + ((new Vector3(Utility.RandFloat(), Utility.RandFloat(), 0)) * 0.15f);
                 /*ged.m_Tween.m_Pos = ged.GameObj.transform.GetComponent<TweenPosition>();
-                ged.m_Tween.m_Sclae = ged.GameObj.transform.GetComponent<TweenScale>();
+                ged.m_Tween.m_Sclae = ged.GameObj.transform.GetComponent<TweenScale>();*/
+                ged.m_Tween.m_Pos = ged.GameObj.transform.GetComponents<DOTweenAnimation>()[0];
+                ged.m_Tween.m_Sclae = ged.GameObj.transform.GetComponents<DOTweenAnimation>()[1];
                 ged.ScaleGoldTR(0.6f, 0.6f);
                 ged.m_DelayTime = 0;
                 ged.GoldNum = 1;
                 ged.PlayTween(true);
                 ged.m_vecpathend = SceneRuntime.GetLauncherGoldIconPos(SceneRuntime.SceneModel.PlayerMgr.MySelf.ClientSeat);
-                m_UnlockRateList.Add(ged);*/
+                m_UnlockRateList.Add(ged);
             }
             //  if (SceneRuntime.PlayerMgr.GetPlayer(ged.catchedData.ClientSeat) == SceneRuntime.PlayerMgr.MySelf)
             //   GlobalAudioMgr.Instance.PlayOrdianryMusic(Audio.OrdianryMusic.m_GoldJump);
@@ -353,7 +365,7 @@ namespace BuYu
 
             const int perGoldNum = 30;
             //这里的金币用的还是鱼的类型
-            Vector3 FishPos = SceneRuntime.WorldToNGUI(fish.Position);
+            Vector3 FishPos = UIManager.Instance.WordToScenePoint(fish.Position);
             //鱼的价值
             uint fishOrgGold = (uint)FishSetting.FishDataList[fish.FishType].Gold;
             uint fishGold = 0;
@@ -383,6 +395,7 @@ namespace BuYu
                 lastNum = perNum + (fishGold - perNum * goldNum);
             }
             uint num = 0;
+          
             for (byte i = 0; i < goldNum; ++i)
             {
                 GoldEffectData ged = new GoldEffectData();
@@ -396,11 +409,11 @@ namespace BuYu
                 {
                     ged.GameObj = Initobj(m_GoldObj);
                 }
+                
+                ged.GameObj.transform.position = FishPos + (new Vector3(Utility.RandFloat(), Utility.RandFloat(), 0)) * (fish.IsBossFish() ? 0.45f : 0.15f);
+                ged.m_Tween.m_Pos = ged.GameObj.transform.GetComponents<DOTweenAnimation>()[0];
+                ged.m_Tween.m_Sclae = ged.GameObj.transform.GetComponents<DOTweenAnimation>()[1];
 
-
-                /*ged.GameObj.transform.position = FishPos + (new Vector3(Utility.RandFloat(), Utility.RandFloat(), 0)) * (fish.IsBossFish() ? 0.45f : 0.15f);
-                ged.m_Tween.m_Pos = ged.GameObj.transform.GetComponent<TweenPosition>();
-                ged.m_Tween.m_Sclae = ged.GameObj.transform.GetComponent<TweenScale>();
                 ged.ScaleGoldTR(1.0f, fish.IsBossFish() ? 1.0f : 0.6f);
                 if (i > 0 && !fish.IsBossFish())
                     ged.m_DelayTime += i * 0.1f;
@@ -417,9 +430,10 @@ namespace BuYu
                 ged.ClientSeat = cd.ClientSeat;
                 ged.PlayTween(true);
                 ged.m_vecpathend = vecGoldEndpos;
-                if (SceneRuntime.PlayerMgr.GetPlayer(ged.catchedData.ClientSeat) == SceneRuntime.PlayerMgr.MySelf)
-                    GlobalAudioMgr.Instance.PlayOrdianryMusic(Audio.OrdianryMusic.m_GoldJump);
-                m_CatchedList.Add(ged);*/
+                DOTween.To(() => ged.GameObj.transform.position, x => ged.GameObj.transform.position = x, vecGoldEndpos, 0.2f).SetDelay(1+i*0.1f);
+                /*if (SceneRuntime.PlayerMgr.GetPlayer(ged.catchedData.ClientSeat) == SceneRuntime.PlayerMgr.MySelf)
+                    GlobalAudioMgr.Instance.PlayOrdianryMusic(Audio.OrdianryMusic.m_GoldJump);*/
+                m_CatchedList.Add(ged);
             }
             ShowGoldNumLabel(fishGold, FishPos, fish);
 
@@ -638,15 +652,15 @@ namespace BuYu
         }
         Transform SetParent(Transform objtr)
         {
-            objtr.SetParent(SceneBoot.Instance.UIPanelTransform, false);
+            objtr.SetParent(UIManager.Instance.BottomCanvas.transform, false);
             if (!objtr.gameObject.activeSelf) objtr.gameObject.SetActive(true);
             return objtr;
         }
         public struct GoldTween
         {
 
-            public Vector3 m_Pos;
-            public Vector3 m_Sclae;
+            public DOTweenAnimation m_Pos;
+            public DOTweenAnimation m_Sclae;
         }
         public bool HaveFlyGold(byte byClientSeat)
         {

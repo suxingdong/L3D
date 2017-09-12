@@ -10,6 +10,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 namespace GF.UI
 {
@@ -20,7 +21,6 @@ namespace GF.UI
         private const string VIEWPATH = "/Prefab/UI/";
         private MessageBoxPanel messageBoxPanel;
         private Transform canvas;
-        private Canvas topCanvas;
          private UIManager()
         {
             canvas = GameObject.Find("Canvas").transform;
@@ -31,19 +31,46 @@ namespace GF.UI
             canvas.GetComponent<Canvas>().overrideSorting = true;
             canvas.GetComponent<Canvas>().sortingOrder = 0;
 
-            GameObject topUI = GameObject.Find("TopCanvas");
-            if (topUI == null)
+            GameObject ui = GameObject.Find("TopCanvas");
+            if (ui == null)
             {
                 GameObject obj = new GameObject("TopCanvas");
-                topCanvas = obj.AddComponent<Canvas>();
+                TopCanvas = obj.AddComponent<Canvas>();
             }
             else
             {
-                topCanvas = topUI.GetComponent<Canvas>();
+                TopCanvas = ui.GetComponent<Canvas>();
             }
-            GameObject.DontDestroyOnLoad(topCanvas);
-            topCanvas.overrideSorting = true;
-            topCanvas.sortingOrder = 1;
+
+            ui = GameObject.Find("BottomCanvas");
+            if (ui == null)
+            {
+                GameObject obj = new GameObject("BottomCanvas");
+                BottomCanvas = obj.AddComponent<Canvas>();
+            }
+            else
+            {
+                BottomCanvas = ui.GetComponent<Canvas>();
+            }
+
+            GameObject.DontDestroyOnLoad(TopCanvas);
+            GameObject.DontDestroyOnLoad(BottomCanvas);
+            TopCanvas.overrideSorting = true;
+            TopCanvas.sortingOrder = 1;
+            BottomCanvas.overrideSorting = true;
+            BottomCanvas.sortingOrder = -1;
+        }
+
+        public Vector3 WordToScenePoint(Vector3 pos)
+        {
+            CanvasScaler canvasScaler = canvas.GetComponent<CanvasScaler>();
+            float resolutionX = canvasScaler.referenceResolution.x;
+            float resolutionY = canvasScaler.referenceResolution.y;
+            float offect = (Screen.width / canvasScaler.referenceResolution.x) * (1 - canvasScaler.matchWidthOrHeight) + (Screen.height / canvasScaler.referenceResolution.y) * canvasScaler.matchWidthOrHeight;
+            Vector2 a = RectTransformUtility.WorldToScreenPoint(Camera.main, pos);
+            return new Vector3(a.x / offect, a.y / offect, 0);
+
+            //return canvas.worldCamera.ScreenToWorldPoint(v_v3);
         }
 
         public T ShowTopView<T>(object param = null) where T : AppView, new()
@@ -53,7 +80,7 @@ namespace GF.UI
                 string path = typeof(T).Namespace.ToString() + VIEWPATH + typeof(T).Name;
 
                 GameObject go = GameObject.Instantiate(Resources.Load<GameObject>(path)) as GameObject;
-                go.transform.SetParent(topCanvas.transform, false);
+                go.transform.SetParent(TopCanvas.transform, false);
                 go.name = typeof(T).Name;
                 _UIDict[typeof(T)] = go;
                 return go.GetComponent<T>();
@@ -108,6 +135,9 @@ namespace GF.UI
             }
             messageBoxPanel.ShowMessageBox(context, style, callback);
         }
+
+        public Canvas BottomCanvas { get; private set; }
+        public Canvas TopCanvas { get; private set; }
     }
 }
 

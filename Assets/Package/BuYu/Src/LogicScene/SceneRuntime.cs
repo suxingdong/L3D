@@ -8,7 +8,9 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using GF.UI;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace BuYu
 {
@@ -147,10 +149,12 @@ namespace BuYu
                 Debug.Log("clientSeat is Out of amount！");
                 return Instance.GlodPosMapping[0];
             }
-            if (clientSeat != PlayerMgr.MyClientSeat)
+            /*if (clientSeat != PlayerMgr.MyClientSeat)
                 return Instance.GlodPosMapping[clientSeat];
             else
-                return Instance.GlodPosMapping[ConstValue.PLAYER_MAX_NUM + clientSeat];
+                return Instance.GlodPosMapping[ConstValue.PLAYER_MAX_NUM + clientSeat];*/
+
+            return Instance.GlodPosMapping[clientSeat];
 
         }
         public static void GetBulletPosAndDir(byte clientSeat, short angle, out Vector3 dir, out Vector3 pos)
@@ -172,7 +176,9 @@ namespace BuYu
         {
             pos = Camera.main.WorldToScreenPoint(pos);
             pos.z = 0;
-            return SceneBoot.Instance.UICamera.ScreenToWorldPoint(pos);
+            return UIManager.Instance.WordToScenePoint(pos);
+
+            //return SceneBoot.Instance.UICamera.ScreenToWorldPoint(pos);
         }
         public static Vector3 NGUIToWorld(Vector3 pos, float z = 0)
         {
@@ -282,6 +288,18 @@ namespace BuYu
             LauncherViewStartPos2 = Camera.main.ScreenToViewportPoint(LauncherScrStartPos2);
             LauncherViewStartPos1.z = 0;
             LauncherViewStartPos2.z = 0;
+        }
+
+        public static void InitGoldPosMapping(byte seat, Vector3 pos)
+        {
+            Instance.GlodPosMapping[seat] = pos;
+            //炮台金币的位置
+            /*Instance.GlodPosMapping[0] = new Vector3(-0.54270833f, -0.9461806f, 0.0f);
+            Instance.GlodPosMapping[1] = new Vector3(0.938773155f, -0.9461806f, 0.0f);
+            Instance.GlodPosMapping[2] = new Vector3(0.917939842f, 0.9458333f, 0.0f);
+            Instance.GlodPosMapping[3] = new Vector3(-0.563541651f, 0.9458333f, 0.0f);
+            Instance.GlodPosMapping[4] = new Vector3(-0.580940962f, -0.8208333f, 0.0f);
+            Instance.GlodPosMapping[5] = new Vector3(0.902314842f, -0.8208333f, 0.0f);*/
         }
         public static SceneBulletMgr BulletMgr
         {

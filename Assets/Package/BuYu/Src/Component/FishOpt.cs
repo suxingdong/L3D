@@ -182,7 +182,7 @@ namespace BuYu
                     {
                         //死亡金币。
                         ++this.CatchData.DeadNum;
-                        //SceneRuntime.EffectMgr.FishCatched(fish, this.CatchData);
+                        SceneRuntime.EffectMgr.FishCatched(fish, this.CatchData);
                     }
                 }
                 m_Duration = FishResManager.Instance.GetFishData(fish.FishType).ClipLength[m_ActionType];

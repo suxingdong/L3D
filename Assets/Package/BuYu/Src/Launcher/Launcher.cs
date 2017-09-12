@@ -204,7 +204,7 @@ namespace BuYu
             m_GunBarrel.Reset(type, m_Seat);
             m_GunBarrel.BulletConsume = BulletSetting.BulletRate[m_RateIndx];
             m_GunBarrel.Init();
-
+            
             //SceneRuntime.LauncherEftMgr.PlayGaiEffect(m_GunBarrel.GaiTransfom, type);
             //SceneRuntime.LauncherEftMgr.PlayMoveLight(m_GunBarrel.BaseTransform, type, m_Seat);
 
@@ -506,7 +506,9 @@ namespace BuYu
             m_TransformHandle.position = pos;//SceneObjMgr.Instance.UICamera.ScreenToWorldPoint(pos);
                 // new Vector3(-1, 0, 0);
             LauncherPos = new Vector2(m_TransformHandle.position.x, m_TransformHandle.position.y);
-
+            //Transform goldIcon = m_TransformHandle.FindChild("UserScore/Image");
+            Transform goldIcon = m_TransformHandle.FindChild("UserScore/Image");
+            SceneRuntime.InitGoldPosMapping(m_Seat, goldIcon.position);
             // m_GlodPos = m_GlodTransform.position;
             //m_GunPivot = Camera.main.ScreenToWorldPoint( m_GunBarrel.GunPivot);
             m_GunPivot = m_TransformHandle.position;//m_GunBarrel.GunPivot;
