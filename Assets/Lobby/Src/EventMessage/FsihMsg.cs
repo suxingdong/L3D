@@ -496,17 +496,28 @@ public enum UserOperateMessage
     UOM_Relation_ChangeRelation_Failed_1,//系统错误
 
     //商店
+    [EnumDisplay("道具购买成功")]
     UOM_Shop_BuyItem_Sucess,
     UOM_Shop_BuyItem_Failed,
+    [EnumDisplay("指定商品不存在")]
     UOM_Shop_BuyItem_Failed_1,//指定商品不存在
+    [EnumDisplay("指定物品不存在")]
     UOM_Shop_BuyItem_Failed_2,//指定物品不存在
+    [EnumDisplay("商品下架了")]
     UOM_Shop_BuyItem_Failed_3,//商品下架了
+    [EnumDisplay("未完善实体信息 不可以购买实体物品")]
     UOM_Shop_BuyItem_Failed_4,//未完善实体信息 不可以购买实体物品
+    [EnumDisplay("货币不够")]
     UOM_Shop_BuyItem_Failed_5,//货币不够
+    [EnumDisplay("系统错误")]
     UOM_Shop_BuyItem_Failed_6,//系统错误
+    [EnumDisplay("未绑定手机号码 无法充值话费")]
     UOM_Shop_BuyItem_Failed_7,//未绑定手机号码 无法充值话费
+    [EnumDisplay("不可以一次购买多个当前物品")]
     UOM_Shop_BuyItem_Failed_8,//不可以一次购买多个当前物品
+    [EnumDisplay("实体物品和手机号码兑换次数超出当天限制")]
     UOM_Shop_BuyItem_Failed_9,//实体物品和手机号码兑换次数超出当天限制
+    [EnumDisplay("购买前必须先分享")]
     UOM_Shop_BuyItem_Failed_10,//购买前必须先分享
 
     //桌子

@@ -59,7 +59,21 @@ namespace Lobby
             m_OnlyID = payInfo.ItemInde;
             m_ItemIcon.sprite = ResManager.Instance.LoadSprite("BuYu/Texture/GoodsIcon/" + itemStr.ItemIcon);
             m_ItemName.text = itemStr.ItemName;
-            
+            if (payInfo.PriceGlobel > 0)
+            {
+                m_ItemCurPrice.text = payInfo.PriceGlobel.ToString();
+            }
+            else if (payInfo.PriceMabel > 0)
+            {
+                m_ItemCurPrice.text = payInfo.PriceMabel.ToString();
+            }
+            else
+            {
+                m_ItemCurPrice.text = payInfo.PriceCurrey.ToString();
+            }
+                
+
+
         }
         void OnClickBuy()
         {

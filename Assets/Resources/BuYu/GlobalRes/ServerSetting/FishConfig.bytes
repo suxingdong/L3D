@@ -2967,19 +2967,19 @@ SignCurrey="0" SignItemID="0" SignItemSum="0" InitMatchGlobel="10000" TableTypeI
 	<Time BeginYear="2014" BeginMonth="1" BeginDay="1" BeginHour="1" BeginMin="1" LastHour="10000" />
 -->
     <Shop ID="1">
-      <Item ID="1" ItemID="900" ItemSum="1" ItemName="闪电卡" ItemIcon="900" ItemDec="使用闪电技能需消耗50张闪电卡" LastMin="0" PriceGlobel="0" PriceMabel="0" PriceCurrey="2"
+      <Item ID="1" ItemID="900" ItemSum="1" ItemName="闪电卡测试" ItemIcon="900" ItemDec="使用闪电技能需消耗50张闪电卡" LastMin="0" PriceGlobel="0" PriceMabel="0" PriceCurrey="2"
 
 IsEntityItem="0" />
-      <Item ID="2" ItemID="901" ItemSum="1" ItemName="寒冰卡" ItemIcon="901" ItemDec="使用寒冰技能需消耗50张寒冰卡" LastMin="0" PriceGlobel="0" PriceMabel="0" PriceCurrey="2"
+      <Item ID="2" ItemID="901" ItemSum="1" ItemName="寒冰卡测试" ItemIcon="901" ItemDec="使用寒冰技能需消耗50张寒冰卡" LastMin="0" PriceGlobel="0" PriceMabel="0" PriceCurrey="2"
 
 IsEntityItem="0" />
-      <Item ID="3" ItemID="902" ItemSum="1" ItemName="暴风卡" ItemIcon="902" ItemDec="使用暴风技能需消耗50张暴风卡" LastMin="0" PriceGlobel="0" PriceMabel="0" PriceCurrey="2"
+      <Item ID="3" ItemID="902" ItemSum="1" ItemName="暴风卡测试" ItemIcon="902" ItemDec="使用暴风技能需消耗50张暴风卡" LastMin="0" PriceGlobel="0" PriceMabel="0" PriceCurrey="2"
 
 IsEntityItem="0" />
-      <Item ID="4" ItemID="903" ItemSum="1" ItemName="陨石卡" ItemIcon="903" ItemDec="使用陨石技能需消耗50张陨石卡" LastMin="0" PriceGlobel="0" PriceMabel="0" PriceCurrey="2"
+      <Item ID="4" ItemID="903" ItemSum="1" ItemName="陨石卡测试" ItemIcon="903" ItemDec="使用陨石技能需消耗50张陨石卡" LastMin="0" PriceGlobel="0" PriceMabel="0" PriceCurrey="2"
 
 IsEntityItem="0" />
-      <Item ID="5" ItemID="904" ItemSum="1" ItemName="锁定卡" ItemIcon="904" ItemDec="使用锁定技能需消耗1张锁定卡" LastMin="0" PriceGlobel="0" PriceMabel="0" PriceCurrey="2"
+      <Item ID="5" ItemID="904" ItemSum="1" ItemName="锁定卡测试" ItemIcon="904" ItemDec="使用锁定技能需消耗1张锁定卡" LastMin="0" PriceGlobel="0" PriceMabel="0" PriceCurrey="2"
 
 IsEntityItem="0" />
       <Item ID="6" ItemID="900" ItemSum="50" ItemName="闪电卡" ItemIcon="900" ItemDec="使用闪电技能需消耗50张闪电卡" LastMin="0" PriceGlobel="0" PriceMabel="0" PriceCurrey="90"
