@@ -117,6 +117,7 @@ namespace Lobby
         private void InitDiamondPanel()
         {
             int num = 0;
+            Vector3 gridPos = gridDiamond.transform.localPosition;
             foreach (KeyValuePair<uint, tagFishRechargeInfo> map in FishConfig.Instance.m_FishRecharge.m_FishRechargeMap)
             {
                 if (!map.Value.IsAddCurrcey())
@@ -133,6 +134,7 @@ namespace Lobby
             RectTransform rectTransform = gridDiamond.GetComponent<RectTransform>();
             rectTransform.sizeDelta = new Vector2(1100, 240* num);
             diamondTemp.SetActive(false);
+            gridDiamond.transform.localPosition = gridPos;
         }
 
         private void InitGoldPanel()
@@ -158,10 +160,35 @@ namespace Lobby
 
         private void InitItemPanel()
         {
+            ClearGird();
+            int num = 0;
+            byte propertyID = (byte)(Shop_Type.Shop_Property + 1);
+            if (FishConfig.Instance.m_ShopInfo.ShopMap.ContainsKey(propertyID) == false)
+                return;
+            tagShopConfig shopItemMap = FishConfig.Instance.m_ShopInfo.ShopMap[propertyID];
+            if (shopItemMap == null)
+                return;
+            foreach (KeyValuePair<byte, tagShopItemConfig> map in shopItemMap.ShopItemMap)
+            {
+
+                PropertyItem item = new PropertyItem();
+                item.Init(itemTemp);
+                item.ShowGoodsInfo(map.Key, map.Value, shopItemMap.ShopItemStrMap[map.Key]);
+                item.m_BaseTrans.parent = gridItem.transform;
+                num++;
+            }
+            RectTransform rectTransform = gridItem.GetComponent<RectTransform>();
+            rectTransform.sizeDelta = new Vector2(1100, 240 * num);
             itemTemp.SetActive(false);
         }
-        
+        void ClearGird()
+        {
+           
+        }
+
     }
+
+
 
 }
 

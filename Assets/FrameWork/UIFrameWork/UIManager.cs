@@ -96,6 +96,11 @@ namespace GF.UI
                 
                 GameObject go = GameObject.Instantiate(Resources.Load<GameObject>(path)) as GameObject;
                 go.transform.SetParent(canvas, false);
+                AppView tView = go.GetComponent<AppView>();
+                if (param != null)
+                {
+                    tView.OnParams(param);
+                }                
                 go.name = typeof(T).Name;                
                 _UIDict[typeof(T)] = go;
                 return go.GetComponent<T>();

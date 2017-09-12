@@ -136,7 +136,11 @@ namespace GF
             }
         }
 
-        
+
+        public virtual void OnParams(object param)
+        {
+            
+        }
 
         protected virtual void _RegisterEvent(string aEventName_string, EventDelegate aEventDelegate)
         {

@@ -508,7 +508,7 @@ namespace BuYu
             LauncherPos = new Vector2(m_TransformHandle.position.x, m_TransformHandle.position.y);
             //Transform goldIcon = m_TransformHandle.FindChild("UserScore/Image");
             Transform goldIcon = m_TransformHandle.FindChild("UserScore/Image");
-            SceneRuntime.InitGoldPosMapping(m_Seat, goldIcon.position);
+            SceneRuntime.InitGoldPosMapping(m_Seat, goldIcon.position   );
             // m_GlodPos = m_GlodTransform.position;
             //m_GunPivot = Camera.main.ScreenToWorldPoint( m_GunBarrel.GunPivot);
             m_GunPivot = m_TransformHandle.position;//m_GunBarrel.GunPivot;

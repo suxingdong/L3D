@@ -61,9 +61,25 @@ namespace BuYu
             ModelManager.Instance.Register<RoomModel>();
 
             InitUserInfo();
+            InitBottom();
             //TODO
             FishResManager.Instance.Init();
             PathManager.Instance.Init();
+        }
+
+        void InitBottom()
+        {
+            Button btn = transform.Find("BottomUI/BtnShop").GetComponent<Button>();
+            btn.onClick.AddListener(delegate ()
+            {
+                UIManager.Instance.ShowView<ShopView>();
+            });
+
+            btn = transform.Find("BottomUI/BtnPetBoss").GetComponent<Button>();
+            btn.onClick.AddListener(delegate ()
+            {
+                //UIManager.Instance.ShowView<UserInfoView>();
+            });
         }
 
         void InitUserInfo()
@@ -79,6 +95,11 @@ namespace BuYu
             textNickName.text = PlayerRole.Instance.RoleInfo.RoleMe.GetNickName();
             textDiamond.text = PlayerRole.Instance.RoleInfo.RoleMe.GetCurrency().ToString();
             textGold.text = PlayerRole.Instance.RoleInfo.RoleMe.GetGlobel().ToString();
+
+            btnUser.onClick.AddListener(delegate ()
+            {
+                UIManager.Instance.ShowView<UserInfoView>();
+            });
         }
 
         void Update()
