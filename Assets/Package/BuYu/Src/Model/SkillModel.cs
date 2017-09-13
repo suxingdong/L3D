@@ -66,7 +66,7 @@ namespace BuYu
             _RegisterEvent(NetCmdType.CMD_SKILL_LOCK_RESPONSE, OnUseSkillLock);
             //鱼的碰撞
             _RegisterEvent(NetCmdType.CMD_CATCHED, onCatchedFish);
-
+            //切换场景
             _RegisterEvent(NetCmdType.CMD_CLEAR_SCENE, OnChangeScene);
         }
 

@@ -127,7 +127,7 @@ namespace BuYu
         public Vector3 Offset;
         public float Delay;          //延迟多少秒开始播放
         public float Life;           //持续播放时间
-        public float Time;
+        public float Time;  //计时器time +delt
         public bool Active;
     }
 

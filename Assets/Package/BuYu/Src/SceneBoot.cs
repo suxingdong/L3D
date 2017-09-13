@@ -53,6 +53,7 @@ namespace BuYu
         void Update()
         {
             FishManager.Instance.Update(Time.deltaTime);
+            GlobalEffectMgr.Instance.Update(Time.deltaTime);
         }
 
         void OnLevelWasLoaded(int level)

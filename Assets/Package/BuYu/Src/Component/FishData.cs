@@ -44,10 +44,10 @@ namespace BuYu
     }
     public enum FishClipType
     {
-        CLIP_YOUYONG = 0,
-        CLIP_SIWANG,
-        CLIP_CHAOFENG,
-        CLIP_GONGJI,
+        CLIP_YOUYONG = 0,   //游泳
+        CLIP_SIWANG,        //死亡
+        CLIP_CHAOFENG,      //嘲讽
+        CLIP_GONGJI,        //攻击
         CLIP_MAX
     };
     public class ResFishData

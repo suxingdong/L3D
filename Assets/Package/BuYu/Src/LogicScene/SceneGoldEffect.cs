@@ -141,7 +141,7 @@ namespace BuYu
         }
         public void SetLabelFontSize()
         {
-            GoldLLabel.fontSize = 10;
+            //GoldLLabel.fontSize = 10;
         }
         public void SetPos(Vector3 pos)
         {

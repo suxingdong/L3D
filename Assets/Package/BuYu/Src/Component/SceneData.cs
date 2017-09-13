@@ -59,6 +59,7 @@ namespace BuYu
         BLEND_LERP_TEX,
         BLEND_DISSOLVE_TEX,
     }
+
     public class BlendData
     {
         public BlendData(Color blendColor, float factor, float d1, float d2, float d3)
