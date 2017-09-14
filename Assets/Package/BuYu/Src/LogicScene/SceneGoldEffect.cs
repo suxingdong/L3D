@@ -197,10 +197,10 @@ namespace BuYu
         {
             if (bPlay)
             {
-                if (!m_Tween.m_Pos.enabled)
-                    m_Tween.m_Pos.enabled = true;
-                if (!m_Tween.m_Sclae.enabled)
-                    m_Tween.m_Sclae.enabled = true;
+                /*if (!m_Tween.m_Pos.enabled)
+                    m_Tween.m_Pos.enabled = true;*/
+                /*if (!m_Tween.m_Sclae.enabled)
+                    m_Tween.m_Sclae.enabled = true;*/
                 /*m_Tween.m_Pos.ResetToBeginning();
                 m_Tween.m_Sclae.ResetToBeginning();
                 m_Tween.m_Pos.PlayForward();
@@ -208,8 +208,8 @@ namespace BuYu
             }
             else
             {
-                m_Tween.m_Pos.enabled = false;
-                m_Tween.m_Sclae.enabled = false;
+                /*m_Tween.m_Pos.enabled = false;
+                m_Tween.m_Sclae.enabled = false;*/
             }
         }
         public void InitCRPath()
@@ -411,8 +411,8 @@ namespace BuYu
                 }
                 
                 ged.GameObj.transform.position = FishPos + (new Vector3(Utility.RandFloat()*100, Utility.RandFloat(), 0)) * (fish.IsBossFish() ? 0.45f : 0.15f);
-                ged.m_Tween.m_Pos = ged.GameObj.transform.GetComponents<DOTweenAnimation>()[0];
-                ged.m_Tween.m_Sclae = ged.GameObj.transform.GetComponents<DOTweenAnimation>()[1];
+                //ged.m_Tween.m_Pos = ged.GameObj.transform.GetComponents<DOTweenAnimation>()[0];
+                //ged.m_Tween.m_Sclae = ged.GameObj.transform.GetComponents<DOTweenAnimation>()[1];
 
                 ged.ScaleGoldTR(1.0f, fish.IsBossFish() ? 1.0f : 0.6f);
                 if (i > 0 && !fish.IsBossFish())
@@ -430,12 +430,12 @@ namespace BuYu
                 ged.ClientSeat = cd.ClientSeat;
                 ged.PlayTween(true);
                 ged.m_vecpathend = vecGoldEndpos;
-                DOTween.To(() => ged.GameObj.transform.position, x => ged.GameObj.transform.position = x, vecGoldEndpos, 0.5f).SetDelay(1+i*0.1f);
-                //ged.GameObj.transform.DOMove(vecGoldEndpos, 0.5f ).SetDelay(1 + i * 0.2f);
-                //ged.GameObj.transform.DOScale(new Vector3(0.2f,0.2f,1f),0.5f ).SetDelay(1 + i * 0.2f);
-                /*if (SceneRuntime.PlayerMgr.GetPlayer(ged.catchedData.ClientSeat) == SceneRuntime.PlayerMgr.MySelf)
-                    GlobalAudioMgr.Instance.PlayOrdianryMusic(Audio.OrdianryMusic.m_GoldJump);*/
-                m_CatchedList.Add(ged);
+
+                DOTween.To(() => ged.GameObj.transform.position, r => ged.GameObj.transform.position = r, vecGoldEndpos, 0.5f).SetDelay(1+i*0.1f).OnComplete(() =>
+                {
+                    ged.DsetorySelf();
+                }
+            );
             }
             ShowGoldNumLabel(fishGold, FishPos, fish);
 

@@ -20,6 +20,8 @@ namespace Lobby
         public static string HIDE_CANON_SKILL      = "HIDE_CANON_SKILL";       //隐藏炮台
         public static string UPDATE_USERITEM       = "UPDATE_USERITEM";        //刷新ITEM
         public static string UPDATE_SKILLCDTIME    = "UPDATE_SKILLCDTIME";     //刷新技能CD
+
+        public static string UPDATE_PLAYSCORE    = "UPDATE_PLAYSCORE";         //刷新玩家金币
     }
 }
 

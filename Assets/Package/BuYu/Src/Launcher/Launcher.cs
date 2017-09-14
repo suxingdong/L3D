@@ -223,6 +223,9 @@ namespace BuYu
             m_VipFunctionObj = m_TransformHandle.FindChild("CanonOption").gameObject;
             m_VipFunctionObj.SetActive(false);
 
+            m_LabelScore = m_TransformHandle.FindChild("UserScore/text").GetComponent<Text>();
+            m_LabelDiamond = m_TransformHandle.FindChild("Diamod/text").GetComponent<Text>();
+
         }
 
         public void Update(float delta)
@@ -434,7 +437,7 @@ namespace BuYu
 
         public void UpdateUserGold(byte clientSeat)
         {
-            /*if (m_bMyself)
+            if (m_bMyself)
             {
                 m_LabelDiamond.text = PlayerRole.Instance.RoleInfo.RoleMe.GetCurrency().ToString();
             }
@@ -443,7 +446,7 @@ namespace BuYu
                 if (SceneRuntime.PlayerMgr.GetPlayer(clientSeat) == null)
                     return;
             }
-            m_LabelScore.text = PlayerRole.Instance.GetPlayerGlobelBySeat(clientSeat).ToString();*/
+            m_LabelScore.text = PlayerRole.Instance.GetPlayerGlobelBySeat(clientSeat).ToString();
         }
 
         public void UpdateVipLevelData(uint UserID)

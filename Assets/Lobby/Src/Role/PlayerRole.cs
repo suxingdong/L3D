@@ -411,7 +411,7 @@ namespace Lobby
             //因为捕获鱼 添加金币
             Seat = SceneRuntime.ClientToServerSeat(Seat);
             bool IsInMonth = (PlayerRole.Instance.RoleInfo.RoleMe.GetMonthID() != 0);
-            /*if (PlayerRole.Instance.RoleInfo.RoleMe.GetSeat() == Seat)
+            if (PlayerRole.Instance.RoleInfo.RoleMe.GetSeat() == Seat)
             {
                 if (PlayerRole.Instance.RoleInfo.RoleMe == null)
                     return false;
@@ -431,7 +431,9 @@ namespace Lobby
                     //MsgEventHandle.HandleMsg(pEvent);
                     tagMatchScoreAddEvent pEvent =
                         new tagMatchScoreAddEvent(PlayerRole.Instance.RoleInfo.RoleMe.GetUserID());
-                    MsgEventHandle.HandleMsg(pEvent);
+                    //MsgEventHandle.HandleMsg(pEvent);
+                    IEvent evnt = new Event(EventMsg.UPDATE_PLAYSCORE);
+                    EventManager.Instance.DispatchEvent(evnt);
                     return true;
                 }
                 else
@@ -441,7 +443,7 @@ namespace Lobby
                     PlayerRole.Instance.RoleInfo.RoleMe.SetGlobel(
                         Convert.ToUInt32(PlayerRole.Instance.RoleInfo.RoleMe.GetGlobel() + GlobelSum));
                     tagRoleChangeEvent pEvent = new tagRoleChangeEvent();
-                    MsgEventHandle.HandleMsg(pEvent);
+                    //MsgEventHandle.HandleMsg(pEvent);
                     return true;
                 }
             }
@@ -461,7 +463,7 @@ namespace Lobby
                         pTableRole.SetMonthGlobel(Convert.ToUInt32(pTableRole.GetMonthGlobel() + GlobelSum));
                     }
                     tagMonthChangeEvent pEvent = new tagMonthChangeEvent(pTableRole.GetUserID());
-                    MsgEventHandle.HandleMsg(pEvent);
+                    //MsgEventHandle.HandleMsg(pEvent);
                     return true;
                 }
                 else
@@ -474,10 +476,10 @@ namespace Lobby
                     pTableRole.SetGlobel(Convert.ToUInt32(pTableRole.GetGlobel() + GlobelSum));
 
                     tagTableChangeEvent pEvent = new tagTableChangeEvent(pTableRole.GetUserID());
-                    MsgEventHandle.HandleMsg(pEvent);
+                    //MsgEventHandle.HandleMsg(pEvent);
                     return true;
                 }
-            }*/
+            }
             return false;
         }
     }

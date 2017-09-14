@@ -40,6 +40,7 @@ namespace BuYu
             _RegisterEvent(EventMsg.UPDATE_CANON_SKILL, OnUpdateSkillBtn);
             _RegisterEvent(EventMsg.HIDE_CANON_SKILL, OnDisableSkillBtn);
             _RegisterEvent(EventMsg.UPDATE_SKILLCDTIME, OnPlayCD);
+            _RegisterEvent(EventMsg.UPDATE_PLAYSCORE, OnUpdataScore);
         }
 
         protected override void OnStart()
@@ -145,6 +146,11 @@ namespace BuYu
             }
         }
 
+        public void  OnUpdataScore(IEvent iEvent)
+        {
+            SceneRuntime.PlayerMgr.UpdatePlayerGold(PlayerRole.Instance.RoleInfo.RoleMe.GetUserID());
+            //SceneRuntime.LogicUI.UpdateUnLockDataInfo();
+        }
         void OnClickLock()
         {
             skillModel.OnProcessLock();
