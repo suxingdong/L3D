@@ -74,10 +74,7 @@ namespace Lobby
             ModelManager.Instance.Get<LoginModel>().SendLogonHallData();
             yield return null;
         }
-        void Update()
-        {
-
-        }
+        
 
         public void onShowTips()
         {

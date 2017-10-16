@@ -35,6 +35,7 @@ namespace BuYu
         private Button btnSkillEp;
         private Button btnPay;
 
+        SceneLockedUI m_LockedFishUI = new SceneLockedUI();
 
         private void RegisterEvent()
         {
@@ -170,6 +171,12 @@ namespace BuYu
         {
             UIManager.Instance.ShowTopView<ShopView>();
         }
+
+        protected override void OnUpdate(float time)
+        {
+            m_LockedFishUI.UpdateLockedUI();
+        }
+
 
     }
 }

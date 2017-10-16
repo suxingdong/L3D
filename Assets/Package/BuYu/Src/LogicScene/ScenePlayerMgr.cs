@@ -36,7 +36,7 @@ namespace BuYu
             }
             m_ComboObj = ResManager.Instance.LoadObject("Combo_UI", "SceneRes/Prefab/UI/DoubleHit/", ResType.SceneRes);
             m_ComboEftObj = ResManager.Instance.LoadObject("UIEf_Combo", "SceneRes/Prefab/UI/Combo/", ResType.SceneRes);
-            m_LockedObj = ResManager.Instance.LoadObject(("LockedFishUI"), "SceneRes/Prefab/UI/LockedFish/",
+            m_LockedObj = ResManager.Instance.LoadObject(("LockedFishUI"), "BuYu/Prefab/UI/",
                 ResType.SceneRes);
 
         }
@@ -221,11 +221,11 @@ namespace BuYu
                 Vector3 startViewPoint = SceneRuntime.GetLauncherViewStartPos(MyClientSeat);
                 Fish fish = SceneRuntime.FishMgr.FindFishByID(m_LockedFishID);
 
-                /*if (fish == null || fish.IsDelay || fish.Catched || Utility.IsInScreen(fish.ScreenPos) == false ||
-                    Utility.CheckLauncherAngle(fish, startScrPoint, startViewPoint) == false)
+                if (fish == null || fish.IsDelay || fish.Catched || Utility.IsInScreen(fish.ScreenPos) == false ||
+                    BuYuUtils.CheckLauncherAngle(fish, startScrPoint, startViewPoint) == false)
                 {
                     m_LockedFishID = 0;
-                }*/
+                }
             }
             else if (m_bAutoLocked)
             {
