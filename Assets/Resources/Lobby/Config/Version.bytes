@@ -18,9 +18,9 @@
     <Publish  resftp="ftp://124.173.67.72/fishpublish" ftpport="45045" runftp="ftp://124.173.67.72/FishPublish" verdir="version"/>
     <Test     resftp="ftp://124.173.67.72/fishpublish" ftpport="45045" runftp="ftp://124.173.67.72/FishPublish" verdir="test/test_version" />
     <Editor   resftp="ftp://124.173.67.72/fishpublish"  ftpport="45045" runftp="ftp://124.173.67.72/FishPublish"  verdir="test/test_version">
-      <IP port="40056">127.0.0.1</IP>
+      <IP port="40056">192.168.0.110</IP>
     </Editor>
   </Server>
   <Services>http://www.baidu.com</Services>
-  <Reporter port="45065">127.0.0.1</Reporter>
+  <Reporter port="45065">192.168.0.110</Reporter>
 </Setting>
