@@ -78,7 +78,7 @@ namespace BuYu
             btn = transform.Find("BottomUI/BtnPetBoss").GetComponent<Button>();
             btn.onClick.AddListener(delegate ()
             {
-                //UIManager.Instance.ShowView<UserInfoView>();
+                UIManager.Instance.ShowView<IllustratView>();
             });
         }
 

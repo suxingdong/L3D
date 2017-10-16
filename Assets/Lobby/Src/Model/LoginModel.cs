@@ -102,6 +102,7 @@ namespace Lobby
             ncb.PlateFormID = (Byte)UIDevice.GetPlatformString();
             ncb.PathCrc = ServerSetting.RES_VERSION;
             ncb.MacAddress = UIDevice.GetMacAddress();
+            Debug.Log("发送登录......");
             //发送命令
             NetManager.Instance.Send<CL_Cmd_AccountLogon>(ncb);
             return;

@@ -26,7 +26,8 @@ namespace GF
         public static string persistPath = UnityEngine.Application.persistentDataPath;
         //persistPath = string.Format(@"Assets/StreamingAssets/{0}", fileName);
 #elif UNITY_ANDROID
-            public static string persistPath  = "jar:file://" + Application.dataPath + "!/assets";
+            public static string persistPath  = Application.persistentDataPath;
+            //public static string persistPath  = "jar:file://" + Application.dataPath + "!/assets";
 #elif UNITY_IOS
             public static string persistPath =  Application.dataPath + "/Raw";
 #else

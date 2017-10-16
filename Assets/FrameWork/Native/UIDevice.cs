@@ -28,7 +28,16 @@ namespace GF
 
         public static string GetMacAddress()
         {
-            NetworkInterface[] nis = NetworkInterface.GetAllNetworkInterfaces();
+            string str = "NONE";
+#if UNITY_ANDROID
+            str = "Android 000000";//SDKMgr.Instance.AndroidObj.CallStatic<string>("_GetMac");
+#elif UNITY_IOS
+        str = _GetMac();
+#else
+        str = "Windows_None";
+#endif
+            return str;
+            /*NetworkInterface[] nis = NetworkInterface.GetAllNetworkInterfaces();
             foreach (NetworkInterface ni in nis)
             {
                 //Debug.Log("Name = " + ni.Name);
@@ -37,7 +46,7 @@ namespace GF
                 //Debug.Log("Mac地址 = " + ni.GetPhysicalAddress().ToString());
                 return ni.GetPhysicalAddress().ToString();
             }
-            return "NONE";
+            return "NONE";*/
         }
 
         public static PlatformType GetPlatformString()

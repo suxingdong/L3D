@@ -39,6 +39,7 @@ namespace BuYu
         private void Awake()
         {
             instance = this;
+            Utility.GlobalInit();
             UIManager.Instance.ShowView<RoomView>();
             ModelManager.Instance.Register<SceneModel>();
             ModelManager.Instance.Register<SkillModel>();
