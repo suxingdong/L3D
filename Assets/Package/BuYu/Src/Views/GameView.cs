@@ -33,8 +33,9 @@ namespace BuYu
         //private Button btnShop;
         private Button btnLockFish;
         private Button btnSkillEp;
+        private Button btnPay;
 
-  
+
         private void RegisterEvent()
         {
             _RegisterEvent(EventMsg.UPDATE_CANON_SKILL, OnUpdateSkillBtn);
@@ -71,6 +72,10 @@ namespace BuYu
             
             btnSkillEp = tSkillNode.FindChild("BtnSkillEp").GetComponent<Button>();
             btnSkillEp.onClick.AddListener(OnClickSkill);
+
+            btnPay = tSkillNode.FindChild("BtnPay").GetComponent<Button>();
+            btnPay.onClick.AddListener(OnCliclPay);
+             
         }
         public void OnPointerDown(PointerEventData eventData)
         {
@@ -160,7 +165,11 @@ namespace BuYu
         {
             skillModel.OnProcessSkill();
         }
-        
+
+        void OnCliclPay()
+        {
+            UIManager.Instance.ShowTopView<ShopView>();
+        }
 
     }
 }

@@ -61,6 +61,7 @@ namespace GF
 
         public bool Connect(bool bTcp, string ip, ushort port, uint newip = 0, ushort newport = 0)
         {
+            Debug.Log("连接到服务器 IP = "+ip);
             if (tCPClient != null && tCPClient.IsConnected)
             {
                 Debug.Log("TCP is connected.");

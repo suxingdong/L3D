@@ -78,6 +78,7 @@ namespace Lobby
 
         public void onEnterMainGame()
         {
+            Debug.Log("点击登录");
             AccountInfo info = new AccountInfo();
             info.UID = labelUID.text;
             info.PWD = labelPWD.text;
@@ -92,6 +93,7 @@ namespace Lobby
             {
                  //isConnect = NetManager.Instance.Connect(true, "127.0.0.1", 40056);
                  isConnect = NetManager.Instance.Connect(true, "192.168.77.226", 40056);
+                 
             }
                         
             if(isConnect)

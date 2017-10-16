@@ -277,7 +277,7 @@ namespace BuYu
             }
             else
             {
-                UpdateLaunchAngle(); //更新炮台角度
+                //UpdateLaunchAngle(); //更新炮台角度
             }
             //m_GunBarrel.Update(delta);
             CheckIsBankruptcy();
@@ -322,7 +322,7 @@ namespace BuYu
                             PlayerRole.Instance.RoleInfo.RoleMe.GetMonthID(), MatchMsgBoxType.Match_BuyGold);#1#
                         return;
                     }*/
-
+                    UpdateLaunchAngle();
                     short angle = Utility.FloatToShort(m_Angle);
                     angle = SceneRuntime.AngleInversion(angle);
                     SceneRuntime.SceneModel.LaunchBullet(angle);

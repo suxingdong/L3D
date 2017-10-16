@@ -224,7 +224,7 @@ namespace BuYu
             
             m_Trans.position = m_Pos;
             m_ParEftTrans.position = m_Pos;
-            //CheckBoundary();
+            CheckBoundary();
             return true;
         }
     }
