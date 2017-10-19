@@ -81,6 +81,12 @@ namespace Lobby
             object[] param = new object[3] { shopID, m_OnlyID, (uint)1 };            
             UIManager.Instance.ShowView<QuickShopView>(param);
         }
+
+        public void ResetLocalScale()
+        {
+            m_BaseTrans.localScale = Vector3.one;
+        }
+
     }
 
     //商品ITEM
@@ -119,7 +125,7 @@ namespace Lobby
             m_OverLine = m_ItemOldPrice.transform.Find("Line").GetComponent<Image>();
             m_ItemCurPrice = m_BaseTrans.transform.Find("Price/CurParice").GetComponent<Text>();
             m_ItemName = m_BaseTrans.transform.Find("Title").GetComponent<Text>();
-            
+            m_BaseTrans.localScale = Vector3.one;
             btnBuy.onClick.AddListener(OnClickBuy);
         }
 

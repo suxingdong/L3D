@@ -197,27 +197,27 @@ namespace BuYu
                     // GlobalAudioMgr.Instance.PlayOrdianryMusic(Audio.OrdianryMusic.m_Niuniu15);
                     if (fish.FishType == 9)
                     {
-                        AudioManager.Instance.PlayOrdianryMusic(/*Audio.OrdianryMusic.m_lansha*/);
+                        AudioManager.Instance.PlayOrdianryMusic(Audio.OrdianryMusic.m_lansha);
                     }
                     else if (fish.FishType == 1)
                     {
-                        AudioManager.Instance.PlayOrdianryMusic(/*Audio.OrdianryMusic.m_lanshaBoss*/);
+                        AudioManager.Instance.PlayOrdianryMusic(Audio.OrdianryMusic.m_lanshaBoss);
                     }
                     else if (fish.FishType == 18)
                     {
-                        AudioManager.Instance.PlayOrdianryMusic(/*Audio.OrdianryMusic.m_heisha*/);
+                        AudioManager.Instance.PlayOrdianryMusic(Audio.OrdianryMusic.m_heisha);
                     }
                     else if (fish.FishType == 3)
                     {
-                        AudioManager.Instance.PlayOrdianryMusic(/*Audio.OrdianryMusic.m_heishaBoss*/);
+                        AudioManager.Instance.PlayOrdianryMusic(Audio.OrdianryMusic.m_heishaBoss);
                     }
                     else if (fish.FishType == 20)
                     {
-                        AudioManager.Instance.PlayOrdianryMusic(/*Audio.OrdianryMusic.m_hujing*/);
+                        AudioManager.Instance.PlayOrdianryMusic(Audio.OrdianryMusic.m_hujing);
                     }
                     else if (fish.FishType == 19)
                     {
-                        AudioManager.Instance.PlayOrdianryMusic(/*Audio.OrdianryMusic.m_hujingBoss*/);
+                        AudioManager.Instance.PlayOrdianryMusic(Audio.OrdianryMusic.m_hujingBoss);
                     }
                 }
 

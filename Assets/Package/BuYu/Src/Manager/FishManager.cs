@@ -172,13 +172,13 @@ namespace BuYu
             _time1 += Time.deltaTime;
             if (_time1 >= time2 && _mFishNum > 0 && _boo == 0)
             {
-                AudioManager.Instance.PlayOrdianryMusic();
+                AudioManager.Instance.PlayOrdianryMusic(Audio.OrdianryMusic.m_qingdian);
                 // time1 = 0f;
                 _boo = 1;
             }
             if (_time1 >= time3 && _mFishNum > 0)
             {
-                AudioManager.Instance.PlayOrdianryMusic();
+                AudioManager.Instance.PlayOrdianryMusic(Audio.OrdianryMusic.m_haohuai);
                 _boo = 0;
                 _time1 = 0f;
             }

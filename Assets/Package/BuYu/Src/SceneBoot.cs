@@ -71,6 +71,12 @@ namespace BuYu
         {
             
         }
+
+        public void StartInnerCoroutine(IEnumerator e)
+        {
+            StartCoroutine(e);
+        }
+
     }
 
 

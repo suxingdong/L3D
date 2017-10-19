@@ -65,6 +65,7 @@ namespace BuYu
             //TODO
             FishResManager.Instance.Init();
             PathManager.Instance.Init();
+            AudioManager.Instance.PlayerBGMusic(Audio.EffectBGType.EffectBGSound1);
         }
 
         void InitBottom()

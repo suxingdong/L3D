@@ -79,7 +79,7 @@ namespace BuYu
                 else
                     item.ShowLaunchInfo(CanonState.WithOutGet, pItem,tType);
                 item.m_BaseTrans.parent = _mGrid.transform;
-
+                item.ResetScale();
                 //////////////////////
 
                 //uint validTime = 0;
@@ -92,7 +92,7 @@ namespace BuYu
                 //    if (!PlayerRole.Instance.RoleLauncher.GetLauncherEndTime(i, out validTime))
                 //        continue;
                 //}
-                
+
 
             }
             _mCanonTemplet.SetActive(false);
