@@ -113,6 +113,10 @@ namespace BuYu
             {
                 m_FishMgr.LaunchFish(pack);
             }
+            else
+            {
+                Debug.LogError("m_FishMgr == null");
+            }
             
 
         }
@@ -152,10 +156,9 @@ namespace BuYu
         {
             NetCmdPack pack = iEvent.parameter as NetCmdPack;
             m_Jtable = (LC_Cmd_JoinTableResult)pack.cmd;
-
+            Debug.Log("m_Jtable.Result::: "+ m_Jtable.Result);
             if (m_Jtable.Result)
             {
-                Debug.Log("LC_Cmd_JoinTableResult 来了");
                 //在玩家身上设置玩家桌子ID
                 PlayerRole.Instance.RoleInfo.RoleMe.SetTableTypeID(m_Jtable.bTableTypeID);
 
@@ -168,6 +171,10 @@ namespace BuYu
                 m_roomDate.RateIndex = m_Jtable.RateIndex;
                 m_roomDate.Energy = m_Jtable.Energy;
                 //LogicManager.Instance.Forward(ncg);
+            }
+            else
+            {
+                Debug.LogError("连接桌子错误");
             }
 
         }

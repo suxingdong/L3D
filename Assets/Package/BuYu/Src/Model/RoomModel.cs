@@ -6,6 +6,7 @@
 	Desc: 
 **********************************************/
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using GF;
@@ -25,6 +26,7 @@ namespace BuYu
     public class RoomModel : AppModel
     {
         byte _mState;
+        private Byte _curRoomId;
 
         public RoomModel()
         {
@@ -49,17 +51,22 @@ namespace BuYu
                 UIManager.Instance.ShowMessage(pError.Description(), MessageBoxEnum.Style.Ok,null);
                 return false;
             }
-
+            _curRoomId = roomid;
+            State = RoomState.HALL_JOIN_ROOM;
             //GlobalEffectMgr.Instance.ShowLoadingMessage();
 
             //发送进入房间的命令到服务端去
-            CL_Cmd_JoinTable ncb = new CL_Cmd_JoinTable();
-            ncb.SetCmdType(NetCmdType.CMD_CL_JoinTable);
-            ncb.bTableType = roomid;
-            NetManager.Instance.Send<CL_Cmd_JoinTable>(ncb);
-
-            State = RoomState.HALL_JOIN_ROOM;
+            //            CL_Cmd_JoinTable ncb = new CL_Cmd_JoinTable();
+            //            ncb.SetCmdType(NetCmdType.CMD_CL_JoinTable);
+            //            ncb.bTableType = roomid;
+            //            NetManager.Instance.Send<CL_Cmd_JoinTable>(ncb);
+            //            State = RoomState.HALL_JOIN_ROOM;
             return true;
+        }
+
+        public Byte GetCurRoomId()
+        {
+            return _curRoomId;
         }
 
     }

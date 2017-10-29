@@ -43,6 +43,18 @@ namespace GF
             allModelList[appModule.GetType()] = appModule;
         }
 
+        public void RemoveModule<T>() where T : AppModel
+        {
+            if (!allModelList.ContainsKey(typeof(T)))
+            {
+                return;
+            }
+            T module = allModelList[typeof(T)] as T;
+            module.RemoveMsgList();
+            allModelList.Remove(typeof(T));
+        }
+
+
         public void Update(float delt)
         {
             foreach (var var in allModelList.Values)

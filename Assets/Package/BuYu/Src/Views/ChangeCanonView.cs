@@ -44,8 +44,13 @@ namespace BuYu
         {
             RegisterEvent();
             InitLauncherList();
+            Time.timeScale = 0;
         }
 
+        protected override void OnDestroy()
+        {
+            Time.timeScale = 1;
+        }
 
         void InitLauncherList()
         {

@@ -126,6 +126,13 @@ namespace Lobby
             get { return m_TableManager; }
         }
 
+        //21 Gamedata
+        private RoleGameData m_RoleGameData = new RoleGameData();
+        internal RoleGameData RoleGameData
+        {
+            get { return m_RoleGameData; }
+        }
+
         //23.炮台管理器
         private RoleLauncher m_RoleLauncher = new RoleLauncher();
         internal RoleLauncher RoleLauncher

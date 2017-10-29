@@ -138,16 +138,19 @@ namespace BuYu
         }
         public void LaunchFish(NetCmdPack pack)
         {
+            Debug.Log(" LaunchFish(NetCmdPack pack)");
             NetCmdFish cmdFish = (NetCmdFish)pack.cmd;
             GroupDataList gdl = FishResManager.Instance.GetFishGroup(cmdFish.GroupID);
             ushort startID = cmdFish.StartID;
             float elapsedTime = Utility.TickSpan(pack.tick) + SceneRuntime.NetDelayTime;
             if (gdl.PathGroupData != null)
             {
+                Debug.Log("if (gdl.PathGroupData != null)");
                 FishPathGroupData pathgroup = gdl.PathGroupData;
                 PathLinearInterpolator[] interpList = PathManager.Instance.GetPathGroup(pathgroup.PathGroupIndex, SceneRuntime.Inversion);
                 foreach (PathLinearInterpolator interp in interpList)
                 {
+                    Debug.Log("Fish fish = new Fish();");
                     Fish fish = new Fish();
                     fish.Init(startID, pathgroup.FishIndex, pathgroup.FishScaling, 0, pathgroup.ActionSpeed, pathgroup.ActionUnite, pathgroup.Speed, interp);
 #if UNITY_EDITOR
@@ -166,6 +169,7 @@ namespace BuYu
             }
             else
             {
+                Debug.Log("LaunchFish 001");
                 float fInv = SceneRuntime.Inversion ? -1.0f : 1.0f;
                 int pathIndex = cmdFish.PathID;
                 PathLinearInterpolator pi = PathManager.Instance.GetPath(pathIndex, SceneRuntime.Inversion);

@@ -25,9 +25,11 @@ namespace BuYu
         private float speed = 0.2f;
         private SceneModel sceneModel;
         private SkillModel skillModel;
-        void Start()
+        protected override void OnStart()
         {
             ProgressBar.fillAmount = 0;
+            ModelManager.Instance.Register<SceneModel>();
+            ModelManager.Instance.Register<SkillModel>();
             sceneModel = ModelManager.Instance.Get<SceneModel>();
             skillModel = ModelManager.Instance.Get<SkillModel>();
             NetManager.Instance.CanProcessCmd = false;
@@ -42,7 +44,12 @@ namespace BuYu
             UIManager.Instance.ShowView<GameView>(); yield return new WaitForEndOfFrame();
 
             NetManager.Instance.CanProcessCmd = true; yield return new WaitForEndOfFrame();
-          
+
+            CL_Cmd_JoinTable ncb = new CL_Cmd_JoinTable();
+            ncb.SetCmdType(NetCmdType.CMD_CL_JoinTable);
+            ncb.bTableType = ModelManager.Instance.Get<RoomModel>().GetCurRoomId();
+            NetManager.Instance.Send<CL_Cmd_JoinTable>(ncb);
+
             yield return StartCoroutine(sceneModel.MainInitProcedure());
 
             yield return StartCoroutine(skillModel.MainInitProcedure());
@@ -54,6 +61,9 @@ namespace BuYu
 
 
             sceneModel.ResetScene(true); yield return new WaitForEndOfFrame();
+
+            
+            print("资源加载完成");
             ProgressBar.fillAmount = 1;
 
 

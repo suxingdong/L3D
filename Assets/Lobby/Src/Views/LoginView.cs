@@ -47,6 +47,7 @@ namespace Lobby
 
         IEnumerator Onlogin(AccountInfo info)
         {
+            yield return new WaitForSeconds(0.5f);
             if (!NetManager.Instance.IsConnected)
             {
                 NetManager.Instance.Connect(true, "192.168.0.110", 40056);
