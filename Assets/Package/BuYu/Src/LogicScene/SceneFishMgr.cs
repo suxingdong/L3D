@@ -145,12 +145,10 @@ namespace BuYu
             float elapsedTime = Utility.TickSpan(pack.tick) + SceneRuntime.NetDelayTime;
             if (gdl.PathGroupData != null)
             {
-                Debug.Log("if (gdl.PathGroupData != null)");
                 FishPathGroupData pathgroup = gdl.PathGroupData;
                 PathLinearInterpolator[] interpList = PathManager.Instance.GetPathGroup(pathgroup.PathGroupIndex, SceneRuntime.Inversion);
                 foreach (PathLinearInterpolator interp in interpList)
                 {
-                    Debug.Log("Fish fish = new Fish();");
                     Fish fish = new Fish();
                     fish.Init(startID, pathgroup.FishIndex, pathgroup.FishScaling, 0, pathgroup.ActionSpeed, pathgroup.ActionUnite, pathgroup.Speed, interp);
 #if UNITY_EDITOR
