@@ -138,6 +138,7 @@ namespace BuYu
         }
         public void LaunchFish(NetCmdPack pack)
         {
+            Debug.Log(" LaunchFish(NetCmdPack pack)");
             NetCmdFish cmdFish = (NetCmdFish)pack.cmd;
             GroupDataList gdl = FishResManager.Instance.GetFishGroup(cmdFish.GroupID);
             ushort startID = cmdFish.StartID;
@@ -166,6 +167,7 @@ namespace BuYu
             }
             else
             {
+                Debug.Log("LaunchFish 001");
                 float fInv = SceneRuntime.Inversion ? -1.0f : 1.0f;
                 int pathIndex = cmdFish.PathID;
                 PathLinearInterpolator pi = PathManager.Instance.GetPath(pathIndex, SceneRuntime.Inversion);

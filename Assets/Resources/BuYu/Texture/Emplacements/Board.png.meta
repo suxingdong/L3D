@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: c3da131a56e48a04b9a8e63ab6c02b6e
-timeCreated: 1502159402
+timeCreated: 1508570707
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName: {}
@@ -83,6 +83,14 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
   - buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: WebGL
     maxTextureSize: 2048
     textureFormat: -1
     textureCompression: 1

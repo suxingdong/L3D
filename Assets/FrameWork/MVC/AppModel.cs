@@ -25,6 +25,7 @@ namespace GF
 
         protected virtual void _RegisterEvent(NetCmdType aEventName_cmd, EventDelegate aEventDelegate)
         {
+            msgList[aEventName_cmd+""] = aEventDelegate;
             NetManager.Instance.AddNetEventListener(aEventName_cmd, aEventDelegate);
         }
 
@@ -34,6 +35,11 @@ namespace GF
             {
                 NetManager.Instance.RemoveEventListener(var.Key, var.Value);
             }
+        }
+
+        public virtual void RemoveMsgList()
+        {
+            _removeMsgList();
         }
     }
 

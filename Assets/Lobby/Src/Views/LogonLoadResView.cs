@@ -8,6 +8,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using BuYu;
 using UnityEngine;
 using UnityEngine.UI;
 using GF;
@@ -36,6 +37,7 @@ namespace Lobby
             yield return StartCoroutine(FishConfig.Instance.LoadFishConfig(obj, objErrorStr));
             UIManager.Instance.ShowView<LoginView>();
             UIManager.Instance.HideView<LogonLoadResView>();
+            AudioManager.Instance.Init();
         }
 
 

@@ -35,6 +35,7 @@ namespace BuYu
         private Button btnSkillEp;
         private Button btnPay;
 
+        SceneLockedUI m_LockedFishUI = new SceneLockedUI();
 
         private void RegisterEvent()
         {
@@ -102,11 +103,26 @@ namespace BuYu
 
         public void OnBackRoom()
         {
+            OnSendLevel();
             UIManager.Instance.ShowView<RoomView>();
             scemModel.Shutdown();
             UIManager.Instance.HideView<GameView>();
         }
 
+        public void OnSendLevel()
+        {
+            //发送玩家离开桌子的命令
+            CL_Cmd_LeaveTable ncb = new CL_Cmd_LeaveTable();
+            ncb.SetCmdType(NetCmdType.CMD_CL_LeaveTable);
+            NetManager.Instance.Send<CL_Cmd_LeaveTable>(ncb);
+
+            PlayerRole.Instance.RoleGameData.OnHandleRoleLeaveTable();
+
+            //让玩家直接离开场景
+           // LogicManager.Instance.Back(null);//返回大厅就Ok了
+            int bg = 1;
+            AudioManager.Instance.PlayerBGMusic(Audio.EffectBGType.EffectBGSound2);
+        }
         public void OnOpenShop()
         {
 
@@ -114,7 +130,7 @@ namespace BuYu
 
         public void OnOpenSetting()
         {
-
+            UIManager.Instance.ShowView<SettingView>();
         }
 
         public void OnOpenVip()
@@ -168,7 +184,22 @@ namespace BuYu
 
         void OnCliclPay()
         {
-            UIManager.Instance.ShowTopView<ShopView>();
+            UIManager.Instance.ShowView<ShopView>();
+        }
+
+        protected override void OnUpdate(float time)
+        {
+            //m_LockedFishUI.UpdateLockedUI();
+        }
+
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            //NetManager.Instance.Disconnect();
+            ModelManager.Instance.RemoveModule<SceneModel>();
+            ModelManager.Instance.RemoveModule<SkillModel>();
+            
         }
 
     }

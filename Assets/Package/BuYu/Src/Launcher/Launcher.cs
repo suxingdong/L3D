@@ -225,7 +225,8 @@ namespace BuYu
 
             m_LabelScore = m_TransformHandle.FindChild("UserScore/text").GetComponent<Text>();
             m_LabelDiamond = m_TransformHandle.FindChild("Diamod/text").GetComponent<Text>();
-
+            m_BankruptcyObj = m_TransformHandle.FindChild("Bankruptcy").gameObject;
+            m_BankruptcyObj.transform.SetSiblingIndex(20);
         }
 
         public void Update(float delta)
@@ -461,7 +462,7 @@ namespace BuYu
 
         private void CheckIsBankruptcy()
         {
-            /*byte minRate =
+            byte minRate =
                 FishConfig.Instance.m_TableInfo.m_TableConfig[PlayerRole.Instance.RoleInfo.RoleMe.GetTableTypeID()]
                     .MinRate;
             if (PlayerRole.Instance.GetPlayerGlobelBySeat(m_Seat) <
@@ -472,10 +473,11 @@ namespace BuYu
             {
                 if (m_BankruptcyObj.activeSelf)
                 {
-                    SceneRuntime.LogicUI.RevertLockedFish();
+                    //TODO 
+                    //SceneRuntime.LogicUI.RevertLockedFish();
                 }
                 m_BankruptcyObj.SetActive(false);
-            }*/
+            }
         }
 
         private void UpdateRootPos()
@@ -884,8 +886,7 @@ namespace BuYu
         public bool IsBankruptcy()
         {
             //TODO
-            return false;
-            //return m_BankruptcyObj.activeSelf;
+            return m_BankruptcyObj.activeSelf;
         }
 
         public void PlaySkillAvatarEft()

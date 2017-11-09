@@ -492,6 +492,7 @@ namespace BuYu
                 };
                 evt.parameter = parameter;
                 EventManager.Instance.DispatchEvent(evt);
+                
                 //SceneRuntime.LogicUI.PlayCD(SkillSetting.SkillDataList[(byte)SkillType.SKILL_LOCK].CDTime, SkillType.SKILL_LOCK);
                 SceneRuntime.PlayerMgr.MySelf.Launcher.OnClickAutoShotCancel(null);
                 SceneRuntime.PlayerMgr.SetLocked(true);                

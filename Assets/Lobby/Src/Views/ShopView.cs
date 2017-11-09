@@ -128,7 +128,7 @@ namespace Lobby
                 item.Init(diamondTemp);
                 item.ShowGoodsInfo(map.Key, map.Value, PayType.Diamond);
                 item.m_BaseTrans.parent = gridDiamond.transform;
-                //item.ResetLocalScale();
+                item.ResetLocalScale();
                 num++;
             }
             RectTransform rectTransform = gridDiamond.GetComponent<RectTransform>();
@@ -151,7 +151,7 @@ namespace Lobby
                 item.ShowGoodsInfo(map.Key, map.Value, PayType.Gold);
                 item.m_BaseTrans.parent = gridGold.transform;
                 num++;
-                //item.ResetLocalScale();
+                item.ResetLocalScale();
             }
             RectTransform rectTransform = gridGold.GetComponent<RectTransform>();
             rectTransform.sizeDelta = new Vector2(1100, 240*num);
@@ -176,6 +176,7 @@ namespace Lobby
                 item.ShowGoodsInfo(map.Key, map.Value, shopItemMap.ShopItemStrMap[map.Key]);
                 item.m_BaseTrans.parent = gridItem.transform;
                 num++;
+                item.ResetLocalScale();
             }
             RectTransform rectTransform = gridItem.GetComponent<RectTransform>();
             rectTransform.sizeDelta = new Vector2(1100, 240 * num);

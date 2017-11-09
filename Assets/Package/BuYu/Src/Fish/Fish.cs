@@ -51,7 +51,7 @@ namespace BuYu
         float m_bgsoundDelay = 0;
         public void Init(ushort id, byte type, float scl, float time, float actionSpeed, bool actionUnite, float speed, PathLinearInterpolator interp)
         {
-            ResFishData fd = FishResManager.Instance.GetFishData(type);
+           ResFishData fd = FishResManager.Instance.GetFishData(type);
             if (fd == null)
             {
                 Debug.Log("不存在的鱼模型:" + type.ToString());

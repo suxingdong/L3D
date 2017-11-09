@@ -41,8 +41,8 @@ namespace BuYu
             instance = this;
             Utility.GlobalInit();
             UIManager.Instance.ShowView<RoomView>();
-            ModelManager.Instance.Register<SceneModel>();
-            ModelManager.Instance.Register<SkillModel>();
+            //ModelManager.Instance.Register<SceneModel>();
+            //ModelManager.Instance.Register<SkillModel>();
             UIPanelTransform = GameObject.Find("Canvas").transform;
         }
 
@@ -71,6 +71,12 @@ namespace BuYu
         {
             
         }
+
+        public void StartInnerCoroutine(IEnumerator e)
+        {
+            StartCoroutine(e);
+        }
+
     }
 
 

@@ -65,6 +65,7 @@ namespace BuYu
             //TODO
             FishResManager.Instance.Init();
             PathManager.Instance.Init();
+            AudioManager.Instance.PlayerBGMusic(Audio.EffectBGType.EffectBGSound1);
         }
 
         void InitBottom()
@@ -78,7 +79,7 @@ namespace BuYu
             btn = transform.Find("BottomUI/BtnPetBoss").GetComponent<Button>();
             btn.onClick.AddListener(delegate ()
             {
-                UIManager.Instance.ShowView<IllustratView>();
+                //UIManager.Instance.ShowView<IllustratView>();
             });
         }
 
