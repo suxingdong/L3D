@@ -165,6 +165,8 @@ namespace Lobby
             else
             {
                 Debug.Log(_mUserId);
+                IEvent evt = new GF.Event(EventMsg.LOGON_SUCCESS);
+                EventManager.Instance.DispatchEvent(evt);
                 //将IP转化为String 
                 _mUserId = ncb.dwUserID;
                 _mOnlyId = ncb.dwOnlyID;
@@ -186,10 +188,13 @@ namespace Lobby
             SetState(LogonState.LOGON_CONNECT_HALL);
             NetManager.Instance.Connect(false, ServerSetting.HallServerIP, ServerSetting.HallServerPort);
 
+
+           
+
             //TODO 这里不要处理UI逻辑
-            UIManager.Instance.HideView<LoginView>();
+            /*UIManager.Instance.HideView<LoginView>();
             UIManager.Instance.HideView<AccountLoginView>();
-            UIManager.Instance.ShowView<MainMenuView>();
+            UIManager.Instance.ShowView<MainMenuView>();*/
             
         }
 

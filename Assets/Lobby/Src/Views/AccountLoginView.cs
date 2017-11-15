@@ -92,7 +92,7 @@ namespace Lobby
             if (!isConnect)
             {
                  //isConnect = NetManager.Instance.Connect(true, "127.0.0.1", 40056);
-                 isConnect = NetManager.Instance.Connect(true, "192.168.0.110", 40056);
+                 isConnect = NetManager.Instance.Connect(true, "47.96.16.183", 40056);
                  
             }
                         

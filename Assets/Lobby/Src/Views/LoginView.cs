@@ -24,25 +24,40 @@ namespace Lobby
         private void RegisterEvent()
         {
             _RegisterEvent(EventMsg.REGISTER_SUCCESS, OnRegisterSuccess);
+            _RegisterEvent(EventMsg.LOGON_SUCCESS, OnLogonSuccess);
+            
+        }
+
+        protected override void OnAnimationComplete(string name)
+        {
+            if (name.Equals("view_in"))
+            {
+                string account = UserDefault.Instance.GetStringForKey("Account");
+                string pwd = UserDefault.Instance.GetStringForKey("Password");
+                if (!string.IsNullOrEmpty(account) && !string.IsNullOrEmpty(pwd))
+                {
+                    AccountInfo info = new AccountInfo();
+                    info.UID = account;
+                    info.PWD = pwd;
+                    btnAccountLogin.enabled = false;
+                    StartCoroutine(Onlogin(info));
+                }
+            }
+            else if (name.Equals("view_out"))
+            {
+                UIManager.Instance.HideView<LoginView>();
+                UIManager.Instance.HideView<AccountLoginView>();
+                UIManager.Instance.HideView<RegisterView>();
+                UIManager.Instance.ShowView<MainMenuView>();
+            }
         }
 
         protected override void OnStart()
         {
             btnAccountLogin = GameObject.Find("BtnAccountLogin").GetComponent<Button>();
             btnAccountLogin.onClick.AddListener(OnBtnAccountLogin);
+            RegisterEvent();
 
-            string account = UserDefault.Instance.GetStringForKey("Account");
-            string pwd = UserDefault.Instance.GetStringForKey("Password");
-
-            if (!string.IsNullOrEmpty(account) && !string.IsNullOrEmpty(pwd))
-            {
-                AccountInfo info = new AccountInfo();
-                info.UID = account;
-                info.PWD = pwd;
-                RegisterEvent();
-                btnAccountLogin.enabled = false;
-                StartCoroutine(Onlogin(info));
-            }
         }
 
         IEnumerator Onlogin(AccountInfo info)
@@ -50,7 +65,7 @@ namespace Lobby
             yield return new WaitForSeconds(0.5f);
             if (!NetManager.Instance.IsConnected)
             {
-                NetManager.Instance.Connect(true, "192.168.0.110", 40056);
+                NetManager.Instance.Connect(true, "47.96.16.183", 40056);
             }
             yield return new WaitForSeconds(0.1f);
             float timeCount = 0;
@@ -78,12 +93,22 @@ namespace Lobby
             //UIManager.Instance;
         }
 
+        public void OnLogonSuccess(IEvent iEvent)
+        {
+            Animation anim = gameObject.GetComponent<Animation>();
+            if (anim)
+            {
+                anim.Play("LogoOut");
+            }
+        }
+
         public void OnRegisterSuccess(IEvent iEvent)
         {
-            UIManager.Instance.HideView<LoginView>();
-            UIManager.Instance.HideView<AccountLoginView>();
-            UIManager.Instance.HideView<RegisterView>();
-            UIManager.Instance.ShowView<MainMenuView>();
+            Animation anim = gameObject.GetComponent<Animation>();
+            if (anim)
+            {
+                anim.Play("view_out");
+            }
         }
 
     }

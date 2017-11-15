@@ -8,6 +8,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using GF;
 using GF.UI;
 using UnityEngine;
@@ -38,25 +39,33 @@ namespace Lobby
         private GameObject goldTemp;
         private GameObject itemTemp;
 
+        private bool isInitGold = false;
+        private bool isInitGoods = false;
+        public void OnComplete()
+        {
+            UIManager.Instance.HideView<ShopView>();
+        }
         public void OnPointerClick(PointerEventData eventData)
         {
-            animation.Play("ViewOut");
-            StartCoroutine(OnClose());
-        }
-
-        IEnumerator OnClose()
-        {
-            yield return new WaitForSeconds(0.2f);
-            UIManager.Instance.HideView<ShopView>();
+            Transform background = transform.Find("BackGround").transform;
+            Tweener tweener = background.DOLocalMoveX(1665, 0.4f);
+            tweener.SetUpdate(true);
+            tweener.SetEase(Ease.InBack);
+            tweener.OnComplete(OnComplete);
         }
 
         protected override void OnStart()
         {
             Transform background = transform.Find("BackGround").transform;
-
-            animation = background.GetComponent<Animation>();
-            animation.Play("ViewIn");
-
+            Tweener tweener = background.DOLocalMoveX(450, 0.4f);
+            tweener.SetUpdate(true);
+            tweener.SetEase(Ease.OutBack);
+        }
+        protected override void OnAwake()
+        {
+            Transform background = transform.Find("BackGround").transform;
+            
+            
             diamondPanel = background.Find("DiamondPanel").gameObject;
             goldPanel = background.Find("GoldPanel").gameObject;
             itemPanel = background.Find("ItemPanel").gameObject;
@@ -80,17 +89,25 @@ namespace Lobby
 
             btnGold.onClick.AddListener(delegate ()
             {
+                if (!isInitGold)
+                {
+                    InitGoldPanel();
+                }
                 OnShowGoldPanel();
             });
 
             btnItem.onClick.AddListener(delegate ()
             {
+                if (!isInitGoods)
+                {
+                    InitItemPanel();
+                }
                 OnShowItemPanel();
             });
 
             InitDiamondPanel();
-            InitGoldPanel();
-            InitItemPanel();
+            //InitGoldPanel();
+            //InitItemPanel();
         }
 
         private void OnShowDiamondPanel()
@@ -133,8 +150,9 @@ namespace Lobby
             }
             RectTransform rectTransform = gridDiamond.GetComponent<RectTransform>();
             rectTransform.sizeDelta = new Vector2(1100, 240* num);
+            rectTransform.localPosition = Vector3.zero;
             diamondTemp.SetActive(false);
-            gridDiamond.transform.localPosition = gridPos;
+            //gridDiamond.transform.localPosition = gridPos;
         }
 
         private void InitGoldPanel()
@@ -155,7 +173,9 @@ namespace Lobby
             }
             RectTransform rectTransform = gridGold.GetComponent<RectTransform>();
             rectTransform.sizeDelta = new Vector2(1100, 240*num);
+            rectTransform.localPosition = Vector3.zero;
             goldTemp.SetActive(false);
+            isInitGold = true;
         }
 
         private void InitItemPanel()
@@ -180,7 +200,9 @@ namespace Lobby
             }
             RectTransform rectTransform = gridItem.GetComponent<RectTransform>();
             rectTransform.sizeDelta = new Vector2(1100, 240 * num);
+            rectTransform.localPosition = Vector3.zero;
             itemTemp.SetActive(false);
+            isInitGoods = true;
         }
         void ClearGird()
         {

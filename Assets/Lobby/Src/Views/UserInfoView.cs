@@ -14,6 +14,7 @@ using UnityEngine.EventSystems;
 using GF;
 using GF.UI;
 using System;
+using DG.Tweening;
 using GF.NET;
 
 namespace Lobby
@@ -29,22 +30,26 @@ namespace Lobby
         private GameObject userInfoPanel;
         private Animation animation;
 
+        public void OnComplete()
+        {
+            UIManager.Instance.HideView<UserInfoView>();
+        }
         public void OnPointerClick(PointerEventData eventData)
         {
-            animation.Play("ViewOut");
-            StartCoroutine(OnClose());
-        }
-
-        IEnumerator OnClose()
-        {
-            yield return new WaitForSeconds(0.2f);
-            UIManager.Instance.HideView<UserInfoView>();
+            Transform background = transform.Find("Background");
+            Tweener tweener = background.DOLocalMoveX(1665, 0.3f);
+            tweener.SetUpdate(true);
+            tweener.SetEase(Ease.InBack);
+            tweener.OnComplete(OnComplete);
         }
 
 
         protected override void OnStart()
         {
             Transform parent = transform.Find("Background");
+            Tweener tweener = parent.DOLocalMoveX(450, 0.3f);
+            tweener.SetUpdate(true);
+            tweener.SetEase(Ease.OutBack);
             tableBtn1 = parent.Find("TabeleBtn1").GetComponent<Button>();
             tableBtn2 = parent.Find("TabeleBtn2").GetComponent<Button>();
             tableBtn3 = parent.Find("TabeleBtn3").GetComponent<Button>();
@@ -104,6 +109,12 @@ namespace Lobby
 
             text = userInfoPanel.transform.Find("SafeDepositBox/Text").GetComponent<Text>();
             text.text = "0";
+
+            var btnSetting = userInfoPanel.transform.Find("BtnSetting").GetComponent<Button>();
+            btnSetting.onClick.AddListener(delegate ()
+            {
+                UIManager.Instance.ShowView<SettingView>();
+            });
 
         }
     }

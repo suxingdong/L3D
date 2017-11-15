@@ -9,37 +9,27 @@ using UnityEngine.UI;
 
 namespace Lobby
 {
-    public class SettingView : AppView, IPointerClickHandler
+    public class MusicSettingView : AppView, IPointerClickHandler
     {
         private Animation animation;
-
+        private Slider musicSlider;
+        private Slider soundSLider;
         protected override void OnStart()
         {
             Transform background = transform.Find("BackGround").transform;
             Tweener tweener = background.DOLocalMoveX(450, 0.3f);
             tweener.SetUpdate(true);
             tweener.SetEase(Ease.OutBack);
-            //tweener.OnComplete(OnComplete);
 
-            GridLayoutGroup grid = background.Find("DiamondPanel/Grid").gameObject.GetComponent<GridLayoutGroup>();
-            var btn = grid.transform.Find("SwitchAccount").gameObject.GetComponent<Button>();
-            btn.onClick.AddListener(delegate ()
-            {
-                UIManager.Instance.HideView<SettingView>();
-                UIManager.Instance.HideView<UserInfoView>();
-                UIManager.Instance.HideView<MainMenuView>();
-                UIManager.Instance.ShowView<LoginView>();
-            });
-            btn = grid.transform.Find("About").gameObject.GetComponent<Button>();
-            btn.onClick.AddListener(delegate ()
-            {
-
-            });
+            musicSlider = transform.FindChild("BackGround/MusicSlider").GetComponent<Slider>();
+            soundSLider = transform.FindChild("BackGround/SoundSLider").GetComponent<Slider>();
+            musicSlider.onValueChanged.AddListener(delegate { MusicChangeCheck(musicSlider.value); });
+            soundSLider.onValueChanged.AddListener(delegate { SoundChangeCheck(soundSLider.value); });
         }
 
         public void OnComplete()
         {
-            UIManager.Instance.HideView<SettingView>();
+            UIManager.Instance.HideView<MusicSettingView>();
         }
         public void OnPointerClick(PointerEventData eventData)
         {
@@ -48,8 +38,20 @@ namespace Lobby
             tweener.SetUpdate(true);
             tweener.SetEase(Ease.InBack);
             tweener.OnComplete(OnComplete);
-            //StartCoroutine(OnClose());
         }
+        
+
+        public void MusicChangeCheck(float value)
+        {
+            Debug.Log("music = "+value);
+        }
+
+
+        public void SoundChangeCheck(float value)
+        {
+            Debug.Log("sound = " + value);
+        }
+
     }
 
 }
