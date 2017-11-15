@@ -360,6 +360,9 @@ public enum Role_SubCmd
     LC_Sub_OpenShareUI = 85,
 
     CL_Sub_UpdateAccount = 86,
+
+    CL_Sub_UserDeposit    = 101,  //用户存款
+    CL_Suc_UserDraw       = 102,  //用户取款
 }
 public enum Query_SubCmd
 {
@@ -1070,6 +1073,7 @@ public enum NetCmdType
     CMD_LC_ChangeRoleVipLevel           = (int)(MainCmdType.CMD_MAIN_Role << 8) | (int)(Role_SubCmd.LC_Sub_ChangeRoleVipLevel),
     CMD_LC_ChangeRoleCashSum            = (int)(MainCmdType.CMD_MAIN_Role << 8) | (int)(Role_SubCmd.LC_Sub_ChangeRoleCashSum),
     
+    CMD_CL_CHANG_ROLERANKBOX            = (int)(MainCmdType.CMD_MAIN_Role << 8) | (int)(Role_SubCmd.CL_Sub_UserDeposit),
     //Query
     CMD_CL_QueryUserByNickName          = (int)(MainCmdType.CMD_MAIN_Query << 8) | (int)(Query_SubCmd.CL_Sub_QueryUserByNickName),
     CMD_CL_QueryUserByUserID            = (int)(MainCmdType.CMD_MAIN_Query << 8) | (int)(Query_SubCmd.CL_Sub_QueryUserByUserID),
@@ -1600,7 +1604,8 @@ public class NetCmdMapping
         bRet &= InitCmdTypeInfo<LC_Cmd_TableChangeRoleVipLevel>(NetCmdType.CMD_LC_TableChangeRoleVipLevel);
         bRet &= InitCmdTypeInfo<LC_Cmd_TableChangeRoleIsInMonthCard>(NetCmdType.CMD_LC_TableChangeRoleIsInMonthCard);
              
-        
+        bRet &= InitCmdTypeInfo<CL_Cmd_RoleRankBox>(NetCmdType.CMD_CL_CHANG_ROLERANKBOX);
+
 
         bRet &= InitCmdTypeInfo<LC_Cmd_ResetOtherUserInfo>          (NetCmdType.CMD_LC_ResetOtherUserInfo);
         bRet &= InitCmdTypeInfo<LC_Cmd_LeaveTableByServer>          (NetCmdType.CMD_LC_LeaveTableByServer);

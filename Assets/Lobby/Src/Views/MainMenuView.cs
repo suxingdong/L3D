@@ -32,7 +32,12 @@ namespace Lobby
             btnUserInfo = GameObject.Find("BtnUserInfo").GetComponent<Button>();
             btnBag = GameObject.Find("BtnBag").GetComponent<Button>();
             btnFriends.onClick.AddListener(delegate () {
-
+                CL_Cmd_RoleRankBox ncb = new CL_Cmd_RoleRankBox();
+                ncb.SetCmdType(NetCmdType.CMD_CL_CHANG_ROLERANKBOX);
+                ncb.dwUserID = PlayerRole.Instance.RoleInfo.RoleMe.GetUserID();
+                ncb.accout = 1;
+                ncb.bSaveType = false;
+                NetManager.Instance.Send<CL_Cmd_RoleRankBox>(ncb);
             });
 
             btnUserInfo.onClick.AddListener(delegate () {
