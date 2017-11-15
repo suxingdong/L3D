@@ -135,8 +135,11 @@ namespace GF
                 EventManager.Instance.RemoveEventListener(var.Key, var.Value);
             }
         }
-
-
+        //动画回调
+        protected virtual void OnAnimationComplete(string nam)
+        {
+            
+        }
         public virtual void OnParams(object param)
         {
             

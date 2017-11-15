@@ -113,15 +113,15 @@ namespace BuYu
             bool ret = false;
             if (obj.name == "BaiPao")
             {
-                ret = ModelManager.Instance.Get<RoomModel>().OnEnterRoom(1);
+                ret = ModelManager.Instance.Get<RoomModel>().OnEnterRoom(0);
             }
             else if (obj.name == "QianPao")
             {
-                ret = ModelManager.Instance.Get<RoomModel>().OnEnterRoom(2);
+                ret = ModelManager.Instance.Get<RoomModel>().OnEnterRoom(1);
             }
             else
             {
-                ret = ModelManager.Instance.Get<RoomModel>().OnEnterRoom(3);
+                ret = ModelManager.Instance.Get<RoomModel>().OnEnterRoom(2);
             }
             if (ret)
             {

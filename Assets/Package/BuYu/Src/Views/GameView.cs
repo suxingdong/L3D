@@ -130,7 +130,7 @@ namespace BuYu
 
         public void OnOpenSetting()
         {
-            UIManager.Instance.ShowView<SettingView>();
+            UIManager.Instance.ShowView<MusicSettingView>();
         }
 
         public void OnOpenVip()
@@ -189,7 +189,7 @@ namespace BuYu
 
         protected override void OnUpdate(float time)
         {
-            //m_LockedFishUI.UpdateLockedUI();
+            m_LockedFishUI.UpdateLockedUI();
         }
 
 
