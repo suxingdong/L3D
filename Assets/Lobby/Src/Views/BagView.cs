@@ -8,6 +8,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using GF;
 using GF.UI;
 using UnityEngine;
@@ -74,8 +75,6 @@ namespace Lobby
         void ShowShopGoodsListInfo()
         {
             ClearShopGoodsGird();
-
-            
         }
         //显示背包物品
         void ShowKnapsackItemInfo()
@@ -198,6 +197,10 @@ namespace Lobby
         {
             RegisterEvent();
             Transform parent = transform.Find("Background");
+            Tweener tweener = parent.DOLocalMoveX(450, 0.3f);
+            tweener.SetUpdate(true);
+            tweener.SetEase(Ease.OutBack);
+
             tableBtn1 = parent.Find("TabeleBtn1").GetComponent<Button>();
             tableBtn2 = parent.Find("TabeleBtn2").GetComponent<Button>();
             tableBtn3 = parent.Find("TabeleBtn3").GetComponent<Button>();
@@ -228,8 +231,6 @@ namespace Lobby
             });
 
             m_KnapsackShopWnd.Init(bagPanel);
-            animation = parent.GetComponent<Animation>();
-            animation.Play("ViewIn");
             SetUIStatue(Shop_Type.Shop_Knapsack);
             ChangeShopWndUI(null);
         }
@@ -241,19 +242,40 @@ namespace Lobby
             ChangeShopWndUI(null);
         }
 
-        public void OnPointerClick(PointerEventData eventData)
+        public void OnComplete()
         {
-            animation.Play("ViewOut");
-            StartCoroutine(OnClose());
-        }
-
-        IEnumerator OnClose()
-        {
-            yield return new WaitForSeconds(0.2f);
             UIManager.Instance.HideView<BagView>();
         }
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            Transform background = transform.Find("Background").transform;
+            Tweener tweener = background.DOLocalMoveX(1665, 0.4f);
+            tweener.SetUpdate(true);
+            tweener.SetEase(Ease.InBack);
+            tweener.OnComplete(OnComplete);
+        }
+        
+        public void InitSaveBox()
+        {
+            Button btn = safeBoxPanel.transform.FindChild("BtnWithdrawMoney").GetComponent<Button>();
+            btn.onClick.AddListener(delegate ()
+            {
+                InputField inputField = GetComponent<InputField>();
+                string str = inputField.text;
+                CL_Cmd_RoleRankBox ncb = new CL_Cmd_RoleRankBox();
+                ncb.SetCmdType(NetCmdType.CMD_CL_CHANG_ROLERANKBOX);
+                ncb.dwUserID = PlayerRole.Instance.RoleInfo.RoleMe.GetUserID();
+                ncb.accout = 1;
+                ncb.bSaveType = false;
+                NetManager.Instance.Send<CL_Cmd_RoleRankBox>(ncb);
+            });
 
+            btn = safeBoxPanel.transform.FindChild("BtnWithdrawMoney").GetComponent<Button>();
+            btn.onClick.AddListener(delegate ()
+            {
 
+            });
+        }
 
         public void UpdataBagList()
         {

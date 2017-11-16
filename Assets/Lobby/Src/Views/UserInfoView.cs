@@ -78,9 +78,7 @@ namespace Lobby
                 archevePanel.SetActive(false);
                 bagPanel.SetActive(true);
             });
-
-            animation = parent.GetComponent<Animation>();
-            animation.Play("ViewIn");
+            
             InitUserData();
         }
 

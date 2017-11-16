@@ -4866,3 +4866,13 @@ public class LC_Cmd_CarRoleBetGlobelByLog : NetCmdBase
     [TypeInfo(1, FishDataInfo.MAX_Car_ClientSum)]
     public UInt32[] betGlobel;
 }
+
+public class CL_Cmd_RoleRankBox : NetCmdBase
+{
+    [TypeInfo(0)]
+    public UInt32 dwUserID;
+    [TypeInfo(1)]
+    public bool bSaveType;
+    [TypeInfo(2)]
+    public UInt32 accout;
+};
