@@ -65,7 +65,7 @@ namespace Lobby
             yield return new WaitForSeconds(0.5f);
             if (!NetManager.Instance.IsConnected)
             {
-                NetManager.Instance.Connect(true, "47.96.16.183", 40056);
+                NetManager.Instance.Connect(true, Boot.Instance.Ip, 40056);
             }
             yield return new WaitForSeconds(0.1f);
             float timeCount = 0;

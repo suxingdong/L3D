@@ -17,6 +17,7 @@ namespace Lobby
 {
     public class Boot : MonoBehaviour
     {
+        public string Ip = "47.96.16.183";
         public static Boot Instance;
 
         void Start()

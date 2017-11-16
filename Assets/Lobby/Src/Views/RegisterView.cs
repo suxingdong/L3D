@@ -86,7 +86,7 @@ namespace Lobby
             bool isConnect = NetManager.Instance.IsConnected;
             if (!isConnect)
             {
-                isConnect = NetManager.Instance.Connect(true, "47.96.16.183", 40056);
+                isConnect = NetManager.Instance.Connect(true, Boot.Instance.Ip, 40056);
             }
 
             if (isConnect)

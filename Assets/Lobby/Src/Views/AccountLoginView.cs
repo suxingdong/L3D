@@ -14,6 +14,7 @@ using UnityEngine.EventSystems;
 using GF;
 using GF.UI;
 using System;
+using DG.Tweening;
 using GF.NET;
 
 namespace Lobby
@@ -25,25 +26,27 @@ namespace Lobby
         private InputField labelUID;
         private InputField labelPWD;
         private Animation animation;
-        public void OnPointerClick(PointerEventData eventData)
-        {
-            animation.Play("ViewOut");
-            /*AnimationEvent evt = new AnimationEvent();
-            evt.time = animation.GetClip("ViewOut").length;
-            evt.functionName = "OnClose";
-            animation.GetClip("ViewOut").AddEvent(evt);*/
-            StartCoroutine(OnClose());
-        }
 
-        IEnumerator OnClose()
+        public void OnComplete()
         {
-            yield return new WaitForSeconds(0.2f);
             UIManager.Instance.HideView<AccountLoginView>();
         }
-        
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            Transform background = transform.Find("Background");
+            Tweener tweener = background.DOLocalMoveX(1665, 0.3f);
+            tweener.SetUpdate(true);
+            tweener.SetEase(Ease.InBack);
+            tweener.OnComplete(OnComplete);
+        }
+
         protected override void OnStart()
         {
-            
+            Transform background = transform.Find("Background").transform;
+            Tweener tweener = background.DOLocalMoveX(450, 0.3f);
+            tweener.SetUpdate(true);
+            tweener.SetEase(Ease.OutBack);
+
             btnAccountLogin = transform.FindChild("Background/BtnLogin").GetComponent<Button>();
             btnAccountLogin.onClick.AddListener(delegate () 
             {
@@ -57,10 +60,7 @@ namespace Lobby
             {
                 UIManager.Instance.ShowView<RegisterView>();
             });
-
-            animation = transform.FindChild("Background").GetComponent<Animation>();
-            animation.Play("ViewIn");
-
+            
             labelUID = transform.FindChild("Background/UID/InputField").GetComponent<InputField>();
             labelPWD = transform.FindChild("Background/PWD/InputField").GetComponent<InputField>();
             RegisterEvent();
@@ -92,7 +92,7 @@ namespace Lobby
             if (!isConnect)
             {
                  //isConnect = NetManager.Instance.Connect(true, "127.0.0.1", 40056);
-                 isConnect = NetManager.Instance.Connect(true, "47.96.16.183", 40056);
+                 isConnect = NetManager.Instance.Connect(true, Boot.Instance.Ip, 40056);
                  
             }
                         
